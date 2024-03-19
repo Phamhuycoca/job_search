@@ -81,7 +81,7 @@
           </el-dropdown>
         </div>
       </el-header>
-      <el-main class="bg-[#F5F7FA]">
+      <el-main class="bg-[#F5F7FA] ">
         <RouterView />
       </el-main>
     </el-container>

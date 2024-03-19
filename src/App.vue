@@ -1,8 +1,7 @@
 <template>
-  <div v-loading.fullscreen.lock="loading.loading" element-loading-text="loading..."
-    element-loading-background="rgba(0, 0, 0, 0.7)">
-    <RouterView />
-    <el-button @click="loading.loading = true"></el-button>
+  <div>
+    <RouterView v-loading.fullscreen.lock="loading.loading" element-loading-text="loading..."
+      element-loading-background="rgba(0, 0, 0, 0.7)" />
   </div>
 </template>
 
