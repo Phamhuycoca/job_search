@@ -8,6 +8,8 @@ import useToast from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import { createPinia } from 'pinia';
+const pinia = createPinia();
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
@@ -15,6 +17,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(router)
 
 .use(ElementPlus)
+.use(pinia)
 .use(useToast, {
     position: 'top-right',
     timeout: 1500,

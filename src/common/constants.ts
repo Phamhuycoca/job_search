@@ -130,47 +130,6 @@ export enum PageName {
     MASTER = 'MASTER',
   }
   
-  export enum RoleType {
-    MANAGER = 'MANAGER',
-    TEACHER = 'TEACHER',
-    STUDENT = 'STUDENT',
-  }
-  
-  export enum ProfileType {
-    STUDENT = 'STUDENT',
-    TEACHER = 'TEACHER',
-    NONE = 'NONE',
-  }
-  
-  export enum Degree {
-    ELEMENTARY = 'ELEMENTARY',
-    SECONDARY_SCHOOL = 'SECONDARY_SCHOOL',
-    HIGH_SCHOOL = 'HIGH_SCHOOL',
-    COLLEGE = 'COLLEGE',
-    MASTER = 'MASTER',
-    PHD = 'PHD',
-    ENGINEER = 'ENGINEER',
-    BACHELOR = 'BACHELOR',
-    EXPERT = 'EXPERT',
-    OTHER = 'OTHER',
-  }
-  
-  export enum TeacherDegree {
-    COLLEGE = 'COLLEGE',
-    MASTER = 'MASTER',
-    PHD = 'PHD',
-    EXPERT = 'EXPERT',
-    OTHER = 'OTHER',
-  }
-  
-  export enum StudentDegree {
-    ELEMENTARY = 'ELEMENTARY',
-    SECONDARY_SCHOOL = 'SECONDARY_SCHOOL',
-    HIGH_SCHOOL = 'HIGH_SCHOOL',
-    COLLEGE = 'COLLEGE',
-    OTHER = 'OTHER',
-  }
-  
   export const DaysOfWeek = {
     MONDAY: 1,
     TUESDAY: 2,
@@ -181,15 +140,7 @@ export enum PageName {
     SUNDAY: 0,
   };
   
-  export enum SettingType {
-    LESSON_SETTING = 'LESSON_SETTING',
-    TIME_KEEPING_SETTING = 'TIME_KEEPING_SETTING',
-  }
-  export enum LinkVerifyState {
-    EXPIRED = 'EXPIRED',
-    ACTIVE = 'ACTIVE',
-    SENT = 'SENT',
-  }
+
   
   export enum UserStatus {
     ACTIVE = 'active',

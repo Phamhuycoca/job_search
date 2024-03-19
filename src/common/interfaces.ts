@@ -6,7 +6,6 @@ import {
   HttpStatus,
   OrderDirection,
   PageName,
-  ProfileType,
   Role,
   UserStatus,
 } from './constants';
