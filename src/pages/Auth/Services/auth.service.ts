@@ -4,7 +4,7 @@ import type { IBodyLogin } from "./interfaces"
 export const useAuthService=()=>{
     const login =async(body: IBodyLogin)=>{
         const res = await authApi.login(body);
-        console.log(res);
+     
     }
     return{
         login

@@ -68,13 +68,17 @@ import { showErrors, showSuccessNotification } from '../../common/helpers'
 const email = ref('');
 const password = ref('');
 const submitLogin = async () => {
+    let errors; // Khai báo biến errors trước khi sử dụng
     const res = await authApi.login({ email: email.value, password: password.value });
     if (res.success) {
         showSuccessNotification(res.message);
     } else {
-        showErrors(res.errors);
+        if (res.errors !== undefined) {
+            showErrors(res.errors);
+        }
     }
 }
+
 </script>
 
 <style></style>

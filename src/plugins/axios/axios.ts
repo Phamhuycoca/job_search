@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { config } from 'dotenv'
-config();
+import * as dotenv from 'dotenv'
+dotenv.config();
 const BASE_URL = process.env.VUE_APP_API_URL
 export default axios.create({
   baseURL: BASE_URL,

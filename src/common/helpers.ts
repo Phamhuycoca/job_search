@@ -175,7 +175,7 @@ export const formatNumberWithCommas=(value:string)=> {
 }
 
 
-export function showErrors (errors: string[]){
+export function showErrors (errors: any[]){
   errors.forEach((message, index) => {
       setTimeout(() => {
           showErrorNotification(message);

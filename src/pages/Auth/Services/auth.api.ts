@@ -5,7 +5,7 @@ import type { IBodyLogin, ILoginResponse } from './interfaces';
 
 class AuthApiService extends ApiService {
   login(body: IBodyLogin): Promise<IBodyResponse<ILoginResponse>> {
-    console.log(body);
+   
     return this.client.post(`${this.baseUrl}/Login`, body);
   }
 
