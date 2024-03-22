@@ -10,7 +10,7 @@
                 <div>
                     <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Nhập email</label>
                     <div class="mt-2">
-                        <el-input style="width: 380px;height: 40px;" placeholder="Nhập email" />
+                        <el-input v-model="email" style="width: 380px;height: 40px;" placeholder="Nhập email" />
                     </div>
                 </div>
 
@@ -23,14 +23,14 @@
                         </div>
                     </div>
                     <div class="mt-2">
-                        <el-input v-model="input" style="width: 380px;height: 40px;" placeholder="Nhập mật khẩu"
+                        <el-input v-model="password" style="width: 380px;height: 40px;" placeholder="Nhập mật khẩu"
                             type="password" show-password />
 
                     </div>
                 </div>
 
                 <div>
-                    <el-button type="primary"
+                    <el-button type="primary" @click="submitLogin"
                         class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Đăng
                         nhập</el-button>
                 </div>
@@ -62,7 +62,19 @@ import logo from '../../assets/image-png/logo.png'
 import google from '../../assets/image-png/google.png'
 import facebook from '../../assets/image-png/facebook.png'
 import { ref } from 'vue'
-const input = ref('')
+import { useAuthService } from '../Auth/Services/auth.service'
+import { authApi } from './Services/auth.api'
+import { showErrors, showSuccessNotification } from '../../common/helpers'
+const email = ref('');
+const password = ref('');
+const submitLogin = async () => {
+    const res = await authApi.login({ email: email.value, password: password.value });
+    if (res.success) {
+        showSuccessNotification(res.message);
+    } else {
+        showErrors(res.errors);
+    }
+}
 </script>
 
 <style></style>

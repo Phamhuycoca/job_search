@@ -173,3 +173,12 @@ export function formatPhoneNumber(phoneNumber: string): string {
 export const formatNumberWithCommas=(value:string)=> {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+
+export function showErrors (errors: string[]){
+  errors.forEach((message, index) => {
+      setTimeout(() => {
+          showErrorNotification(message);
+      }, index * 1000);
+  });
+};

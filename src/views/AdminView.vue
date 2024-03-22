@@ -62,8 +62,7 @@
         <div @click="isCollapse = !isCollapse" class="cursor-pointer">
           <i class="ri-menu-line"></i>
         </div>
-        <div class="w-[330px] flex justify-between items-center">
-          <el-input style="width: 240px" size="large" placeholder="Search" :suffix-icon="Search" />
+        <div class="w-[90px] flex justify-between items-center">
           <el-badge :value="3" circle>
             <i class="ri-notification-3-line text-xl"></i>
           </el-badge>
@@ -91,7 +90,6 @@
 <script lang="ts" setup>
 import { RouterView } from "vue-router";
 import { ref } from "vue";
-import { Search } from "@element-plus/icons-vue";
 import logo from "../assets/image-png/logo.png";
 
 import {

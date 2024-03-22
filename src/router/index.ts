@@ -28,7 +28,14 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeView,
     meta:{
       public:true
-    }
+    },
+    children:[
+      {
+        path: 'index',
+        name: 'index',
+        component: ()=>import('../layouts/Home/Index.vue'),
+      },
+    ]
   },
   {
     path: '/login',
@@ -67,29 +74,6 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
-  // scrollBehavior(to, from) {
-  //   if (to.hash) {
-  //     return from.name
-  //       ? {
-  //           el: to.hash,
-  //           top: 180,
-  //           behavior: 'smooth',
-  //         }
-  //       : new Promise((resolve) => {
-  //           setTimeout(() => {
-  //             resolve({
-  //               el: to.hash,
-  //               top: 180,
-  //               behavior: 'smooth',
-  //             });
-  //           }, 3000);
-  //         });
-  //   }
-  //   return {
-  //     top: 0,
-  //     behavior: 'smooth',
-  //   };
-  // },
 });
 router.beforeEach(
   VueRouteMiddleware({

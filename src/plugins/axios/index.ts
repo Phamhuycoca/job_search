@@ -9,14 +9,12 @@ import axios, {
   import { HttpStatus } from '@/common/constants';
   import { throttle } from 'lodash';
 import type { IBodyResponse } from '@/common/interfaces';
-
+import { config } from 'dotenv'
   const options: AxiosRequestConfig = {
     headers: {
       'Content-Type': 'application/json',
-      'X-Timezone': dayjs().format('Z'),
-      'X-Timezone-Name': dayjs.tz.guess(),
     } as unknown as AxiosRequestHeaders,
-    baseURL: process.env.VUE_APP_API_URL,
+    baseURL: 'http://localhost:25874/api/',
     responseType: 'json',
     withCredentials: false,
   };
@@ -68,6 +66,7 @@ import type { IBodyResponse } from '@/common/interfaces';
         };
         return error.request.data;
       } else if (error.response) {
+        console.log(error.response.data);
         if (typeof error?.response?.data === 'string') {
           error.response.data = JSON.parse(error.response.data);
         }
