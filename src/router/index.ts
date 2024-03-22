@@ -59,7 +59,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'admin',
     component: ()=> import('../views/AdminView.vue'),
     meta:{
-      public:true
+      public:false
     },
     children:[
       {

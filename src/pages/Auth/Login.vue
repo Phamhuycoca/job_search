@@ -58,26 +58,36 @@
 </template>
 
 <script lang="ts" setup>
+import { useForm, useField } from 'vee-validate';
+import * as yup from 'yup';
 import logo from '../../assets/image-png/logo.png'
 import google from '../../assets/image-png/google.png'
 import facebook from '../../assets/image-png/facebook.png'
 import { ref } from 'vue'
 import { useAuthService } from '../Auth/Services/auth.service'
-import { authApi } from './Services/auth.api'
-import { showErrors, showSuccessNotification } from '../../common/helpers'
-const email = ref('');
-const password = ref('');
-const submitLogin = async () => {
-    let errors; // Khai báo biến errors trước khi sử dụng
-    const res = await authApi.login({ email: email.value, password: password.value });
-    if (res.success) {
-        showSuccessNotification(res.message);
-    } else {
-        if (res.errors !== undefined) {
-            showErrors(res.errors);
-        }
-    }
-}
+import type { IBodyLogin } from './Services/interfaces';
+const { login } = useAuthService();
+// const email = ref('');
+// const password = ref('');
+const { handleSubmit, resetForm } = useForm();
+
+const { value: email, errorMessage: emailError } = useField(
+    'email',
+    yup
+        .string()
+        .required("Khng dc bo trong")
+);
+
+
+const { value: password, errorMessage: passwordError } = useField(
+    'password',
+    yup
+        .string()
+        .required("Khong duoc bo trong")
+);
+const submitLogin = handleSubmit(async values => {
+    const res = await login({ email: values.email, password: values.password });
+})
 
 </script>
 

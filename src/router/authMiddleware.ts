@@ -16,12 +16,15 @@ export default async (
     const tokenExpiredAt = localStorageAuthService.getAccessTokenExpiredAt();
     const isExpired = dayjs().isAfter(dayjs(tokenExpiredAt), 'second');
     const isExpiredRefresh=dayjs().isAfter(dayjs(localStorageAuthService.getRefeshTokenExpiredAt()),'second')
+    console.log(tokenExpiredAt)
+    console.log(isExpired)
+    console.log(isExpiredRefresh)
     const RoleRouter=to?.meta?.role || Role.USER
     const IS_AUTHENTICATED = tokenExpiredAt && !isExpired && hasToken;
-  if(to.name === PageName.LOGIN_PAGE)
-  {
-    localStorageAuthService.resetAll()
-  }
+  // if(to.name === PageName.LOGIN_PAGE)
+  // {
+  //   localStorageAuthService.resetAll()
+  // }
   if(IS_PUBLIC)
   {
     return next()
