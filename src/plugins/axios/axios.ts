@@ -1,9 +1,7 @@
 import axios from 'axios'
-import * as dotenv from 'dotenv'
-dotenv.config();
-const BASE_URL = process.env.VUE_APP_API_URL
+
 export default axios.create({
-  baseURL: BASE_URL,
+  baseURL: "http://localhost:25874/api/",
   headers: {
     'Content-Type': 'application/json',
   },

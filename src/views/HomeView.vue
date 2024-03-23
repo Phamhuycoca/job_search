@@ -41,7 +41,8 @@
       </el-header>
 
       <el-main class=" bg-[#d4d5d7]" style="padding: 0px!important;">
-        <RouterView />
+        <el-button @click="hello">Sub</el-button>
+        <!-- <RouterView /> -->
       </el-main>
 
       <el-footer>
@@ -53,6 +54,8 @@
 </template>
 
 <script lang="ts" setup>
+import { useAuthService } from '../pages/Auth/Services/auth.service'
+const { hello } = useAuthService();
 import logo from "../assets/image-png/logo.png"
 import { Search } from "@element-plus/icons-vue";
 

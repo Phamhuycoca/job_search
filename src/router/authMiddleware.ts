@@ -11,26 +11,17 @@ export default async (
   
     const role = localStorageAuthService.getUserRole();
     const IS_PUBLIC = to?.meta?.public || false;
-    // const onlyWhenLoggedOut = to?.meta?.onlyWhenLoggedOut || false;
     const hasToken = localStorageAuthService.getAccessToken() ? true : false;
     const tokenExpiredAt = localStorageAuthService.getAccessTokenExpiredAt();
     const isExpired = dayjs().isAfter(dayjs(tokenExpiredAt), 'second');
     const isExpiredRefresh=dayjs().isAfter(dayjs(localStorageAuthService.getRefeshTokenExpiredAt()),'second')
-    console.log(tokenExpiredAt)
-    console.log(isExpired)
-    console.log(isExpiredRefresh)
     const RoleRouter=to?.meta?.role || Role.USER
     const IS_AUTHENTICATED = tokenExpiredAt && !isExpired && hasToken;
-  // if(to.name === PageName.LOGIN_PAGE)
-  // {
-  //   localStorageAuthService.resetAll()
-  // }
   if(IS_PUBLIC)
   {
     return next()
   }
   if (!IS_AUTHENTICATED && to.name !== PageName.LOGIN_PAGE && !IS_PUBLIC) {
-    // sessionStorage.setItem('redirect', to.fullPath);
     if(isExpiredRefresh)
     {
       showWarningsNotification("Vui lòng đăng nhập lại")

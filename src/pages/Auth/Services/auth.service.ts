@@ -23,7 +23,12 @@ export const useAuthService=()=>{
         }
         return res;
     }
+    const hello=async()=>{
+        const res = await authApi.hello();
+        console.log(res.data);
+    }
     return{
-        login
+        login,
+        hello
     }
 }

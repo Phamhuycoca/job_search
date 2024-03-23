@@ -65,8 +65,8 @@ import google from '../../assets/image-png/google.png'
 import facebook from '../../assets/image-png/facebook.png'
 import { ref } from 'vue'
 import { useAuthService } from '../Auth/Services/auth.service'
-import type { IBodyLogin } from './Services/interfaces';
 const { login } = useAuthService();
+import type { IBodyLogin } from './Services/interfaces';
 // const email = ref('');
 // const password = ref('');
 const { handleSubmit, resetForm } = useForm();

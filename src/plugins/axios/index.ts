@@ -11,7 +11,9 @@ import { throttle } from "lodash";
 import type { IBodyResponse } from "@/common/interfaces";
 const options: AxiosRequestConfig = {
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
+    'X-Timezone': dayjs().format('Z'),
+    'X-Timezone-Name': dayjs.tz.guess(),
   } as unknown as AxiosRequestHeaders,
   baseURL: "http://localhost:25874/api/",
   responseType: "json",
@@ -24,7 +26,6 @@ const throttled = throttle(sendRefreshToken, 10000, { trailing: false });
 axiosInstance.interceptors.request.use(async (config: any) => {
   const tokenExpiredAt = localStorageAuthService.getAccessTokenExpiredAt();
   if (tokenExpiredAt && dayjs(tokenExpiredAt).isBefore()) {
-    // alert("bắt đầu lấy lại token")
     alert("token hết hạn")
     await throttled();
   }

@@ -7,6 +7,6 @@ export const config: AxiosRequestConfig = {
     'X-Timezone': dayjs().format('Z'),
     'X-Timezone-Name': dayjs.tz.guess(),
   },
-  baseURL: process.env.VUE_APP_API_URL,
+  baseURL: "http://localhost:25874/api/",
   responseType: 'json',
 };

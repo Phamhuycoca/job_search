@@ -20,7 +20,6 @@ export const sendRefreshToken = async () => {
   let response;
   alert('refresh_token 2');
   try {
-    //const API_URL = process.env.VUE_APP_API_URL;
     const formData=new FormData()
     formData.append("refresh_token",localStorageAuthService.getRefeshToken())
     response = await axios.post(
@@ -33,13 +32,14 @@ export const sendRefreshToken = async () => {
         }
       }
     );
-    if (response?.status === HttpStatus.CREATA_AT) {
-      // localStorageAuthService.resetAll();
-      // localStorageAuthService.setAccessToken(response.data?.data.data.accessToken);
-      // localStorageAuthService.setAccessTokenExpiredAt(response.data?.data.data.expiresIn);
-      // localStorageAuthService.setRefeshToken(response.data?.data.data.refresh_token);
-      // localStorageAuthService.setRefeshTokenExpiredAt(response.data?.data.data.refresh_expiresIn);
-      // localStorageAuthService.setUserRole(response.data?.data.data.profile.role);
+    // console.log(response.data.data);
+    // console.log(response?.status);
+    // console.log(response?.data);
+    if (response?.status === HttpStatus.OK) {
+      localStorageAuthService.setAccessToken(response.data?.data.accessToken);
+      localStorageAuthService.setAccessTokenExpiredAt(response.data?.data.accessTokenExpiration);
+      localStorageAuthService.setRefeshToken(response.data?.data.refreshToken);
+      localStorageAuthService.setRefeshTokenExpiredAt(response.data?.data.refreshTokenExpiration);
       return;
     }
     logout(true);
