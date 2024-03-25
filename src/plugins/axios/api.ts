@@ -38,7 +38,8 @@ export class ApiService {
 
     _getList<T>(
         queryString: ICommonListQuery,
-    ): Promise<IBodyResponse<IGetListResponse<T>>> {
+    // ): Promise<IBodyResponse<IGetListResponse<T>>> {
+    ): Promise<IBodyResponse<any>> {
         return this.client.get(`${this.baseUrl}`, {
             params: queryString
             }

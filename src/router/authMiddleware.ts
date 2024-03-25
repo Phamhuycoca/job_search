@@ -22,7 +22,7 @@ export default async (
     return next()
   }
   if (!IS_AUTHENTICATED && to.name !== PageName.LOGIN_PAGE && !IS_PUBLIC) {
-    if(isExpiredRefresh)
+    if(!isExpiredRefresh)
     {
       showWarningsNotification("Vui lòng đăng nhập lại")
       return next({ name: PageName.LOGIN_PAGE });

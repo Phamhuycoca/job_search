@@ -1,62 +1,85 @@
 <template>
-  <el-container class="h-lvh">
-    <el-menu default-active="2" active-text-color="#ffd04b" text-color="#fff" background-color="#545c64"
-      :collapse="isCollapse" @open="handleOpen" @close="handleClose" style="background-color: #101726; border: none"
-      class="w-64">
-      <el-image :src="logo" class="w-full h-[50px]" fit="contain" />
-      <el-menu-item index="1">
-        <el-icon>
-          <i class="ri-bar-chart-2-fill"></i>
-        </el-icon>
-        <template #title>
-          <span>Dashboard</span>
-        </template>
-      </el-menu-item>
+  <el-container class="h-screen">
+    <el-aside width="auto" class="h-full bg-[#101726]">
+      <el-scrollbar style="width: auto;">
+        <el-menu default-active="5" active-text-color="#ffd04b" text-color="#fff" background-color="black"
+          :collapse="isCollapse" @open="handleOpen" @close="handleClose"
+          style="background-color: #101726; border: none;" class="w-64 h-screen" :default-openeds="['1', '6']"
+          router="true">
+          <el-image :src="logo" class="w-full h-[50px] sticky top-0" fit="contain" style="display: block;" />
+          <el-menu-item index="1" route="/admin/employees">
+            <el-icon>
+              <i class="ri-bar-chart-2-fill"></i>
+            </el-icon>
+            <template #title>
+              <span>Dashboard</span>
+            </template>
+          </el-menu-item>
 
-      <el-menu-item index="2">
-        <el-icon>
-          <i class="ri-newspaper-line"></i>
-        </el-icon>
-        <template #title>
-          <span>Quản lý tin tức</span>
-        </template>
-      </el-menu-item>
+          <el-sub-menu index="2">
+            <template #title>
+              <el-icon>
+                <i class="ri-news-line"></i>
+              </el-icon>
+              <span>Quản lý tin tức</span>
+            </template>
+            <el-menu-item-group>
+              <template #title>Tin tức</template>
+              <el-menu-item index="2-1">Bài đăng</el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group>
+              <template #title>Quảng cáo</template>
+              <el-menu-item index="2-2">Quảng cáo</el-menu-item>
+            </el-menu-item-group>
+          </el-sub-menu>
+          <el-sub-menu index="3">
+            <template #title>
+              <el-icon>
+                <i class="ri-group-fill"></i> </el-icon><span>Quản lý nhân sự</span>
+            </template>
+            <el-menu-item-group>
+              <template #title>Nhân sự</template>
+              <el-menu-item index="3-1">Nhân viên</el-menu-item>
+            </el-menu-item-group>
+          </el-sub-menu>
 
-      <el-menu-item index="3">
-        <el-icon>
-          <i class="ri-community-line"></i>
-        </el-icon>
+          <el-sub-menu index="4">
+            <template #title>
+              <el-icon>
+                <i class="ri-settings-2-fill"></i>
+              </el-icon>
+              <span>Cài đặt</span>
+            </template>
+            <el-menu-item-group>
+              <template #title>Group 1</template>
+              <el-menu-item index="4-1">Option 1</el-menu-item>
+              <el-menu-item index="4-2">Option 2</el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group title="Group 2">
+              <el-menu-item index="4-3">Option 3</el-menu-item>
+            </el-menu-item-group>
+          </el-sub-menu>
 
-        <template #title>Quản lý hồ sơ công tý</template>
-      </el-menu-item>
+          <el-sub-menu index="5">
+            <template #title>
+              <el-icon>
+                <i class="ri-settings-2-fill"></i>
+              </el-icon>
+              <span>Cài đặt</span>
+            </template>
+            <el-menu-item-group>
+              <template #title>Group 1</template>
+              <el-menu-item index="5-1">Option 1</el-menu-item>
+              <el-menu-item index="5-2">Option 2</el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group title="Group 2">
+              <el-menu-item index="5-3">Option 3</el-menu-item>
+            </el-menu-item-group>
+          </el-sub-menu>
 
-      <el-menu-item index="4">
-        <el-icon>
-          <i class="ri-map-pin-line"></i>
-        </el-icon>
-        <template #title>Quản lý khu vực</template>
-      </el-menu-item>
-
-      <el-menu-item index="5">
-        <el-icon>
-          <i class="ri-profile-fill"></i>
-        </el-icon>
-        <template #title>Quản lý mẫu CV</template>
-      </el-menu-item>
-      <el-menu-item index="6">
-        <el-icon>
-          <i class="ri-phone-fill"></i>
-        </el-icon>
-        <template #title>Hỗ trợ khách hàng</template>
-      </el-menu-item>
-
-      <el-menu-item index="7">
-        <el-icon>
-          <i class="ri-tools-line"></i>
-        </el-icon>
-        <template #title>Quản lý banner</template>
-      </el-menu-item>
-    </el-menu>
+        </el-menu>
+      </el-scrollbar>
+    </el-aside>
     <el-container>
       <el-header class="flex justify-between items-center">
         <div @click="isCollapse = !isCollapse" class="cursor-pointer">
@@ -80,7 +103,7 @@
           </el-dropdown>
         </div>
       </el-header>
-      <el-main class="bg-[#F5F7FA] ">
+      <el-main class="bg-[#F5F7FA]">
         <RouterView />
       </el-main>
     </el-container>
@@ -98,6 +121,7 @@ import {
   Setting,
   TrendCharts,
 } from "@element-plus/icons-vue";
+import router from "@/router";
 const isCollapse = ref(false);
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
@@ -112,37 +136,3 @@ const item = {
 };
 const tableData = ref(Array.from({ length: 20 }).fill(item));
 </script>
-
-<style scoped>
-.layout-container-demo .el-header {
-  position: relative;
-  background-color: var(--el-color-primary-light-7);
-  color: var(--el-text-color-primary);
-}
-
-.layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
-}
-
-.layout-container-demo .el-menu {
-  border-right: none;
-}
-
-.layout-container-demo .el-main {
-  padding: 0;
-}
-
-.layout-container-demo .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
-}
-
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: 400px;
-}
-</style>

@@ -9,7 +9,9 @@ export enum PageName {
     Home='trang-chu',
     HomePage='homepage',
     ForgotPage='forgot-Password',
-    REGISTER_PAGE = 'register'
+    REGISTER_PAGE = 'register',
+    EMPLOYEE_PAGE = 'employee_page',
+    ROLE_PAGE = 'role_page',
   }
   
   export enum SupportLanguage {
@@ -158,9 +160,30 @@ export enum PageName {
   
   export const DEFAULT_COMMON_LIST_QUERY = {
     page: DEFAULT_FIRST_PAGE,
-    keyword: undefined,
-    orderBy: 'createdAt',
-    orderDirection: 'desc',
+    keyword: '',
     limit: DEFAULT_LIMIT_FOR_PAGINATION,
   };
+
+  export const optionsSelect = [
+    {
+        value: '10',
+        label: '10',
+    },
+    {
+        value: '20',
+        label: '20',
+    },
+    {
+        value: '30',
+        label: '30',
+    },
+    {
+        value: '40',
+        label: '40',
+    },
+    {
+        value: '50',
+        label: '50',
+    },
+]
   

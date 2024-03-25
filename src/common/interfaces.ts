@@ -23,16 +23,16 @@ export interface IBodyResponse<T> extends AxiosResponse {
   code: HttpStatus;
   message: string;
   error: string;
-  data: T;
+  data:T;
   statusCode:string;
   errors?: IResponseError<any>[];
+  items?: T[];
+  totalItems?: number;
 }
 
 export interface ICommonListQuery {
   page?: number;
   limit?: number;
-  orderBy?: string;
-  orderDirection?: OrderDirection | string;
   keyword?: string;
 }
 
@@ -57,8 +57,8 @@ export interface ILoginResponse {
 }
 
 export interface IGetListResponse<T> {
-  items: T[];
-  totalItems: number;
+  items?: T[];
+  totalItems?: number;
 }
 
 export interface IDropDownOption {

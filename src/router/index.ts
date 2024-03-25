@@ -59,13 +59,23 @@ const routes: Array<RouteRecordRaw> = [
     name: 'admin',
     component: ()=> import('../views/AdminView.vue'),
     meta:{
-      public:false
+      public:true
     },
     children:[
       {
         path: 'dashboard',
         name: PageName.DASHBOARD_PAGE,
-        component: ()=>import('../layouts/Admin/Dashboard.vue'),
+        component: ()=>import('../layouts/Admin/Dashboard/Dashboard.vue'),
+      },
+      {
+        path: 'employees',
+        name: PageName.EMPLOYEE_PAGE,
+        component: ()=>import('../layouts/Admin/Employees/EmployeesIndex.vue'),
+      },
+      {
+        path: 'roles',
+        name: PageName.ROLE_PAGE,
+        component: ()=>import('../layouts/Admin/Roles/RolesIndex.vue'),
       },
     ]
   },

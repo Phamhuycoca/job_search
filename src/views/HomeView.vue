@@ -1,7 +1,7 @@
 <template>
   <el-container class="h-[1000px]">
     <el-container>
-      <el-header class="sticky top-0 flex  items-center bg-white z-[1000]" style="padding: 0px!important;">
+      <el-header class="sticky top-0 flex items-center bg-white z-[1000]" style="padding: 0px!important;">
         <el-image :src="logo" class="w-40 h-[50px]" fit="contain"></el-image>
         <div class="w-full h-full flex justify-between items-center">
           <el-menu ellipsis mode="horizontal" :popper-offset="16" class="w-full">
@@ -41,7 +41,7 @@
       </el-header>
 
       <el-main class=" bg-[#d4d5d7]" style="padding: 0px!important;">
-        <el-button @click="hello">Sub</el-button>
+        <el-button @click="Hello">Sub</el-button>
         <!-- <RouterView /> -->
       </el-main>
 
@@ -58,7 +58,15 @@ import { useAuthService } from '../pages/Auth/Services/auth.service'
 const { hello } = useAuthService();
 import logo from "../assets/image-png/logo.png"
 import { Search } from "@element-plus/icons-vue";
+import { useLoadingStore } from "@/store/loading.store";
+const loading = useLoadingStore();
+const Hello = async () => {
+  loading.showLoading(true);
+  const res = await hello();
+  loading.showLoading(false);
 
+
+}
 </script>
 
 <style scoped></style>

@@ -7,8 +7,9 @@
 </template>
 
 <script lang="ts" setup>
-import CardItem from '../Admin/CardItem.vue'
-import TableVue from '../Admin/Table.vue'
+import CardItem from './CardItem.vue';
+import TableVue from './Table.vue';
+
 </script>
 
 <style></style>

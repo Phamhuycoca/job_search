@@ -5,7 +5,7 @@ import { showWarningsNotification, showErrorNotification } from '@/common/helper
 import { HttpStatus, PageName } from '@/common/constants';
 
 export const logout = (redirectToLogin = true) => {
-  localStorageAuthService.resetAll();
+  //localStorageAuthService.resetAll();
   const currentPage = router.currentRoute;
   if (redirectToLogin && currentPage.value.name !== PageName.LOGIN_PAGE) {
     sessionStorage.setItem('redirect', currentPage.value.fullPath);
@@ -17,35 +17,29 @@ export const logout = (redirectToLogin = true) => {
 };
 
 export const sendRefreshToken = async () => {
-  let response;
-  alert('refresh_token 2');
+  let responses;
   try {
     const formData=new FormData()
     formData.append("refresh_token",localStorageAuthService.getRefeshToken())
-    response = await axios.post(
+    responses = await axios.post(
       `http://localhost:25874/api/Auth/Refresh_token`,
       formData,
       { 
-        // withCredentials: true,
         headers: {
           'Content-Type': 'application/json' 
         }
       }
     );
-    // console.log(response.data.data);
-    // console.log(response?.status);
-    // console.log(response?.data);
-    if (response?.status === HttpStatus.OK) {
-      localStorageAuthService.setAccessToken(response.data?.data.accessToken);
-      localStorageAuthService.setAccessTokenExpiredAt(response.data?.data.accessTokenExpiration);
-      localStorageAuthService.setRefeshToken(response.data?.data.refreshToken);
-      localStorageAuthService.setRefeshTokenExpiredAt(response.data?.data.refreshTokenExpiration);
+    if (responses?.status === HttpStatus.OK) {
+      localStorageAuthService.setAccessToken(responses.data?.data.accessToken);
+      localStorageAuthService.setAccessTokenExpiredAt(responses.data?.data.accessTokenExpiration);
+      localStorageAuthService.setRefeshToken(responses.data?.data.refreshToken);
+      localStorageAuthService.setRefeshTokenExpiredAt(responses.data?.data.refreshTokenExpiration);
       return;
     }
     logout(true);
     return;
   } catch (error) {
-    showErrorNotification('Vui lòng đăng nhập lại');
     logout(true);
     return;
   }
