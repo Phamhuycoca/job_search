@@ -48,18 +48,54 @@ export const useRole = () => {
   const createPole = async (data: any) => {
     try {
       loading.showLoading(true);
-      const res = await roleApi.createData(data);
-      console.log(res);
+      return await roleApi.createData(data);
     } catch (error) {
-      console.error("Error Search Roles:", error);
+      console.error("Error Create Role:", error);
     } finally {
       loading.showLoading(false);
     }
   };
+
+  const updateRole=async(data:any,id:any)=>{
+    try{
+      loading.showLoading(true);
+      return await roleApi.updateData(data,id);
+    }catch (error) {
+      console.error("Error Update Role:", error);
+    }finally {
+      loading.showLoading(false);
+    }
+  };
+
+  const getData=async(id:any)=>{
+    try{
+      loading.showLoading(true);
+      return await roleApi.getData(id);
+    }catch (error) {
+      console.error("Error GetDetail Role:", error);
+    }finally {
+      loading.showLoading(false);
+    }
+  };
+
+  const deleteRole=async(id:any)=>{
+    try{
+      loading.showLoading(true);
+      return await roleApi.deleteData(id);
+    }catch (error) {
+      console.error("Error Delete Role:", error);
+    }finally {
+      loading.showLoading(false);
+    }
+  };
+
   return {
     fetchRoles,
     query,
     searchRoles,
     createPole,
+    getData,
+    updateRole,
+    deleteRole
   };
 };

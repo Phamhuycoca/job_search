@@ -1,4 +1,7 @@
 export type IRole={
-    id:String;
-    
+        roleId: String,
+        roleName: String,
+        roleDescription: String,
+        permissionId:String,
+        permissions: []
 }

@@ -40,6 +40,7 @@ export const sendRefreshToken = async () => {
     logout(true);
     return;
   } catch (error) {
+    console.log(error);
     logout(true);
     return;
   }

@@ -14,10 +14,10 @@
             <el-table-column prop="roleDescription" label="Mô tả" width="400" />
             <el-table-column prop="permissionName" label="Cấp quyền" width="750" />
             <el-table-column fixed="right" label="Tùy chọn" width="130" align="center">
-                <template #default>
-                    <el-button type="primary" size="small">Sửa</el-button>
-                    <el-button type="primary" size="small">Xóa</el-button>
-
+                <template #default="scope">
+                    <el-button type="primary" size="small"
+                        @click="id = scope.row.roleId, dialogEdit = true">Sửa</el-button>
+                    <ConfirmVue @confirm="RemoveItem" :idRemove="idRemove = scope.row.roleId" />
                 </template>
             </el-table-column>
         </el-table>
@@ -32,24 +32,31 @@
                 v-model:current-page="page" />
         </div>
         <RolesCreate :dialog="dialog" @close="dialog = false" @loadData="loadData()" />
+        <RolesUpdate :dialogEdit="dialogEdit" :id="id" @close="dialogEdit = false" @loadData="loadData()" />
     </div>
 </template>
 
 <script lang="ts" setup>
 import RolesCreate from '../Roles/RolesCreate.vue'
+import RolesUpdate from '../Roles/RolesUpdate.vue'
+import ConfirmVue from '../../../components/Element/ConfirmVue.vue'
 import { Search } from '@element-plus/icons-vue'
 import { onMounted, reactive, ref, watch } from "vue";
 import { useRole } from "../Roles/Services/role.service"
 import { DEFAULT_COMMON_LIST_QUERY } from '@/common/constants';
 import { DEFAULT_LIMIT_FOR_PAGINATION, optionsSelect } from '@/common/constants';
+import { showErrors, showSuccessNotification } from '@/common/helpers';
 const dialog = ref(false);
-const { fetchRoles, searchRoles } = useRole();
+const dialogEdit = ref(false);
+const id = ref('');
+const { fetchRoles, searchRoles, deleteRole } = useRole();
 const seletedValue = ref(DEFAULT_LIMIT_FOR_PAGINATION);
 const totalItems = ref<Number | undefined>(0);
 let page = ref(1);
 let lengthPage = ref<Number | undefined>(100);
 const search = ref('');
 const tableData = ref<any | undefined>([]);
+const idRemove = ref('');
 const loadData = async () => {
     const data = await fetchRoles();
     if (data) {
@@ -61,8 +68,23 @@ const loadData = async () => {
     }
 };
 
+const handleEdit = (row: any) => {
+    console.log(row.roleId)
+}
+const RemoveItem = async () => {
+    const res = await deleteRole(idRemove.value);
+    if (res.success) {
+        showSuccessNotification(res.message)
+    }
+    else {
+        if (res.errors !== undefined) {
+            showErrors(res.errors);
+        }
+    }
+    idRemove.value = '';
+    loadData();
 
-
+}
 
 const searchData = async () => {
     DEFAULT_COMMON_LIST_QUERY.keyword = search.value;

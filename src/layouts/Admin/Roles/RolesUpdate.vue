@@ -1,8 +1,8 @@
 <template>
     <div>
-        <el-dialog v-model="props.dialog" width="500" align-center close-icon="false" :before-close="props.dialog"
-            draggable>
-            <h1 class="text-center">Tạo mới thông tin</h1>
+        <el-dialog v-model="props.dialogEdit" width="500" align-center close-icon="false"
+            :before-close="props.dialogEdit" draggable>
+            <h1 class="text-center">Cập nhật thông tin</h1>
             <el-form label-width="auto" label-position="top" model="top" style="max-width: 500px" class="mx-auto">
                 <el-row :gutter="20">
                     <el-col :span="24">
@@ -42,14 +42,14 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, onMounted, defineEmits } from "vue";
+import { defineProps, onMounted, defineEmits, watch } from "vue";
 import { ref } from 'vue'
 import { usePermission } from '../Permissions/Services/permission.service'
 import { useRole } from '../Roles/Services/role.service'
 import { showErrors, showSuccessNotification } from "@/common/helpers";
 const emit = defineEmits();
 const { fetchPermissions } = usePermission();
-const { createPole } = useRole();
+const { createPole, getData, updateRole } = useRole();
 const optionsPermissions = ref<any | null>([]);
 const permissionId = ref<any | []>([]);
 const name = ref('');
@@ -58,13 +58,28 @@ const loadData = async () => {
     const permissons = await fetchPermissions();
     optionsPermissions.value = permissons?.items;
 };
-const props = defineProps(['dialog']);
+const props = defineProps(['dialogEdit', 'id']);
+watch(() => props.id, (newValue, oldValue) => {
+    if (newValue !== '') {
+        getDetail(newValue);
+    }
+});
+const getDetail = async (id: any) => {
+    const res = await getData(id);
+    permissionId.value = res.data.permissionId.split(', ');
+    name.value = res.data.roleName;
+    des.value = res.data.roleDescription;
+}
+
+
+
 const saveData = async () => {
     const formData = new FormData();
     formData.append('roleName', name.value);
     formData.append('roleDescription', des.value);
     formData.append('permissionId', permissionId.value);
-    const res = await createPole(formData);
+    formData.append('roleId', props.id);
+    const res = await updateRole(formData, props.id);
     if (res.success) {
         showSuccessNotification(res.message)
     }
