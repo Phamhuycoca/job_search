@@ -5,7 +5,7 @@ import { showWarningsNotification, showErrorNotification } from '@/common/helper
 import { HttpStatus, PageName } from '@/common/constants';
 
 export const logout = (redirectToLogin = true) => {
-  //localStorageAuthService.resetAll();
+  localStorageAuthService.resetAll();
   const currentPage = router.currentRoute;
   if (redirectToLogin && currentPage.value.name !== PageName.LOGIN_PAGE) {
     sessionStorage.setItem('redirect', currentPage.value.fullPath);

@@ -6,17 +6,18 @@
                     placeholder="Nhập thông tin cần tìm kiếm" :suffix-icon="Search" />
             </el-col>
             <el-col :span="2" class="flex justify-end items-center">
-                <el-button plain type="primary" size="large">Tạo mới</el-button>
+                <el-button plain type="primary" size="large" @click="dialog = true">Tạo mới</el-button>
             </el-col>
         </el-row>
         <el-table :data="tableData" border style="width: 100%">
             <el-table-column prop="roleName" label="Tên vai trò" width="180" />
-            <el-table-column prop="roleDescription" label="Mô tả" width="180" />
-            <el-table-column prop="permissionId" label="Cấp quyền" width="1000" />
-            <el-table-column fixed="right" label="Operations" width="120">
+            <el-table-column prop="roleDescription" label="Mô tả" width="400" />
+            <el-table-column prop="permissionName" label="Cấp quyền" width="750" />
+            <el-table-column fixed="right" label="Tùy chọn" width="130" align="center">
                 <template #default>
-                    <el-button link type="primary" size="small">Detail</el-button>
-                    <el-button link type="primary" size="small">Edit</el-button>
+                    <el-button type="primary" size="small">Sửa</el-button>
+                    <el-button type="primary" size="small">Xóa</el-button>
+
                 </template>
             </el-table-column>
         </el-table>
@@ -27,25 +28,28 @@
                 </el-select>
                 <p class="inline-block ml-2">Totals: {{ totalItems }}</p>
             </div>
-            <el-pagination background layout="prev, pager, next" :total="lengthPage" />
+            <el-pagination background layout="prev, pager, next" :total="lengthPage" v-model="page" prev-text
+                v-model:current-page="page" />
         </div>
+        <RolesCreate :dialog="dialog" @close="dialog = false" @loadData="loadData()" />
     </div>
 </template>
 
 <script lang="ts" setup>
+import RolesCreate from '../Roles/RolesCreate.vue'
 import { Search } from '@element-plus/icons-vue'
 import { onMounted, reactive, ref, watch } from "vue";
 import { useRole } from "../Roles/Services/role.service"
 import { DEFAULT_COMMON_LIST_QUERY } from '@/common/constants';
 import { DEFAULT_LIMIT_FOR_PAGINATION, optionsSelect } from '@/common/constants';
-
+const dialog = ref(false);
 const { fetchRoles, searchRoles } = useRole();
 const seletedValue = ref(DEFAULT_LIMIT_FOR_PAGINATION);
-const totalItems = ref<Number | undefined>(10);
-let page = ref(10);
-let lengthPage = ref(1);
+const totalItems = ref<Number | undefined>(0);
+let page = ref(1);
+let lengthPage = ref<Number | undefined>(100);
 const search = ref('');
-const tableData = ref<any | undefined>([]);;
+const tableData = ref<any | undefined>([]);
 const loadData = async () => {
     const data = await fetchRoles();
     if (data) {
@@ -74,12 +78,17 @@ const searchData = async () => {
         }
     }
 }
-
+const handleSizeChange = (val: number) => {
+    console.log(`${val} items per page`)
+}
+const handleCurrentChange = (val: number) => {
+    console.log(`current page: ${val}`)
+}
 watch(seletedValue, (newval) => {
     DEFAULT_COMMON_LIST_QUERY.limit = newval;
     DEFAULT_COMMON_LIST_QUERY.page = 1;
-    page.value = 10;
     loadData();
+    page.value = 1;
 });
 watch(page, (newVal, oldval) => {
     DEFAULT_COMMON_LIST_QUERY.page = newVal;
@@ -87,7 +96,7 @@ watch(page, (newVal, oldval) => {
 });
 watch(search, (newval, oldval) => {
     if (newval === "" && oldval !== "") {
-        page.value = 10;
+        page.value = 1;
     }
 
 });

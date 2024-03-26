@@ -8,7 +8,6 @@ export const useRole = () => {
     try {
       loading.showLoading(true);
       const res = await roleApi._getList<any>(query);
-      console.log(res);
       if (res.success) {
         return {
           items: res.items,
@@ -20,8 +19,8 @@ export const useRole = () => {
         totalItems: 0,
       };
     } catch (error) {
-      console.error("Error fetching user:", error);
-    }finally {
+      console.error("Error Fetching Roles:", error);
+    } finally {
       loading.showLoading(false);
     }
   };
@@ -30,7 +29,6 @@ export const useRole = () => {
       loading.showLoading(true);
 
       const res = await roleApi._getList<any>(query);
-      console.log("search");
       if (res.success) {
         return {
           items: res.items,
@@ -42,8 +40,19 @@ export const useRole = () => {
         totalItems: 0,
       };
     } catch (error) {
-      console.error("Error fetching user:", error);
-    }finally {
+      console.error("Error Search Roles:", error);
+    } finally {
+      loading.showLoading(false);
+    }
+  };
+  const createPole = async (data: any) => {
+    try {
+      loading.showLoading(true);
+      const res = await roleApi.createData(data);
+      console.log(res);
+    } catch (error) {
+      console.error("Error Search Roles:", error);
+    } finally {
       loading.showLoading(false);
     }
   };
@@ -51,5 +60,6 @@ export const useRole = () => {
     fetchRoles,
     query,
     searchRoles,
+    createPole,
   };
 };
