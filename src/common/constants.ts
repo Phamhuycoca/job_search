@@ -186,4 +186,13 @@ export enum PageName {
         label: '50',
     },
 ]
-  
+export const optionsGender = [
+  {
+      value: 'Nam',
+      label: true,
+  },
+  {
+      value: 'Nữ',
+      label: false,
+  }
+]

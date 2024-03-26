@@ -40,8 +40,9 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="Chức vụ">
-                            <el-select v-model="gender" placeholder="Chọn chức vụ" size="large">
-                                <el-option v-for="item in optionsGender" :key="item.value" :value="item.value" />
+                            <el-select v-model="roleId" placeholder="Chọn chức vụ" size="large">
+                                <el-option v-for="item in roles" :key="item.roleId" :value="item.roleId"
+                                    :label="item.roleName" />
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -68,28 +69,29 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, ref } from "vue";
+import { optionsGender } from "@/common/constants";
+import { defineProps, defineEmits, ref, onMounted } from "vue";
+import { useRole } from "../Roles/Services/role.service"
+const { fetchRoles } = useRole();
+
 const emit = defineEmits();
 const props = defineProps(['dialog']);
 const file = ref<File | null>(null);
 const selectedImage = ref<string | null>(null);
 const gender = ref<Boolean | null>(null);
 const name = ref<String | null>(null);
-const optionsGender = [
-    {
-        value: 'Nam',
-        label: true,
-    },
-    {
-        value: 'Nữ',
-        label: false,
-    }
-]
+const roleId = ref<String | null>(null);
+const roles = ref<any | undefined>([]);
 
 
+const loadRoles = async () => {
+    const res = await fetchRoles();
+    roles.value = res?.items;
+}
 
-
-
+onMounted(() => {
+    loadRoles();
+})
 
 
 
