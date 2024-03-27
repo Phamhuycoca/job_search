@@ -1,9 +1,9 @@
 <template>
     <div>
-        <el-dialog v-model="props.dialog" width="800" align-center close-icon="false" :before-close="props.dialog"
-            draggable>
+        <el-dialog v-model="props.dialogEdit" width="800" align-center close-icon="false"
+            :before-close="props.dialogEdit" draggable>
             <template #header>
-                <h1 class="text-center">Tạo mới thông tin</h1>
+                <h1 class="text-center">Cập nhật thông tin</h1>
             </template>
             <el-form label-width="auto" label-position="top" model="top" style="max-width: 800px" class="mx-auto">
                 <el-row :gutter="20">
@@ -70,14 +70,14 @@
 
 <script lang="ts" setup>
 import { optionsGender } from "@/common/constants";
-import { defineProps, defineEmits, ref, onMounted } from "vue";
+import { defineProps, defineEmits, ref, onMounted, watch } from "vue";
 import { useRole } from "../Roles/Services/role.service"
 import { useEmployee } from "../Employees/Services/employee.service";
 import { showErrors, showSuccessNotification } from "@/common/helpers";
 const { fetchRoles } = useRole();
-const { createEmployee } = useEmployee();
+const { updateEmployee, getData } = useEmployee();
 const emit = defineEmits();
-const props = defineProps(['dialog']);
+const props = defineProps(['dialogEdit', 'id']);
 const file = ref<File | null>(null);
 const selectedImage = ref<string | null>(null);
 const fullName = ref('');
@@ -93,10 +93,25 @@ const loadRoles = async () => {
     const res = await fetchRoles();
     roles.value = res?.items;
 }
-
+watch(() => props.id, (newValue, oldValue) => {
+    if (newValue !== '') {
+        getDetail(newValue);
+    }
+});
 onMounted(() => {
     loadRoles();
 })
+const getDetail = async (id: any) => {
+    const res = await getData(id);
+    console.log(res.data);
+    roleId.value = res.data.roleId;
+    fullName.value = res.data.fullName;
+    email.value = res.data.email;
+    gender.value = res.data.gender;
+    phoneNumber.value = res.data.phoneNumber;
+    address.value = res.data.address;
+    selectedImage.value = res.data.avatar;
+}
 
 
 
@@ -130,12 +145,13 @@ const saveData = async () => {
     formData.append("phoneNumber", phoneNumber.value);
     formData.append("address", address.value);
     formData.append("roleId", roleId.value);
+    formData.append("userId", props.id);
     if (file.value !== null) {
         formData.append("file", file.value);
     } else {
         formData.append("file", '');
     }
-    const res = await createEmployee(formData);
+    const res = await updateEmployee(formData, props.id);
     if (res.success) {
         showSuccessNotification(res.message)
     }

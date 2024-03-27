@@ -15,16 +15,23 @@
                     <el-image style="width: 60px; height: 60px" :src="scope.row.avatar" fit="cover" />
                 </template>
             </el-table-column>
-            <el-table-column prop="fullName" label="Nhân viên" width="120" />
+            <el-table-column fixed label="Ảnh đại diện" width="150" align="center">
+                <template #default="scope">
+                    <h1>{{ scope.row.userId }}</h1>
+                </template>
+            </el-table-column>
+            <el-table-column prop="fullName" label="Nhân viên" min-width="200" />
             <el-table-column prop="gender" label="Giới tính" width="120" />
-            <el-table-column prop=email label="Email" width="120" />
+            <el-table-column prop=email label="Email" min-width="300" />
             <el-table-column prop="phoneNumber" label="Số điện thoại" width="120" />
             <el-table-column prop="address" label="Địa chỉ liên hệ" width="400" />
-            <el-table-column prop="roleName" label="Vai trò" width="200" />
-            <el-table-column fixed="right" label="Tùy chọn" width="120">
-                <template #default>
-                    <el-button link type="primary" size="small">Detail</el-button>
-                    <el-button link type="primary" size="small">Edit</el-button>
+            <el-table-column prop="roleName" label="Vai trò" width="200" align="center" />
+            <el-table-column fixed="right" label="Tùy chọn" width="130" align="center">
+                <template #default="scope">
+                    <el-button type="primary" size="small"
+                        @click="id = scope.row.userId, dialogEdit = true">Sửa</el-button>
+                    <el-button type="primary" size="small"
+                        @click="dialogDelete = true, idRemove = scope.row.userId">Xóa</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -38,18 +45,25 @@
             <el-pagination background layout="prev, pager, next" :total="lengthPage" v-model="page" prev-text
                 v-model:current-page="page" />
         </div>
-        <EmployeeCreate :dialog="dialog" @close="dialog = false" />
+        <EmployeeCreate :dialog="dialog" @close="dialog = false" @loadData="loadData()" />
+        <ConfirmVue :dialogDelete="dialogDelete" @close="dialogDelete = false" @saveData="RemoveItem" />
+        <EmployeeUpdate :dialogEdit="dialogEdit" :id="id" @close="dialogEdit = false" />
+
     </div>
 </template>
 
 <script lang="ts" setup>
+import ConfirmVue from '../../../components/Element/ConfirmVue.vue'
 import { DEFAULT_COMMON_LIST_QUERY, DEFAULT_LIMIT_FOR_PAGINATION, optionsSelect } from '@/common/constants';
 import EmployeeCreate from '../Employees/EmployeeCreate.vue'
+import EmployeeUpdate from '../Employees/EmployeeUpdate.vue'
 import { Search } from '@element-plus/icons-vue'
 import { onMounted, ref, watch } from 'vue'
 import { useEmployee } from './Services/employee.service';
+import { showErrors, showSuccessNotification } from '@/common/helpers';
 const dialog = ref(false);
 const dialogEdit = ref(false);
+const dialogDelete = ref(false);
 const id = ref('');
 const { fetchEmployees, searchEmployees, deleteEmployee } = useEmployee();
 const seletedValue = ref(DEFAULT_LIMIT_FOR_PAGINATION);
@@ -88,6 +102,21 @@ const searchData = async () => {
             }
         }
     }
+}
+
+const RemoveItem = async () => {
+    const res = await deleteEmployee(idRemove.value);
+    if (res.success) {
+        showSuccessNotification(res.message)
+    }
+    else {
+        if (res.errors !== undefined) {
+            showErrors(res.errors);
+        }
+    }
+    idRemove.value = '';
+    dialogDelete.value = false;
+    loadData();
 }
 const handleSizeChange = (val: number) => {
     console.log(`${val} items per page`)

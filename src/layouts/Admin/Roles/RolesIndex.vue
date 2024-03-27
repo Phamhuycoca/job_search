@@ -17,7 +17,9 @@
                 <template #default="scope">
                     <el-button type="primary" size="small"
                         @click="id = scope.row.roleId, dialogEdit = true">Sửa</el-button>
-                    <ConfirmVue @confirm="RemoveItem" :idRemove="idRemove = scope.row.roleId" />
+                    <!-- <ConfirmVue @confirm="RemoveItem" :idRemove="idRemove = scope.row.roleId" /> -->
+                    <el-button type="primary" size="small"
+                        @click="dialogDelete = true, idRemove = scope.row.roleId">Xóa</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -33,6 +35,8 @@
         </div>
         <RolesCreate :dialog="dialog" @close="dialog = false" @loadData="loadData()" />
         <RolesUpdate :dialogEdit="dialogEdit" :id="id" @close="dialogEdit = false" @loadData="loadData()" />
+        <ConfirmVue :dialogDelete="dialogDelete" @close="dialogDelete = false" @saveData="RemoveItem" />
+
     </div>
 </template>
 
@@ -48,6 +52,7 @@ import { DEFAULT_LIMIT_FOR_PAGINATION, optionsSelect } from '@/common/constants'
 import { showErrors, showSuccessNotification } from '@/common/helpers';
 const dialog = ref(false);
 const dialogEdit = ref(false);
+const dialogDelete = ref(false);
 const id = ref('');
 const { fetchRoles, searchRoles, deleteRole } = useRole();
 const seletedValue = ref(DEFAULT_LIMIT_FOR_PAGINATION);
@@ -82,8 +87,8 @@ const RemoveItem = async () => {
         }
     }
     idRemove.value = '';
+    dialogDelete.value = false;
     loadData();
-
 }
 
 const searchData = async () => {
