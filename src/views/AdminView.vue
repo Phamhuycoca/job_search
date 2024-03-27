@@ -63,9 +63,9 @@
             <el-menu-item-group>
               <el-menu-item index="5-1" route="/admin/formofwork">Quản lý hình thức làm việc</el-menu-item>
               <el-menu-item index="5-2" route="/admin/workexperience">Quản lý kinh nghiệm làm việc</el-menu-item>
-              <el-menu-item index="5-2">Quản lý khu vực</el-menu-item>
-              <el-menu-item index="5-3">Quản lý mẫu cv</el-menu-item>
-              <el-menu-item index="5-4">Quản lý thông tin nhà tuyển dụng</el-menu-item>
+              <el-menu-item index="5-3" route="/admin/salary">Quản lý lương</el-menu-item>
+              <el-menu-item index="5-4">Quản lý mẫu cv</el-menu-item>
+              <el-menu-item index="5-5">Quản lý thông tin nhà tuyển dụng</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
         </el-menu>

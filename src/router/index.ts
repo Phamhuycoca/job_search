@@ -87,6 +87,11 @@ const routes: Array<RouteRecordRaw> = [
         name: PageName.WORKEXPERIENCE_PAGE,
         component: ()=>import('../layouts/Admin/Workexperience/WorkexperienceIndex.vue'),
       },
+      {
+        path: 'salary',
+        name: PageName.SALARY_PAGE,
+        component: ()=>import('../layouts/Admin/Salary/SalaryIndex.vue'),
+      },
     ]
   },
 ];

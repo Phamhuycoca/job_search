@@ -14,6 +14,7 @@ export enum PageName {
     ROLE_PAGE = 'role_page',
     FORMOFWORK_PAGE = 'formofwork_page',
     WORKEXPERIENCE_PAGE = 'workexperience_page',
+    SALARY_PAGE = 'salary_page',
   }
   
   export enum SupportLanguage {
