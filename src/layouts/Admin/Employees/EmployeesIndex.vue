@@ -15,11 +15,6 @@
                     <el-image style="width: 60px; height: 60px" :src="scope.row.avatar" fit="cover" />
                 </template>
             </el-table-column>
-            <el-table-column fixed label="Ảnh đại diện" width="150" align="center">
-                <template #default="scope">
-                    <h1>{{ scope.row.userId }}</h1>
-                </template>
-            </el-table-column>
             <el-table-column prop="fullName" label="Nhân viên" min-width="200" />
             <el-table-column prop="gender" label="Giới tính" width="120" />
             <el-table-column prop=email label="Email" min-width="300" />
@@ -48,7 +43,6 @@
         <EmployeeCreate :dialog="dialog" @close="dialog = false" @loadData="loadData()" />
         <ConfirmVue :dialogDelete="dialogDelete" @close="dialogDelete = false" @saveData="RemoveItem" />
         <EmployeeUpdate :dialogEdit="dialogEdit" :id="id" @close="dialogEdit = false" />
-
     </div>
 </template>
 
@@ -87,7 +81,6 @@ const loadData = async () => {
 const handleEdit = (row: any) => {
     console.log(row.roleId)
 }
-
 
 const searchData = async () => {
     DEFAULT_COMMON_LIST_QUERY.keyword = search.value;

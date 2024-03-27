@@ -15,9 +15,10 @@
                     <el-col :span="12">
                         <el-form-item label="Ảnh đại diện">
                             <img v-if="selectedImage" :src="selectedImage" alt="Selected Image"
-                                class="w-24 h-32 mr-10" />
-                            <input v-if="selectedImage === null" type="file" @change="onFileChanged">
-                            <el-button v-if="selectedImage" type="danger" @click="onRemoveImage">Xóa</el-button>
+                                class="w-32 h-32 mr-10" />
+                            <input v-if="selectedImage === null" type="file" @change="onFileChanged" />
+                            <el-button v-if="selectedImage" class="ml-19" type="danger"
+                                @click="onRemoveImage">Xóa</el-button>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -56,12 +57,8 @@
             </el-form>
             <template #footer>
                 <div class="flex justify-between items-center">
-                    <el-button plain type="danger" @click="handleClose">
-                        Đóng
-                    </el-button>
-                    <el-button plain type="primary" @click="saveData">
-                        Lưu
-                    </el-button>
+                    <el-button plain type="danger" @click="handleClose"> Đóng </el-button>
+                    <el-button plain type="primary" @click="saveData"> Lưu </el-button>
                 </div>
             </template>
         </el-dialog>
@@ -71,36 +68,40 @@
 <script lang="ts" setup>
 import { optionsGender } from "@/common/constants";
 import { defineProps, defineEmits, ref, onMounted, watch } from "vue";
-import { useRole } from "../Roles/Services/role.service"
+import { useRole } from "../Roles/Services/role.service";
 import { useEmployee } from "../Employees/Services/employee.service";
 import { showErrors, showSuccessNotification } from "@/common/helpers";
 const { fetchRoles } = useRole();
 const { updateEmployee, getData } = useEmployee();
 const emit = defineEmits();
-const props = defineProps(['dialogEdit', 'id']);
+const props = defineProps(["dialogEdit", "id"]);
 const file = ref<File | null>(null);
 const selectedImage = ref<string | null>(null);
-const fullName = ref('');
-const email = ref('');
-const gender = ref('');
-const phoneNumber = ref('');
-const address = ref('');
-const roleId = ref('');
+const fullName = ref("");
+const email = ref("");
+const gender = ref("");
+const phoneNumber = ref("");
+const address = ref("");
+const roleId = ref("");
 const roles = ref<any | undefined>([]);
-
+const imageDelete = ref<string | null>(null);
 
 const loadRoles = async () => {
     const res = await fetchRoles();
     roles.value = res?.items;
-}
-watch(() => props.id, (newValue, oldValue) => {
-    if (newValue !== '') {
-        getDetail(newValue);
+};
+watch(
+    () => props.id,
+    (newValue, oldValue) => {
+        if (newValue !== "") {
+            getDetail(newValue);
+        }
     }
-});
+);
+
 onMounted(() => {
     loadRoles();
-})
+});
 const getDetail = async (id: any) => {
     const res = await getData(id);
     console.log(res.data);
@@ -111,13 +112,15 @@ const getDetail = async (id: any) => {
     phoneNumber.value = res.data.phoneNumber;
     address.value = res.data.address;
     selectedImage.value = res.data.avatar;
-}
-
-
-
+    if (res.data.avatar !== null) {
+        imageDelete.value = res.data.avatar;
+    } else {
+        imageDelete.value = null;
+    }
+};
 
 const handleClose = () => {
-    emit('close');
+    emit("close");
 };
 
 const onFileChanged = (event: Event) => {
@@ -138,6 +141,7 @@ const onRemoveImage = () => {
     file.value = null;
 };
 const saveData = async () => {
+    console.log(imageDelete.value);
     const formData = new FormData();
     formData.append("fullName", fullName.value);
     formData.append("email", email.value);
@@ -149,20 +153,24 @@ const saveData = async () => {
     if (file.value !== null) {
         formData.append("file", file.value);
     } else {
-        formData.append("file", '');
+        formData.append("file", "");
+    }
+    if (imageDelete.value !== null) {
+        formData.append("imageDelete", imageDelete.value);
+    } else {
+        formData.append("imageDelete", "");
     }
     const res = await updateEmployee(formData, props.id);
     if (res.success) {
-        showSuccessNotification(res.message)
-    }
-    else {
+        showSuccessNotification(res.message);
+    } else {
         if (res.errors !== undefined) {
             showErrors(res.errors);
         }
     }
-    emit('loadData');
-    emit('close');
-}
+    emit("loadData");
+    emit("close");
+};
 </script>
 
 <style scoped>

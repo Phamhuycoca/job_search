@@ -7,7 +7,7 @@
           style="background-color: #101726; border: none;" class="w-64 h-screen" :default-openeds="['1', '6']"
           router="true">
           <el-image :src="logo" class="w-full h-[50px] sticky top-0" fit="contain" style="display: block;" />
-          <el-menu-item index="1" route="/admin/employees">
+          <el-menu-item index="1" route="/admin/dashboard">
             <el-icon>
               <i class="ri-bar-chart-2-fill"></i>
             </el-icon>
@@ -39,7 +39,7 @@
             </template>
             <el-menu-item-group>
               <template #title>Nhân sự</template>
-              <el-menu-item index="3-1">Nhân viên</el-menu-item>
+              <el-menu-item index="3-1" route="/admin/employees">Nhân viên</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
 
@@ -51,9 +51,9 @@
               <span>Cài đặt</span>
             </template>
             <el-menu-item-group>
-              <template #title>Group 1</template>
-              <el-menu-item index="4-1">Option 1</el-menu-item>
-              <el-menu-item index="4-2">Option 2</el-menu-item>
+              <template #title>Chức vụ</template>
+              <el-menu-item index="4-2" route="/admin/roles">Quản lý phân quyền hệ thống</el-menu-item>
+              <el-menu-item index="4-1">Quản lý chức vụ</el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group title="Group 2">
               <el-menu-item index="4-3">Option 3</el-menu-item>
