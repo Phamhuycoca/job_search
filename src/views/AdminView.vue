@@ -4,7 +4,7 @@
       <el-scrollbar style="width: auto;">
         <el-menu default-active="5" active-text-color="#ffd04b" text-color="#fff" background-color="black"
           :collapse="isCollapse" @open="handleOpen" @close="handleClose"
-          style="background-color: #101726; border: none;" class="w-64 h-screen" :default-openeds="['1', '6']"
+          style="background-color: #101726; border: none;" class="w-72 h-screen" :default-openeds="['1', '6']"
           router="true">
           <el-image :src="logo" class="w-full h-[50px] sticky top-0" fit="contain" style="display: block;" />
           <el-menu-item index="1" route="/admin/dashboard">
@@ -21,15 +21,12 @@
               <el-icon>
                 <i class="ri-news-line"></i>
               </el-icon>
-              <span>Quản lý tin tức</span>
+              <span>Quản lý chức năng</span>
             </template>
             <el-menu-item-group>
-              <template #title>Tin tức</template>
               <el-menu-item index="2-1">Bài đăng</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group>
-              <template #title>Quảng cáo</template>
               <el-menu-item index="2-2">Quảng cáo</el-menu-item>
+              <el-menu-item index="2-3">Banner</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
           <el-sub-menu index="3">
@@ -38,7 +35,6 @@
                 <i class="ri-group-fill"></i> </el-icon><span>Quản lý nhân sự</span>
             </template>
             <el-menu-item-group>
-              <template #title>Nhân sự</template>
               <el-menu-item index="3-1" route="/admin/employees">Nhân viên</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
@@ -55,28 +51,23 @@
               <el-menu-item index="4-2" route="/admin/roles">Quản lý phân quyền hệ thống</el-menu-item>
               <el-menu-item index="4-1">Quản lý chức vụ</el-menu-item>
             </el-menu-item-group>
-            <el-menu-item-group title="Group 2">
-              <el-menu-item index="4-3">Option 3</el-menu-item>
-            </el-menu-item-group>
           </el-sub-menu>
 
           <el-sub-menu index="5">
             <template #title>
               <el-icon>
-                <i class="ri-settings-2-fill"></i>
+                <i class="ri-function-line"></i>
               </el-icon>
-              <span>Cài đặt</span>
+              <span>Chức năng cho website</span>
             </template>
             <el-menu-item-group>
-              <template #title>Group 1</template>
-              <el-menu-item index="5-1">Option 1</el-menu-item>
-              <el-menu-item index="5-2">Option 2</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="Group 2">
-              <el-menu-item index="5-3">Option 3</el-menu-item>
+              <el-menu-item index="5-1" route="/admin/formofwork">Quản lý hình thức làm việc</el-menu-item>
+              <el-menu-item index="5-2">Quản lý kinh nghiệm làm việc</el-menu-item>
+              <el-menu-item index="5-2">Quản lý khu vực</el-menu-item>
+              <el-menu-item index="5-3">Quản lý mẫu cv</el-menu-item>
+              <el-menu-item index="5-4">Quản lý thông tin nhà tuyển dụng</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
-
         </el-menu>
       </el-scrollbar>
     </el-aside>
@@ -95,9 +86,9 @@
               src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"></el-avatar>
             <template #dropdown>
               <el-dropdown-menu class="w-60">
-                <el-dropdown-item>Action 1</el-dropdown-item>
-                <el-dropdown-item>Action 2</el-dropdown-item>
-                <el-dropdown-item>Action 3</el-dropdown-item>
+                <el-dropdown-item>Thông tin tài khoản</el-dropdown-item>
+                <el-dropdown-item>Đổi mật khẩu</el-dropdown-item>
+                <el-dropdown-item>Đăng xuất</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>

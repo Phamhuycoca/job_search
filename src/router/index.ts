@@ -77,6 +77,11 @@ const routes: Array<RouteRecordRaw> = [
         name: PageName.ROLE_PAGE,
         component: ()=>import('../layouts/Admin/Roles/RolesIndex.vue'),
       },
+      {
+        path: 'formofwork',
+        name: PageName.FORMOFWORK_PAGE,
+        component: ()=>import('../layouts/Admin/Formofwork/FormofworkIndex.vue'),
+      },
     ]
   },
 ];
