@@ -13,6 +13,7 @@ export enum PageName {
     EMPLOYEE_PAGE = 'employee_page',
     ROLE_PAGE = 'role_page',
     FORMOFWORK_PAGE = 'formofwork_page',
+    WORKEXPERIENCE_PAGE = 'workexperience_page',
   }
   
   export enum SupportLanguage {

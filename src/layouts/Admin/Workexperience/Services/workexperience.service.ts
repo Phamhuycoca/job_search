@@ -1,13 +1,13 @@
 import { DEFAULT_COMMON_LIST_QUERY } from "@/common/constants";
 import { useLoadingStore } from "@/store/loading.store";
-import { formofworkApi } from './formofwork.api';
+import { workexperiencekApi } from "./workexperience.api";
 const loading = useLoadingStore();
-export const useFormofwork = () => {
+export const useWorkexperience = () => {
   const query = DEFAULT_COMMON_LIST_QUERY;
-  const fetchFormofworks = async () => {
+  const fetchWorkexperiences = async () => {
     try {
       loading.showLoading(true);
-      const res = await formofworkApi._getList<any>(query);
+      const res = await workexperiencekApi._getList<any>(query);
       if (res.success) {
         return {
           items: res.items,
@@ -24,11 +24,11 @@ export const useFormofwork = () => {
       loading.showLoading(false);
     }
   };
-  const searchFormofworks = async () => {
+  const searchWorkexperiences = async () => {
     try {
       loading.showLoading(true);
 
-      const res = await formofworkApi._getList<any>(query);
+      const res = await workexperiencekApi._getList<any>(query);
       if (res.success) {
         return {
           items: res.items,
@@ -45,10 +45,10 @@ export const useFormofwork = () => {
       loading.showLoading(false);
     }
   };
-  const createFormofwork = async (data: any) => {
+  const createWorkexperience = async (data: any) => {
     try {
       loading.showLoading(true);
-      return await formofworkApi.createData(data);
+      return await workexperiencekApi.createData(data);
     } catch (error) {
       console.error("Error Create:", error);
     } finally {
@@ -56,10 +56,10 @@ export const useFormofwork = () => {
     }
   };
 
-  const updateFormofwork=async(data:any,id:any)=>{
+  const updateWorkexperience=async(data:any,id:any)=>{
     try{
       loading.showLoading(true);
-      return await formofworkApi.updateData(data,id);
+      return await workexperiencekApi.updateData(data,id);
     }catch (error) {
       console.error("Error Update:", error);
     }finally {
@@ -70,7 +70,7 @@ export const useFormofwork = () => {
   const getData=async(id:any)=>{
     try{
       loading.showLoading(true);
-      return await formofworkApi.getData(id);
+      return await workexperiencekApi.getData(id);
     }catch (error) {
       console.error("Error GetDetail:", error);
     }finally {
@@ -78,10 +78,10 @@ export const useFormofwork = () => {
     }
   };
 
-  const deleteFormofwork=async(id:any)=>{
+  const deleteWorkexperience=async(id:any)=>{
     try{
       loading.showLoading(true);
-      return await formofworkApi.deleteData(id);
+      return await workexperiencekApi.deleteData(id);
     }catch (error) {
       console.error("Error Delete:", error);
     }finally {
@@ -90,12 +90,12 @@ export const useFormofwork = () => {
   };
 
   return {
-    fetchFormofworks,
-    createFormofwork,
-    updateFormofwork,
-    deleteFormofwork,
+    fetchWorkexperiences,
+    createWorkexperience,
+    updateWorkexperience,
+    deleteWorkexperience,
     query,
     getData,
-    searchFormofworks
+    searchWorkexperiences
   };
 };

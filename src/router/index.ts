@@ -82,6 +82,11 @@ const routes: Array<RouteRecordRaw> = [
         name: PageName.FORMOFWORK_PAGE,
         component: ()=>import('../layouts/Admin/Formofwork/FormofworkIndex.vue'),
       },
+      {
+        path: 'workexperience',
+        name: PageName.WORKEXPERIENCE_PAGE,
+        component: ()=>import('../layouts/Admin/Workexperience/WorkexperienceIndex.vue'),
+      },
     ]
   },
 ];
