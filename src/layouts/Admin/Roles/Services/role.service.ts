@@ -1,6 +1,7 @@
 import { DEFAULT_COMMON_LIST_QUERY } from "@/common/constants";
 import { roleApi } from "./role.api";
 import { useLoadingStore } from "@/store/loading.store";
+import { showErrors } from "@/common/helpers";
 const loading = useLoadingStore();
 export const useRole = () => {
   const query = DEFAULT_COMMON_LIST_QUERY;
@@ -8,6 +9,9 @@ export const useRole = () => {
     try {
       loading.showLoading(true);
       const res = await roleApi._getList<any>(query);
+      if (res.errors !== undefined) {
+        showErrors(res.errors);
+    }
       if (res.success) {
         return {
           items: res.items,

@@ -1,6 +1,6 @@
 <template>
-  <el-container class="h-[1000px]">
-    <el-container>
+  <div>
+    <el-container class="h-max-[1000px]">
       <el-header class="sticky top-0 flex items-center bg-white z-[1000]" style="padding: 0px!important;">
         <el-image :src="logo" class="w-40 h-[50px]" fit="contain"></el-image>
         <div class="w-full h-full flex justify-between items-center">
@@ -23,7 +23,7 @@
                 <i class="ri-notification-3-line text-xl"></i>
               </el-badge>
 
-              <el-dropdown trigger="click">
+              <!-- <el-dropdown trigger="click">
                 <el-avatar
                   src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"></el-avatar>
                 <template #dropdown>
@@ -34,6 +34,23 @@
                     <el-dropdown-item>Đăng xuất</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
+              </el-dropdown> -->
+              <el-dropdown trigger="click">
+                <el-icon class="mr-4">
+                  <i class="ri-account-circle-line text-2xl"></i>
+                </el-icon>
+                <template #dropdown>
+                  <el-dropdown-menu class="w-full">
+                    <el-dropdown-item>
+                      <router-link to="/login">Đăng nhập/đăng với tư cách ký ứng viên</router-link>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                      <router-link to="/loginbyemployers">
+                        Đăng nhập/đăng ký với tư cách nhà tuyển dụng
+                      </router-link>
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
               </el-dropdown>
             </div>
           </div>
@@ -41,32 +58,23 @@
       </el-header>
 
       <el-main class=" bg-[#d4d5d7]" style="padding: 0px!important;">
-        <el-button @click="Hello">Sub</el-button>
+        <Carousel />
+        <Main class="mt-10 mb-10" />
         <!-- <RouterView /> -->
       </el-main>
-
-      <el-footer>
-
-        ok
-      </el-footer>
     </el-container>
-  </el-container>
+    <Footer />
+  </div>
 </template>
 
 <script lang="ts" setup>
+import Carousel from '../components/Web/Carousel.vue'
+import Main from '../components/Web/Main.vue'
+import Footer from '../components/Web/Footer.vue';
 import { useAuthService } from '../pages/Auth/Services/auth.service'
 const { hello } = useAuthService();
 import logo from "../assets/image-png/logo.png"
 import { Search } from "@element-plus/icons-vue";
-import { useLoadingStore } from "@/store/loading.store";
-const loading = useLoadingStore();
-const Hello = async () => {
-  loading.showLoading(true);
-  const res = await hello();
-  loading.showLoading(false);
-
-
-}
 </script>
 
 <style scoped></style>

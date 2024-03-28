@@ -1,6 +1,7 @@
 import { DEFAULT_COMMON_LIST_QUERY } from "@/common/constants";
 import { useLoadingStore } from "@/store/loading.store";
 import { employeeApi } from "./employee.api";
+import { showErrors } from "@/common/helpers";
 const loading = useLoadingStore();
 export const useEmployee = () => {
   const query = DEFAULT_COMMON_LIST_QUERY;
@@ -29,6 +30,9 @@ export const useEmployee = () => {
       loading.showLoading(true);
 
       const res = await employeeApi._getList<any>(query);
+      if (res.errors !== undefined) {
+        showErrors(res.errors);
+      }
       if (res.success) {
         return {
           items: res.items,
@@ -56,35 +60,35 @@ export const useEmployee = () => {
     }
   };
 
-  const updateEmployee=async(data:any,id:any)=>{
-    try{
+  const updateEmployee = async (data: any, id: any) => {
+    try {
       loading.showLoading(true);
-      return await employeeApi.updateData(data,id);
-    }catch (error) {
+      return await employeeApi.updateData(data, id);
+    } catch (error) {
       console.error("Error Update Role:", error);
-    }finally {
+    } finally {
       loading.showLoading(false);
     }
   };
 
-  const getData=async(id:any)=>{
-    try{
+  const getData = async (id: any) => {
+    try {
       loading.showLoading(true);
       return await employeeApi.getData(id);
-    }catch (error) {
+    } catch (error) {
       console.error("Error GetDetail Role:", error);
-    }finally {
+    } finally {
       loading.showLoading(false);
     }
   };
 
-  const deleteEmployee=async(id:any)=>{
-    try{
+  const deleteEmployee = async (id: any) => {
+    try {
       loading.showLoading(true);
       return await employeeApi.deleteData(id);
-    }catch (error) {
+    } catch (error) {
       console.error("Error Delete Role:", error);
-    }finally {
+    } finally {
       loading.showLoading(false);
     }
   };
@@ -96,6 +100,6 @@ export const useEmployee = () => {
     createEmployee,
     getData,
     updateEmployee,
-    deleteEmployee
+    deleteEmployee,
   };
 };

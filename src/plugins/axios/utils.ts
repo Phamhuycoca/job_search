@@ -1,7 +1,7 @@
 import localStorageAuthService from '@/common/storages/authStorage';
 import axios from 'axios';
 import router from '@/router';
-import { showWarningsNotification, showErrorNotification } from '@/common/helpers';
+import { showWarningsNotification, showErrorNotification, showErrors } from '@/common/helpers';
 import { HttpStatus, PageName } from '@/common/constants';
 
 export const logout = (redirectToLogin = true) => {
@@ -17,11 +17,11 @@ export const logout = (redirectToLogin = true) => {
 };
 
 export const sendRefreshToken = async () => {
-  let responses;
   try {
-    const formData=new FormData()
-    formData.append("refresh_token",localStorageAuthService.getRefeshToken())
-    responses = await axios.post(
+    const formData = new FormData();
+    formData.append("refresh_token", localStorageAuthService.getRefeshToken());
+
+    const response = await axios.post(
       `http://localhost:25874/api/Auth/Refresh_token`,
       formData,
       { 
@@ -30,18 +30,23 @@ export const sendRefreshToken = async () => {
         }
       }
     );
-    if (responses?.status === HttpStatus.OK) {
-      localStorageAuthService.setAccessToken(responses.data?.data.accessToken);
-      localStorageAuthService.setAccessTokenExpiredAt(responses.data?.data.accessTokenExpiration);
-      localStorageAuthService.setRefeshToken(responses.data?.data.refreshToken);
-      localStorageAuthService.setRefeshTokenExpiredAt(responses.data?.data.refreshTokenExpiration);
-      return;
+
+    if (response?.status === HttpStatus.OK) {
+      const responseData = response.data?.data;
+      localStorageAuthService.setAccessToken(responseData.accessToken);
+      localStorageAuthService.setAccessTokenExpiredAt(responseData.accessTokenExpiration);
+      localStorageAuthService.setRefeshToken(responseData.refreshToken);
+      localStorageAuthService.setRefeshTokenExpiredAt(responseData.refreshTokenExpiration);
+    } else {
+      logout(true);
+    }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log(error.response?.data.errors);
+      if (error.response?.data.errors !== undefined) {
+        showErrors(error.response?.data.errors);
+    }
     }
     logout(true);
-    return;
-  } catch (error) {
-    console.log(error);
-    logout(true);
-    return;
   }
 };

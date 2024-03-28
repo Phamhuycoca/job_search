@@ -1,6 +1,7 @@
 import { DEFAULT_COMMON_LIST_QUERY } from "@/common/constants";
 import { useLoadingStore } from "@/store/loading.store";
 import { workexperiencekApi } from "./workexperience.api";
+import { showErrors } from "@/common/helpers";
 const loading = useLoadingStore();
 export const useWorkexperience = () => {
   const query = DEFAULT_COMMON_LIST_QUERY;
@@ -8,6 +9,9 @@ export const useWorkexperience = () => {
     try {
       loading.showLoading(true);
       const res = await workexperiencekApi._getList<any>(query);
+      if (res.errors !== undefined) {
+        showErrors(res.errors);
+    }
       if (res.success) {
         return {
           items: res.items,
@@ -35,6 +39,7 @@ export const useWorkexperience = () => {
           totalItems: res.totalItems,
         };
       }
+     
       return {
         items: [],
         totalItems: 0,

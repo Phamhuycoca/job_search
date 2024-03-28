@@ -15,6 +15,11 @@ export enum PageName {
     FORMOFWORK_PAGE = 'formofwork_page',
     WORKEXPERIENCE_PAGE = 'workexperience_page',
     SALARY_PAGE = 'salary_page',
+    LOGINBYEMPLOYERS_PAGE = 'loginbyemployers_page',
+    REGISTERBYEMPLOYERS_PAGE = 'registerbyemployers_page',
+    EMPLOYERS_PAGE = 'employers_page',
+    NEWS_PAGE = 'news_page',
+
   }
   
   export enum SupportLanguage {
