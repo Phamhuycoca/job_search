@@ -53,12 +53,18 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/employers',
+    redirect:'/employers/index',
     name: PageName.EMPLOYERS_PAGE,
-    component: ()=>import('../layouts/Employers/Dasdboard/Index.vue'),
+    component: ()=>import('../layouts/Employers/EmployersIndex.vue'),
     meta:{
       public:true
     },
     children:[
+      {
+        path: 'index',
+        name: PageName.EMPLOYERS_DASHBOARD_PAGE,
+        component: ()=>import('../layouts/Employers/Dasdboard/Index.vue'),
+      },
       {
         path: 'news',
         name: PageName.NEWS_PAGE,
