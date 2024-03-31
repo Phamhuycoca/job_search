@@ -2,21 +2,17 @@
     <div>
         <el-row>
             <el-col :span="24" class="pl-2 pr-2">
-                <el-card style="border-radius: 5px">
+                <div style="border-radius: 5px">
                     <div class="flex justify-evenly items-center">
-                        <span>Khu vực</span>
-                        <el-select style="width: 240px"></el-select>
-                        <span>Nghành</span>
-                        <el-select style="width: 240px"></el-select>
-                        <span>Kinh nghiệm làm việc</span>
-                        <el-select style="width: 240px"></el-select>
-                        <span>Hình thức làm việc</span>
-                        <el-select style="width: 240px"></el-select>
+                        <el-select placeholder="Chọn theo khu vực" style="width: 320px"></el-select>
+                        <el-select placeholder="Chọn theo nghành" style="width: 320px"></el-select>
+                        <el-select placeholder="Chọn theo kinh nghiệm làm việc" style="width: 320px"></el-select>
+                        <el-select placeholder="Chọn theo hình thức làm việc" style="width: 320px"></el-select>
                     </div>
-                </el-card>
+                </div>
             </el-col>
             <el-col :span="24" class="pl-2 pr-2">
-                <el-row class="flex items-center justify-center mt-4">
+                <el-row class="flex items-center justify-center m-10">
                     <el-input style="width: 340px" size="large" placeholder="Nhập thông tin tìm kiếm"
                         :suffix-icon="Search" />
                     <el-button class="ml-4" size="large">Tìm kiếm</el-button>

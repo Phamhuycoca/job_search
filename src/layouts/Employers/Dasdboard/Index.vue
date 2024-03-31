@@ -1,6 +1,6 @@
 <template>
     <el-container class="h-screen">
-        <el-aside width="auto" class="h-full bg-[#cbf4ca]">
+        <el-aside width="auto" class="h-full bg-[#cbf4ca] border">
             <el-scrollbar style="width: auto;">
                 <el-menu default-active="5" active-text-color="#c4e7c3" text-color="black" background-color="#ccc"
                     :collapse="isCollapse" style="border: none;" class="w-72 h-screen" :default-openeds="['1', '6']"
@@ -46,7 +46,6 @@
         </el-container>
     </el-container>
 </template>
-
 
 <script lang="ts" setup>
 import { RouterView } from "vue-router";

@@ -15,6 +15,8 @@ export enum PageName {
     FORMOFWORK_PAGE = 'formofwork_page',
     WORKEXPERIENCE_PAGE = 'workexperience_page',
     SALARY_PAGE = 'salary_page',
+    CITY_PAGE = 'city_page',
+    PRORESSION_PAGE = 'profession_page',
     LOGINBYEMPLOYERS_PAGE = 'loginbyemployers_page',
     REGISTERBYEMPLOYERS_PAGE = 'registerbyemployers_page',
     EMPLOYERS_PAGE = 'employers_page',

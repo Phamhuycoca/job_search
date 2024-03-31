@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container class="h-max-[1000px]">
-      <el-header class="sticky top-0 flex items-center bg-white z-[1000]" style="padding: 0px!important;">
+      <el-header class="sticky top-0 flex items-center border bg-white z-[1000]" style="padding: 0px!important;">
         <el-image :src="logo" class="w-40 h-[50px]" fit="contain"></el-image>
         <div class="w-full h-full flex justify-between items-center">
           <el-menu ellipsis mode="horizontal" :popper-offset="16" class="w-full">
@@ -57,9 +57,10 @@
         </div>
       </el-header>
 
-      <el-main class=" bg-[#d4d5d7]" style="padding: 0px!important;">
+      <el-main class=" " style="padding: 0px!important;">
         <Carousel />
         <Main class="mt-10 mb-10" />
+        <Slider />
         <!-- <RouterView /> -->
       </el-main>
     </el-container>
@@ -70,6 +71,7 @@
 <script lang="ts" setup>
 import Carousel from '../components/Web/Carousel.vue'
 import Main from '../components/Web/Main.vue'
+import Slider from '../components/Web/Slider.vue'
 import Footer from '../components/Web/Footer.vue';
 import { useAuthService } from '../pages/Auth/Services/auth.service'
 const { hello } = useAuthService();

@@ -21,7 +21,7 @@
               <el-icon>
                 <i class="ri-news-line"></i>
               </el-icon>
-              <span>Quản lý chức năng</span>
+              <span>Quản lý website</span>
             </template>
             <el-menu-item-group>
               <el-menu-item index="2-1">Bài đăng</el-menu-item>
@@ -48,8 +48,7 @@
             </template>
             <el-menu-item-group>
               <template #title>Chức vụ</template>
-              <el-menu-item index="4-2" route="/admin/roles">Quản lý phân quyền hệ thống</el-menu-item>
-              <el-menu-item index="4-1">Quản lý chức vụ</el-menu-item>
+              <el-menu-item index="4-2" route="/admin/roles">Quản lý chức vụ và phân quyền hệ thống</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
 
@@ -64,8 +63,9 @@
               <el-menu-item index="5-1" route="/admin/formofwork">Quản lý hình thức làm việc</el-menu-item>
               <el-menu-item index="5-2" route="/admin/workexperience">Quản lý kinh nghiệm làm việc</el-menu-item>
               <el-menu-item index="5-3" route="/admin/salary">Quản lý lương</el-menu-item>
-              <el-menu-item index="5-4">Quản lý mẫu cv</el-menu-item>
-              <el-menu-item index="5-5">Quản lý thông tin nhà tuyển dụng</el-menu-item>
+              <el-menu-item index="5-4" route="/admin/profession">Quản lý thông nghành nghề</el-menu-item>
+              <el-menu-item index="5-5" route="/admin/city">Quản lý Khu vực</el-menu-item>
+              <el-menu-item index="5-6">Quản lý thông tin nhà tuyển dụng</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
         </el-menu>

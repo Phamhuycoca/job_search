@@ -115,6 +115,16 @@ const routes: Array<RouteRecordRaw> = [
         name: PageName.SALARY_PAGE,
         component: ()=>import('../layouts/Admin/Salary/SalaryIndex.vue'),
       },
+      {
+        path: 'city',
+        name: PageName.CITY_PAGE,
+        component: ()=>import('../layouts/Admin/City/CityIndex.vue'),
+      },
+      {
+        path: 'profession',
+        name: PageName.PRORESSION_PAGE,
+        component: ()=>import('../layouts/Admin/Profession/ProfessionIndex.vue'),
+      },
     ]
   },
 ];
