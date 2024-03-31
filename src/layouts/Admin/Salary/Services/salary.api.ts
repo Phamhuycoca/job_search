@@ -1,4 +1,4 @@
-import type { IBodyResponse } from "@/common/interfaces";
+import type { IBodyResponse, ItemsList } from "@/common/interfaces";
 import { ApiService } from "@/plugins/axios/api";
 import axiosInstance from "@/plugins/axios";
 
@@ -14,6 +14,9 @@ class SalaryApiService extends ApiService {
   }
   deleteData(id: any): Promise<any> {
    return this.client.delete(`${this.baseUrl}/${id}`);
+  }
+  itemsList():Promise<ItemsList> {
+    return this.client.get(`${this.baseUrl}/ItemsList`);
   }
 }
 export const salaryApi = new SalaryApiService({ baseUrl: "/Salary" }, axiosInstance);

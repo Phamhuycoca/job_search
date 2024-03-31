@@ -16,6 +16,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 
 app
+.use(pinia)
   .use(ElementPlus)
   .use(useToast, {
     position: "top-right",
@@ -25,6 +26,5 @@ app
     draggable: true,
     draggablePercent: 0.6,
   })
-  .use(pinia)
   .use(router)
   .mount("#app");

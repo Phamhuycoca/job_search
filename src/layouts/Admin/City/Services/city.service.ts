@@ -1,5 +1,5 @@
 import { DEFAULT_COMMON_LIST_QUERY } from "@/common/constants";
-import { useLoadingStore } from "@/store/loading.store";
+import { useLoadingStore } from "../../../../store/loading.store";
 
 import { showErrors } from "@/common/helpers";
 import { cityApi } from "./city.api";
@@ -94,17 +94,7 @@ export const useCity = () => {
     }
   };
 
-  const itemsListCity=async()=>{
-    try{
-      const res= await cityApi.itemsList();
-      if(res.success){
-        return res.data;
-      }
-    }catch(error){
-      console.error("Error itemsList:", error);
-    }
-  };
-
+ 
   return {
     fetchCitys,
     createCity,
@@ -113,6 +103,5 @@ export const useCity = () => {
     query,
     getData,
     searchCitys,
-    itemsListCity
   };
 };
