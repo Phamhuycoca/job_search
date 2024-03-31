@@ -4,10 +4,14 @@
             <el-col :span="24" class="pl-2 pr-2">
                 <div style="border-radius: 5px">
                     <div class="flex justify-evenly items-center">
-                        <el-select placeholder="Chọn theo khu vực" style="width: 320px"></el-select>
-                        <el-select placeholder="Chọn theo nghành" style="width: 320px"></el-select>
-                        <el-select placeholder="Chọn theo kinh nghiệm làm việc" style="width: 320px"></el-select>
-                        <el-select placeholder="Chọn theo hình thức làm việc" style="width: 320px"></el-select>
+                        <el-select placeholder="Chọn theo khu vực" style="width: 240px">
+                            <el-option v-for="item in itemsListCitys" :key="item.cityId" :value="item.cityId"
+                                :label="item.cityName" />
+                        </el-select>
+                        <el-select placeholder="Chọn mức lương" style="width: 240px"></el-select>
+                        <el-select placeholder="Chọn theo nghành" style="width: 240px"></el-select>
+                        <el-select placeholder="Chọn theo kinh nghiệm làm việc" style="width: 240px"></el-select>
+                        <el-select placeholder="Chọn theo hình thức làm việc" style="width: 240px"></el-select>
                     </div>
                 </div>
             </el-col>
@@ -62,6 +66,15 @@
 
 <script lang="ts" setup>
 import { Search } from "@element-plus/icons-vue";
+import { ref } from "vue";
+import { useCity } from "@/layouts/Admin/City/Services/city.service";
+const { itemsListCity } = useCity();
+const itemsListCitys = ref<any | null>([]);
+const itemsListCityId = ref('');
+const loadData = async () => {
+    const citys = await itemsListCity();
+    itemsListCitys.value = citys;
+};
 </script>
 
 <style></style>

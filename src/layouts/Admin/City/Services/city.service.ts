@@ -94,6 +94,17 @@ export const useCity = () => {
     }
   };
 
+  const itemsListCity=async()=>{
+    try{
+      const res= await cityApi.itemsList();
+      if(res.success){
+        return res.data;
+      }
+    }catch(error){
+      console.error("Error itemsList:", error);
+    }
+  };
+
   return {
     fetchCitys,
     createCity,
@@ -101,6 +112,7 @@ export const useCity = () => {
     deleteCity,
     query,
     getData,
-    searchCitys
+    searchCitys,
+    itemsListCity
   };
 };

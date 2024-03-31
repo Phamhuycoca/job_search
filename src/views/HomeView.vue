@@ -19,10 +19,12 @@
           <div>
             <div class="w-[340px] flex justify-between items-center">
               <el-input style="width: 240px" size="large" placeholder="Search" :suffix-icon="Search" />
-              <el-badge :value="3" circle>
+              <!-- <el-badge :value="3" circle>
+                <i class="ri-notification-3-line text-xl"></i>
+              </el-badge> -->
+              <el-badge circle class="cursor-pointer">
                 <i class="ri-notification-3-line text-xl"></i>
               </el-badge>
-
               <!-- <el-dropdown trigger="click">
                 <el-avatar
                   src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"></el-avatar>

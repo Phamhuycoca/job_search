@@ -35,7 +35,10 @@ export interface ICommonListQuery {
   limit?: number;
   keyword?: string;
 }
-
+export interface ItemsList{
+  success:boolean;
+  data?:[]
+}
 export interface IUser {
   _id: string;
   email: string;
