@@ -42,7 +42,6 @@ export const sendRefreshToken = async () => {
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log(error.response?.data.errors);
       if (error.response?.data.errors !== undefined) {
         showErrors(error.response?.data.errors);
     }

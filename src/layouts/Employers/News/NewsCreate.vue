@@ -1,55 +1,68 @@
 <template>
     <div>
-        <el-dialog v-model="props.dialog" width="800" align-center close-icon="false" :before-close="props.dialog"
+        <el-dialog v-model="props.dialog" width="1000" align-center close-icon="false" :before-close="props.dialog"
             draggable>
             <template #header>
                 <h1 class="text-center">Tạo mới thông tin</h1>
             </template>
-            <el-form label-width="auto" label-position="top" model="top" style="max-width: 800px" class="mx-auto">
+            <el-form label-width="auto" label-position="top" model="top" style="max-width: 1000px" class="mx-auto">
                 <el-row :gutter="20">
                     <el-col :span="12">
-                        <el-form-item label="Nhân viên">
-                            <el-input v-model="fullName" size="large" placeholder="Nhập họ tên" />
+                        <el-form-item label="Công việc">
+                            <el-input v-model="fullName" size="large" placeholder="Nhập thông tin" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="Ảnh đại diện">
-                            <img v-if="selectedImage" :src="selectedImage" alt="Selected Image"
-                                class="w-24 h-32 mr-10" />
-                            <input v-if="selectedImage === null" type="file" @change="onFileChanged">
-                            <el-button v-if="selectedImage" type="danger" @click="onRemoveImage">Xóa</el-button>
+                        <el-form-item label="Nghành nghề">
+                            <el-select size="large"></el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="Email">
-                            <el-input v-model="email" size="large" placeholder="Nhập email" />
+                        <el-form-item label="Kinh nghiệm">
+                            <el-select size="large"></el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="Giới tính">
-                            <el-select v-model="gender" placeholder="Chọn giới tính" size="large">
-                                <el-option v-for="item in optionsGender" :key="item.value" :value="item.value" />
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-
-                    <el-col :span="12">
-                        <el-form-item label="Số điện thoại">
-                            <el-input v-model="phoneNumber" size="large" placeholder="Nhập số điện thoại" />
+                        <el-form-item label="Mức lương">
+                            <el-select size="large"></el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="Chức vụ">
-                            <el-select v-model="roleId" placeholder="Chọn chức vụ" size="large">
-                                <el-option v-for="item in roles" :key="item.roleId" :value="item.roleId"
-                                    :label="item.roleName" />
-                            </el-select>
+                        <el-form-item label="Cấp bậc làm việc">
+                            <el-select size="large"></el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="Hình thức làm việc">
+                            <el-select size="large"></el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="Khu vực">
+                            <el-select size="large"></el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="Thời gian làm việc">
+                            <el-input size="large" placeholder="Nhập thông tin" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
-                        <el-form-item label="Địa chỉ liên hệ">
-                            <el-input v-model="address" autosize type="textarea" clearable size="large"
-                                placeholder="Nhập địa chỉ liên hệ"></el-input>
+                        <el-form-item label="Địa điểm">
+                            <el-input type="textarea" :autosize="{ minRows: 6, maxRows: 8 }" size="large"
+                                placeholder="Nhập thông tin" />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
+                        <el-form-item label="Yêu cầu công việc">
+                            <el-input type="textarea" :autosize="{ minRows: 6, maxRows: 8 }" size="large"
+                                placeholder="Nhập thông tin" />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
+                        <el-form-item label="Quyền lợi">
+                            <el-input type="textarea" :autosize="{ minRows: 6, maxRows: 8 }" size="large"
+                                placeholder="Nhập thông tin" />
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -71,11 +84,7 @@
 <script lang="ts" setup>
 import { optionsGender } from "@/common/constants";
 import { defineProps, defineEmits, ref, onMounted } from "vue";
-import { useRole } from "../Roles/Services/role.service"
-import { useEmployee } from "../Employees/Services/employee.service";
 import { showErrors, showSuccessNotification } from "@/common/helpers";
-const { fetchRoles } = useRole();
-const { createEmployee } = useEmployee();
 const emit = defineEmits();
 const props = defineProps(['dialog']);
 const file = ref<File | null>(null);
@@ -90,8 +99,7 @@ const roles = ref<any | undefined>([]);
 
 
 const loadRoles = async () => {
-    const res = await fetchRoles();
-    roles.value = res?.items;
+
 }
 
 onMounted(() => {
@@ -135,15 +143,15 @@ const saveData = async () => {
     } else {
         formData.append("file", '');
     }
-    const res = await createEmployee(formData);
-    if (res.success) {
-        showSuccessNotification(res.message)
-    }
-    else {
-        if (res.errors !== undefined) {
-            showErrors(res.errors);
-        }
-    }
+    // const res = await createEmployee(formData);
+    // if (res.success) {
+    //     showSuccessNotification(res.message)
+    // }
+    // else {
+    //     if (res.errors !== undefined) {
+    //         showErrors(res.errors);
+    //     }
+    // }
     emit('loadData');
     emit('close');
 }

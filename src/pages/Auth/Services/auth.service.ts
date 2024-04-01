@@ -13,8 +13,6 @@ export const useAuthService=()=>{
             localStorageAuthService.setAccessTokenExpiredAt(res.data?.accessTokenExpiration);
             localStorageAuthService.setRefeshToken(res.data?.refreshToken);
             localStorageAuthService.setRefeshTokenExpiredAt(res.data?.refreshTokenExpiration);
-
-            console.log(res.data);
         } else {
             if (res.errors !== undefined) {
                 showErrors(res.errors);
@@ -22,12 +20,8 @@ export const useAuthService=()=>{
         }
         return res;
     }
-    const hello=async()=>{
-        const res = await authApi.hello();
-        console.log(res.data);
-    }
+   
     return{
         login,
-        hello
     }
 }
