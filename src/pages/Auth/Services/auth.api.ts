@@ -7,5 +7,8 @@ class AuthApiService extends ApiService {
   login(body: IBodyLogin): Promise<IBodyResponse<ILoginResponse>> {
     return this.client.post(`${this.baseUrl}/Login`, body);
   }
+  employerslogin(body: IBodyLogin): Promise<IBodyResponse<ILoginResponse>> {
+    return this.client.post(`${this.baseUrl}/EmployersLogin`, body);
+  }
 }
 export const authApi = new AuthApiService({ baseUrl: '/Auth' }, axiosInstance);

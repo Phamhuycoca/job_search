@@ -54,7 +54,7 @@ import google from '../../assets/image-png/google.png'
 import facebook from '../../assets/image-png/facebook.png'
 import { ref } from 'vue'
 import { useAuthService } from '../Auth/Services/auth.service'
-const { login } = useAuthService();
+const { employerslogin } = useAuthService();
 import type { IBodyLogin } from './Services/interfaces';
 // const email = ref('');
 // const password = ref('');
@@ -75,7 +75,7 @@ const { value: password, errorMessage: passwordError } = useField(
         .required("Không được bỏ trống")
 );
 const submitLogin = handleSubmit(async values => {
-    const res = await login({ email: values.email, password: values.password });
+    const res = await employerslogin({ email: values.email, password: values.password });
 })
 
 </script>

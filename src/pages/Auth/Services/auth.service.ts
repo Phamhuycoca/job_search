@@ -20,8 +20,23 @@ export const useAuthService=()=>{
         }
         return res;
     }
-   
+    const employerslogin =async(body: IBodyLogin)=>{
+        const res = await authApi.employerslogin(body);
+        if (res.success) {
+            showSuccessNotification(res.message);
+            localStorageAuthService.setAccessToken(res.data?.accessToken);
+            localStorageAuthService.setAccessTokenExpiredAt(res.data?.accessTokenExpiration);
+            localStorageAuthService.setRefeshToken(res.data?.refreshToken);
+            localStorageAuthService.setRefeshTokenExpiredAt(res.data?.refreshTokenExpiration);
+        } else {
+            if (res.errors !== undefined) {
+                showErrors(res.errors);
+            }
+        }
+        return res;
+    }
     return{
         login,
+        employerslogin
     }
 }

@@ -75,8 +75,6 @@ import Carousel from '../components/Web/Carousel.vue'
 import Main from '../components/Web/Main.vue'
 import Slider from '../components/Web/Slider.vue'
 import Footer from '../components/Web/Footer.vue';
-import { useAuthService } from '../pages/Auth/Services/auth.service'
-const { hello } = useAuthService();
 import logo from "../assets/image-png/logo.png"
 import { Search } from "@element-plus/icons-vue";
 </script>

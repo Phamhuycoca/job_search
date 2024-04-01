@@ -79,7 +79,6 @@
 <script lang="ts" setup>
 import { Search } from "@element-plus/icons-vue";
 import { ref, onMounted } from "vue";
-import { useCity } from "../../layouts/Admin/City/Services/city.service";
 import { cityApi } from "@/layouts/Admin/City/Services/city.api";
 import { salaryApi } from "@/layouts/Admin/Salary/Services/salary.api";
 import { formofworkApi } from "@/layouts/Admin/Formofwork/Services/formofwork.api";

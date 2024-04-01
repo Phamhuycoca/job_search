@@ -1,9 +1,9 @@
 <template>
     <div>
-        <el-dialog v-model="props.dialog" width="1200" align-center close-icon="false" :before-close="props.dialog"
+        <el-dialog v-model="props.dialogEdit" width="1200" align-center close-icon="false" :before-close="props.dialogEdit"
             draggable>
             <template #header>
-                <h1 class="text-center">Tạo mới thông tin</h1>
+                <h1 class="text-center">Cập nhật thông tin</h1>
             </template>
             <el-form label-width="auto" label-position="top" model="top" style="max-width: 1150px" class="mx-auto">
                 <el-row :gutter="20">
@@ -109,7 +109,7 @@
 
 <script lang="ts" setup>
 import { optionsGender } from "@/common/constants";
-import { defineProps, defineEmits, ref, onMounted } from "vue";
+import { defineProps, defineEmits, ref, onMounted, watch } from "vue";
 import { showErrors, showSuccessNotification } from "@/common/helpers";
 import { cityApi } from "@/layouts/Admin/City/Services/city.api";
 import { salaryApi } from "@/layouts/Admin/Salary/Services/salary.api";
@@ -118,9 +118,9 @@ import { professionApi } from "@/layouts/Admin/Profession/Services/profession.ap
 import { workexperiencekApi } from "@/layouts/Admin/Workexperience/Services/workexperience.api";
 import { levelworksApi } from "@/layouts/Admin/Levelworks/Services/levelworks.api";
 import { useJob } from "./Services/job.service";
-const { createJob } = useJob();
+const { getData,updateJob } = useJob();
 const emit = defineEmits();
-const props = defineProps(['dialog']);
+const props = defineProps(['dialogEdit', 'id']);
 const jobName = ref('');
 const requestJob = ref('');
 const benefitsJob = ref('');
@@ -133,6 +133,7 @@ const cityId = ref('');
 const salaryId = ref('');
 const professionId = ref('');
 const levelworkId = ref('');
+const employersId = ref('');
 
 const Workexperiences = ref<any | undefined>([]);
 const Salaries = ref<any | undefined>([]);
@@ -141,7 +142,27 @@ const Levelworks = ref<any | undefined>([]);
 const Formofworks = ref<any | undefined>([]);
 const Cities = ref<any | undefined>([]);
 
-
+watch(() => props.id, (newValue, oldValue) => {
+    if (newValue !== '') {
+        getDetail(newValue);
+    }
+});
+const getDetail = async (id: any) => {
+    const res = await getData(id);
+    salaryId.value = res.data.salaryId;
+    jobName.value=res.data.jobName;
+requestJob.value=res.data.requestJob;
+benefitsJob.value=res.data.benefitsJob;
+addressJob.value=res.data.addressJob;
+workingTime.value=res.data.workingTime;
+expirationDate.value=res.data.expirationDate;
+workexperienceId.value=res.data.workexperienceId;
+formofworkId.value=res.data.formofworkId;
+cityId.value=res.data.cityId;
+professionId.value=res.data.professionId;
+levelworkId.value=res.data.levelworkId;
+employersId.value=res.data.employersId;
+}
 
 const loadDrops = async () => {
     const professions = await professionApi.itemsList();
@@ -184,7 +205,9 @@ const saveData = async () => {
     formData.append("cityId", cityId.value);
     formData.append("professionId", professionId.value);
     formData.append("salaryId", salaryId.value);
-    const res = await createJob(formData);
+    formData.append("employersId", employersId.value);
+    formData.append("jobId", props.id);
+    const res = await updateJob(formData, props.id);
     if (res.success) {
         showSuccessNotification(res.message)
     }
