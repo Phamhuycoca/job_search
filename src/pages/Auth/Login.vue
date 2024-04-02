@@ -66,6 +66,9 @@ import facebook from '../../assets/image-png/facebook.png'
 import { ref } from 'vue'
 import { useAuthService } from '../Auth/Services/auth.service'
 const { login } = useAuthService();
+import type { IBodyLogin } from './Services/interfaces';
+// const email = ref('');
+// const password = ref('');
 const { handleSubmit, resetForm } = useForm();
 
 const { value: email, errorMessage: emailError } = useField(

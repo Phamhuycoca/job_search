@@ -70,6 +70,11 @@ const routes: Array<RouteRecordRaw> = [
         name: PageName.NEWS_PAGE,
         component: ()=>import('../layouts/Employers/News/NewsIndex.vue'),
       },
+      {
+        path: 'account',
+        name: PageName.EMPLOYERS_ACCOUNT_PAGE,
+        component: ()=>import('../layouts/Employers/Account/AccountIndex.vue'),
+      },
     ]
   },
 

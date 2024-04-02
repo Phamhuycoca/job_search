@@ -22,6 +22,7 @@ export enum PageName {
     EMPLOYERS_PAGE = 'employers_page',
     NEWS_PAGE = 'news_page',
     EMPLOYERS_DASHBOARD_PAGE = 'employers_dashboard_page',
+    EMPLOYERS_ACCOUNT_PAGE = 'employers_account_page',
 
   }
   

@@ -141,7 +141,6 @@ const onRemoveImage = () => {
     file.value = null;
 };
 const saveData = async () => {
-    console.log(imageDelete.value);
     const formData = new FormData();
     formData.append("fullName", fullName.value);
     formData.append("email", email.value);

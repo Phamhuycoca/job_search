@@ -34,7 +34,7 @@
                     </el-sub-menu>
                 </el-menu>
                 <el-menu style="position: absolute; bottom: 0;width: 100%;z-index: 1000;" background-color="#b1b3b8"
-                    text-color="black" active-text-color="#eebe77">
+                    text-color="black" active-text-color="#eebe77" router="true">
                     <el-sub-menu index="1">
                         <template #title>
                             <el-avatar
@@ -43,10 +43,10 @@
                                 Thông tin tài khoản
                             </span>
                         </template>
-                        <el-menu-item index="1-1">
+                        <el-menu-item index="1-1" route="/employers/account">
                             Thông tin tài khoản
                         </el-menu-item>
-                        <el-menu-item index="1-2">Đăng xuất</el-menu-item>
+                        <el-menu-item index="1-2" @click="Logout">Đăng xuất</el-menu-item>
                     </el-sub-menu>
                 </el-menu>
             </el-scrollbar>
@@ -144,7 +144,9 @@ const handleOpen = (key: string, keyPath: string[]) => {
 const handleClose = (key: string, keyPath: string[]) => {
     console.log(key, keyPath);
 };
-
+const Logout=()=>{
+    alert('Logout');
+}
 </script>
 <style scoped>
 .el-card__header {
