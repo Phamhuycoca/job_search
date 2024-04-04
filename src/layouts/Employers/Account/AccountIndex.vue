@@ -5,11 +5,6 @@
       <el-col :span="6">
         <el-card class="h-auto">
           <div class="w-full flex justify-center mb-5">
-            <!-- <el-image
-              :src="logo"
-              class="w-60 h-60 rounded-full border border-inherit"
-              fit="contain"
-            /> -->
             <img v-if="selectedImage" :src="selectedImage" alt="Selected Image"
               class="w-60 h-60 rounded-full border border-inherit" />
             <label class="custum-file-upload" for="file" v-if="selectedImage === null">
@@ -32,7 +27,8 @@
             </label>
           </div>
           <div class="w-full flex justify-center h-1/6">
-            <el-button color="red" v-if="selectedImage" :disabled="inputLook"  :icon="Edit" plain @click="onRemoveImage">Xoá ảnh</el-button>
+            <el-button color="red" v-if="selectedImage" :disabled="inputLook" :icon="Edit" plain
+              @click="onRemoveImage">Xoá ảnh</el-button>
           </div>
         </el-card>
       </el-col>
@@ -225,4 +221,3 @@ onMounted(() => {
   display: none;
 }
 </style>
->
