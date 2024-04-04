@@ -13,6 +13,7 @@ export const useAuthService=()=>{
             localStorageAuthService.setAccessTokenExpiredAt(res.data?.accessTokenExpiration);
             localStorageAuthService.setRefeshToken(res.data?.refreshToken);
             localStorageAuthService.setRefeshTokenExpiredAt(res.data?.refreshTokenExpiration);
+            localStorageAuthService.setRole(res.data?.role);
         } else {
             if (res.errors !== undefined) {
                 showErrors(res.errors);
@@ -28,6 +29,8 @@ export const useAuthService=()=>{
             localStorageAuthService.setAccessTokenExpiredAt(res.data?.accessTokenExpiration);
             localStorageAuthService.setRefeshToken(res.data?.refreshToken);
             localStorageAuthService.setRefeshTokenExpiredAt(res.data?.refreshTokenExpiration);
+            localStorageAuthService.setRole(res.data?.role);
+            
         } else {
             if (res.errors !== undefined) {
                 showErrors(res.errors);

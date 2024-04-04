@@ -10,6 +10,7 @@ export type ILoginResponse = {
   accessTokenExpiration: number;
   refreshToken: string;
   refreshTokenExpiration:number;
+  role:string;
 };
 
 

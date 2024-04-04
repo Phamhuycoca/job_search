@@ -139,9 +139,9 @@ export enum PageName {
   export const DEFAULT_FIRST_PAGE = 1;
   
   export enum Role {
-    USER = 'User',
+    EMPLOYER = 'Employer',
     ADMIN = 'Admin',
-    MASTER = 'MASTER',
+    JOB_SEEKER = 'Job_seeker',
   }
   
   export const DaysOfWeek = {

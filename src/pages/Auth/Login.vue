@@ -67,6 +67,7 @@ import { ref } from 'vue'
 import { useAuthService } from '../Auth/Services/auth.service'
 const { login } = useAuthService();
 import type { IBodyLogin } from './Services/interfaces';
+import router from '../../router';
 // const email = ref('');
 // const password = ref('');
 const { handleSubmit, resetForm } = useForm();
@@ -87,6 +88,9 @@ const { value: password, errorMessage: passwordError } = useField(
 );
 const submitLogin = handleSubmit(async values => {
     const res = await login({ email: values.email, password: values.password });
+    if (res.success) {
+        router.push('/')
+    }
 })
 
 </script>

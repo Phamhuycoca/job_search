@@ -2,7 +2,10 @@
   <div>
     <el-container class="h-max-[1000px]">
       <el-header class="sticky top-0 flex items-center border bg-white z-[1000]" style="padding: 0px!important;">
-        <el-image :src="logo" class="w-40 h-[50px]" fit="contain"></el-image>
+        <router-link to="/">
+          <el-image :src="logo" class="w-40 h-[50px] cursor-pointer" fit="contain">
+          </el-image>
+        </router-link>
         <div class="w-full h-full flex justify-between items-center">
           <el-menu ellipsis mode="horizontal" :popper-offset="16" class="w-full">
             <el-menu-item index="1">Việc làm</el-menu-item>
@@ -17,26 +20,31 @@
             </el-sub-menu>
           </el-menu>
           <div>
-            <div class="w-[340px] flex justify-between items-center">
-              <el-input style="width: 240px" size="large" placeholder="Search" :suffix-icon="Search" />
-              <!-- <el-badge :value="3" circle>
-                <i class="ri-notification-3-line text-xl"></i>
-              </el-badge> -->
-              <el-badge circle class="cursor-pointer">
+            <div v-if="isAuth" class="w-[80px] flex justify-between items-center">
+              <el-badge :value="3" circle>
                 <i class="ri-notification-3-line text-xl"></i>
               </el-badge>
-              <!-- <el-dropdown trigger="click">
+              <el-dropdown trigger="click">
                 <el-avatar
                   src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"></el-avatar>
                 <template #dropdown>
                   <el-dropdown-menu class="w-60">
-                    <el-dropdown-item>Thông tin tài khoản</el-dropdown-item>
+                    <router-link to="/job_seeker">
+                      <el-dropdown-item>
+                        Thông tin tài khoản
+                      </el-dropdown-item>
+                    </router-link>
                     <el-dropdown-item>Đổi mật khẩu</el-dropdown-item>
                     <el-dropdown-item>Quản lý hồ sơ/CV</el-dropdown-item>
                     <el-dropdown-item>Đăng xuất</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
-              </el-dropdown> -->
+              </el-dropdown>
+            </div>
+            <div v-else class="w-[80px] flex justify-between items-center">
+              <el-badge circle class="cursor-pointer">
+                <i class="ri-notification-3-line text-xl"></i>
+              </el-badge>
               <el-dropdown trigger="click">
                 <el-icon class="mr-4">
                   <i class="ri-account-circle-line text-2xl"></i>
@@ -60,10 +68,12 @@
       </el-header>
 
       <el-main class=" " style="padding: 0px!important;">
-        <Carousel />
-        <Main class="mt-10 mb-10" />
-        <Slider />
-        <!-- <RouterView /> -->
+        <div v-if="$router.currentRoute.value.path === '/'">
+          <Carousel />
+          <Main class="mt-10 mb-10" />
+          <Slider />
+        </div>
+        <RouterView v-else />
       </el-main>
     </el-container>
     <Footer />
@@ -77,6 +87,19 @@ import Slider from '../components/Web/Slider.vue'
 import Footer from '../components/Web/Footer.vue';
 import logo from "../assets/image-png/logo.png"
 import { Search } from "@element-plus/icons-vue";
+import { onMounted, ref } from 'vue';
+import localStorageAuthService from '@/common/storages/authStorage';
+const isAuth = ref(false);
+const role = localStorageAuthService.getRole();
+
+const loadData = () => {
+  if (role !== '') {
+    isAuth.value = true;
+  }
+}
+onMounted(() => {
+  loadData();
+})
 </script>
 
 <style scoped></style>

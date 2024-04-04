@@ -13,7 +13,6 @@ const BUFFER_TIME = 60 * 1000; // 60s
     LANGUAGE = 'LANGUAGE',
     ACCESS_TOKEN_EXPIRED_AT = 'ACCESS_TOKEN_EXPIRED_AT',
     REFRESH_TOKEN_EXPIRED_AT = 'REFRESH_TOKEN_EXPIRED_AT',
-    AVATAR='AVATAR'
   }
 class LocalStorageAuthService {
   // ACCESS_TOKEN
@@ -64,13 +63,6 @@ class LocalStorageAuthService {
 
 
 
- setAvatar(avatar: string): void {
-    storage.setLocalStorage(AUTH_SERVICE_KEY.AVATAR, avatar);
-  }
-  getAvatar(): string {
-    return storage.getLocalStorage(AUTH_SERVICE_KEY.AVATAR);
-  }
-
 
   // LANGUAGE
   setLanguage(value: SupportLanguage): void {
@@ -95,18 +87,16 @@ class LocalStorageAuthService {
   getLoginUser(): IUserProfile {
     return storage.getObjectFromKey(AUTH_SERVICE_KEY.USER) as IUserProfile;
   }
-  setUserRole( role: string):void{
+  setRole( role: string):void{
       storage.setLocalStorage(AUTH_SERVICE_KEY.ROLE, role);
   }
-    resetUserRole():void{
+  resetRole():void{
   storage.setLocalStorage(AUTH_SERVICE_KEY.ROLE,'')
   }
 
-  // getUserRole() {
-  //   return storage.getObjectFromKey(AUTH_SERVICE_KEY.ROLE) as IUserRole;
-  // }
-  getUserRole() {
-    return storage.getLocalStorage(AUTH_SERVICE_KEY.ROLE) as IUserRole;
+
+  getRole() {
+    return storage.getLocalStorage(AUTH_SERVICE_KEY.ROLE);
   }
   getHeader() {
     return {
@@ -125,12 +115,9 @@ class LocalStorageAuthService {
   resetAll(): void {
     this.resetAccessToken();
     this.resetAccessTokenExpiredAt();
-    // this.setLoginUser(null, null);
-    this.resetUserRole();
     storage.setLocalStorage(AUTH_SERVICE_KEY.REFRESH_TOKEN,'');
     storage.setLocalStorage(AUTH_SERVICE_KEY.REFRESH_TOKEN_EXPIRED_AT,'');
-    storage.setLocalStorage(AUTH_SERVICE_KEY.USER, '');
-    storage.setLocalStorage(AUTH_SERVICE_KEY.AVATAR,'');
+    storage.setLocalStorage(AUTH_SERVICE_KEY.ROLE,'')
   }
 }
 

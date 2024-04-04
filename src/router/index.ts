@@ -2,21 +2,26 @@ import { createRouter, createWebHistory, type NavigationGuardWithThis, type Rout
 import HomeView from '../views/HomeView.vue'
 import VueRouteMiddleware, { GLOBAL_MIDDLEWARE_NAME } from './middleware';
 import authMiddleware from './authMiddleware';
-import { PageName } from '@/common/constants';
+import { PageName, Role } from '@/common/constants';
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '',
+    path: '/',
     name: 'home',
     component: HomeView,
     meta:{
-      public:true
+      public:true,
     },
     children:[
+      // {
+      //   path: '',
+      //   name: 'index',
+      //   component: ()=>import('../layouts/Home/Index.vue'),
+      // },
       {
-        path: 'index',
-        name: 'index',
-        component: ()=>import('../layouts/Home/Index.vue'),
-      },
+        path:'/job_seeker',
+        name:'job_seeker',
+        component:()=>import('../layouts/Home/Index.vue')
+      }
     ]
   },
   {
@@ -24,7 +29,7 @@ const routes: Array<RouteRecordRaw> = [
     name: PageName.LOGIN_PAGE,
     component: ()=>import('../pages/Auth/Login.vue'),
     meta:{
-      public:true
+      public:true,
     }
   },
   {
@@ -32,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
     name: PageName.REGISTER_PAGE,
     component: ()=>import('../pages/Auth/Register.vue'),
     meta:{
-      public:true
+      public:true,
     }
   },
    {
@@ -40,7 +45,7 @@ const routes: Array<RouteRecordRaw> = [
     name: PageName.LOGINBYEMPLOYERS_PAGE,
     component: ()=>import('../pages/Auth/LoginByEmployers.vue'),
     meta:{
-      public:true
+      public:true,
     }
   },
   {
@@ -48,7 +53,7 @@ const routes: Array<RouteRecordRaw> = [
     name: PageName.REGISTERBYEMPLOYERS_PAGE,
     component: ()=>import('../pages/Auth/RegisterByEmployers.vue'),
     meta:{
-      public:true
+      public:true,
     }
   },
   {
@@ -57,7 +62,8 @@ const routes: Array<RouteRecordRaw> = [
     name: PageName.EMPLOYERS_PAGE,
     component: ()=>import('../layouts/Employers/EmployersIndex.vue'),
     meta:{
-      public:true
+      public:false,
+      role:Role.EMPLOYER
     },
     children:[
       {
@@ -90,10 +96,11 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/admin',
     redirect:'/admin/dashboard',
-    name: 'admin',
+    name: PageName.ADMIN,
     component: ()=> import('../views/AdminView.vue'),
     meta:{
-      public:true
+      public:false,
+      role:Role.ADMIN
     },
     children:[
       {
