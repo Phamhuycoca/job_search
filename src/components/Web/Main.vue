@@ -112,9 +112,13 @@
                   </div>
                 </el-col>
                 <el-col :span="4" class="w-full max-h-full relative">
-                  <i
-                    class="ri-heart-line absolute right-12 text-3xl cursor-pointer"
-                  ></i>
+                 <div class="flex justify-center items-center text-sm">
+                    <i
+      :class="{ 'ri-heart-line': !liked, 'ri-heart-fill text-red-500': liked }"
+      class="text-3xl cursor-pointer"
+      @click="toggleLike"
+    ></i>Like
+                 </div>
                   <el-button class="absolute bottom-0" type="success" plain @click="OkSave"
                     >Ứng tuyển</el-button
                   >
@@ -145,9 +149,9 @@ import { DEFAULT_COMMON_LIST_QUERY_BY_HOME } from "@/common/constants";
 import { showSuccessNotification, showErrorNotification } from "@/common/helpers";
 import {useAuthService} from '../../pages/Auth/Services/auth.service'
 import { useLoadingStore } from "@/store/loading.store";
+const {isAuthenticated}=useAuthService();
 const loading = useLoadingStore();
 
-const {isAuthenticated}=useAuthService();
 const { fetchJobHome, searchJobHome } = useJobHome();
 const itemsListCitys = ref<any | null>([]);
 const itemsListSalarys = ref<any | null>([]);
@@ -164,7 +168,7 @@ const formofworkId = ref("");
 const totalItems = ref<Number | undefined>(0);
 let page = ref(1);
 let lengthPage = ref<Number | undefined>(100);
-
+const liked=ref(true);
 const loadData = async () => {
   loading.showLoading(true);
   const itemcitys = await cityApi.itemsList();
@@ -182,6 +186,9 @@ const loadData = async () => {
   loading.showLoading(false);
 
 };
+const toggleLike=()=>{
+    liked.value = !liked.value;
+}
 const searchData = async () => {
     loading.showLoading(true);
   DEFAULT_COMMON_LIST_QUERY_BY_HOME.keyword = search.value;

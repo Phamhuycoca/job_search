@@ -20,7 +20,7 @@
             </el-sub-menu>
           </el-menu>
           <div>
-            <div v-if="isAuth" class="w-[80px] flex justify-between items-center">
+            <div v-if="isAuthenticated" class="w-[80px] flex justify-between items-center">
               <el-badge :value="3" circle>
                 <i class="ri-notification-3-line text-xl"></i>
               </el-badge>
@@ -88,14 +88,10 @@ import Footer from '../components/Web/Footer.vue';
 import logo from "../assets/image-png/logo.png"
 import { Search } from "@element-plus/icons-vue";
 import { onMounted, ref } from 'vue';
-import localStorageAuthService from '@/common/storages/authStorage';
-const isAuth = ref(false);
-const role = localStorageAuthService.getRole();
+const {isAuthenticated}=useAuthService();
+import { useAuthService } from '../pages/Auth/Services/auth.service';
 
 const loadData = () => {
-  if (role !== '') {
-    isAuth.value = true;
-  }
 }
 onMounted(() => {
   loadData();
