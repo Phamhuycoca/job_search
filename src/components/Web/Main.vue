@@ -74,7 +74,7 @@
             @change="searchData()"
             v-model="search"
             size="large"
-            placeholder="Nhập thông tin tìm kiếm"
+            placeholder="Nhập thông tin tìm kiếm rồi ấn Enter"
             :suffix-icon="Search"
           />
           <el-button class="ml-4" size="large" @click="refeshJobs"
@@ -115,7 +115,7 @@
                   <i
                     class="ri-heart-line absolute right-12 text-3xl cursor-pointer"
                   ></i>
-                  <el-button class="absolute bottom-0" type="success"
+                  <el-button class="absolute bottom-0" type="success" plain @click="OkSave"
                     >Ứng tuyển</el-button
                   >
                 </el-col>
@@ -123,7 +123,7 @@
             </el-card>
           </el-col>
         </el-row>
-        <div class="float-right mt-4">
+        <div class="float-end mt-4">
             <el-pagination background layout="prev, pager, next" :total="totalItems" v-model="page" prev-text
                 v-model:current-page="page" />
   </div>
@@ -142,6 +142,12 @@ import { professionApi } from "@/layouts/Admin/Profession/Services/profession.ap
 import { workexperiencekApi } from "@/layouts/Admin/Workexperience/Services/workexperience.api";
 import { useJobHome } from "../../layouts/Home/Services/home.service";
 import { DEFAULT_COMMON_LIST_QUERY_BY_HOME } from "@/common/constants";
+import { showSuccessNotification, showErrorNotification } from "@/common/helpers";
+import {useAuthService} from '../../pages/Auth/Services/auth.service'
+import { useLoadingStore } from "@/store/loading.store";
+const loading = useLoadingStore();
+
+const {isAuthenticated}=useAuthService();
 const { fetchJobHome, searchJobHome } = useJobHome();
 const itemsListCitys = ref<any | null>([]);
 const itemsListSalarys = ref<any | null>([]);
@@ -157,9 +163,10 @@ const workexperienceId = ref("");
 const formofworkId = ref("");
 const totalItems = ref<Number | undefined>(0);
 let page = ref(1);
-    let lengthPage = ref<Number | undefined>(100);
+let lengthPage = ref<Number | undefined>(100);
 
 const loadData = async () => {
+  loading.showLoading(true);
   const itemcitys = await cityApi.itemsList();
   itemsListCitys.value = itemcitys.data;
   const itemsalarys = await salaryApi.itemsList();
@@ -172,17 +179,28 @@ const loadData = async () => {
   itemsListWorkexperienceks.value = itemworkexperienceks.data;
   // const resjobdata = await fetchJobHome();
   // jobDatas.value = resjobdata?.items;
+  loading.showLoading(false);
+
 };
 const searchData = async () => {
+    loading.showLoading(true);
   DEFAULT_COMMON_LIST_QUERY_BY_HOME.keyword = search.value;
   DEFAULT_COMMON_LIST_QUERY_BY_HOME.page = 1;
   const data = await searchJobHome();
   jobDatas.value = data?.items;
   totalItems.value = data?.totalItems;
   lengthPage.value = Math.ceil(data?.totalItems / 10) * 10;
+  loading.showLoading(false);
+
 
 };
-
+const OkSave=()=>{
+ if(isAuthenticated.value)   {
+     showSuccessNotification('Ok');
+}else{
+    showErrorNotification('Hãy đăng nhập');
+ }
+}
 
 const refeshJobs = async () => {
   DEFAULT_COMMON_LIST_QUERY_BY_HOME.cityId = "";
@@ -196,12 +214,16 @@ const refeshJobs = async () => {
   formofworkId.value = "";
   professionId.value = "";
   workexperienceId.value = "";
+
 };
 const loadJobs = async () => {
+    loading.showLoading(true);
+
   const data = await fetchJobHome();
   jobDatas.value = data?.items;
   totalItems.value = data?.totalItems;
   lengthPage.value = Math.ceil(data?.totalItems / 10) * 10;
+  loading.showLoading(false);
 
 };
 watch(cityId, (newval) => {
