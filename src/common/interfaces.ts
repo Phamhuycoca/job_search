@@ -35,6 +35,16 @@ export interface ICommonListQuery {
   limit?: number;
   keyword?: string;
 }
+export interface ICommonListQueryByHome{
+  page?: number;
+  limit?: number;
+  keyword?: string;
+  cityId?:string;
+  salaryId?:string;
+  professionId?:string;
+  workexperienceId?:string;
+  formofworkId?:string;
+}
 export interface ItemsList{
   success:boolean;
   data?:[]

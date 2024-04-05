@@ -160,8 +160,6 @@ const saveData = async () => {
   formData.append("employersId", employersId.value);
   if (file.value !== null) {
     formData.append("file", file.value);
-  } else {
-    formData.append("file", "");
   }
   const res = await updateEmployers(formData, employersId.value);
   if (res.success) {

@@ -87,7 +87,8 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="CV cá nhân">
-                                    <input type="file" v-if="selectedCv === null" @change="onFileChangedCV" />
+                                    <input type="file" accept=".pdf" v-if="selectedCv === null"
+                                        @change="onFileChangedCV" />
                                     <div v-else>
                                         <!-- <embed :src="selectedCv" type="application/pdf" width="100%" height="500px" /> -->
                                         <el-button type="primary" plain @click="viewCV">
@@ -203,7 +204,6 @@ const loadData = async () => {
         selectedCv.value = res.data.job_Cv;
     }
     if (res.data.avatar !== "string") {
-        console.log("a");
         selectedImage.value = res.data.avatar;
     }
     job_SeekerId.value = res.data.job_SeekerId;
@@ -223,13 +223,9 @@ const saveData = async () => {
     formData.append("academic_Level", academic_Level.value);
     if (file.value !== null) {
         formData.append("avt", file.value);
-    } else {
-        formData.append("avt", "");
     }
     if (filecv.value !== null) {
         formData.append("cv", filecv.value);
-    } else {
-        formData.append("cv", "");
     }
     const res = await updateJobSeeker(formData, job_SeekerId.value);
     if (res.success) {

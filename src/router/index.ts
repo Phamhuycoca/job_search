@@ -20,7 +20,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path:'/job_seeker',
         name:'job_seeker',
-        component:()=>import('../layouts/Home/Index.vue')
+        component:()=>import('../layouts/Home/Index.vue'),
+        meta:{
+          public:false,
+        },
       }
     ]
   },

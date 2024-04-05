@@ -1,110 +1,245 @@
 <template>
-    <div>
-        <el-row>
-            <el-col :span="24" class="pl-2 pr-2">
-                <div style="border-radius: 5px">
-                    <div class="flex justify-evenly items-center">
-                        <el-select placeholder="Chọn theo khu vực" style="width: 240px">
-                            <el-option v-for="item in itemsListCitys" :key="item.cityId" :value="item.cityId"
-                                :label="item.cityName" />
-                        </el-select>
-                        <el-select placeholder="Chọn mức lương" style="width: 240px">
-                            <el-option v-for="item in itemsListSalarys" :key="item.salaryId" :value="item.salaryId"
-                                :label="item.salaryPrice" />
-                        </el-select>
-                        <el-select placeholder="Chọn theo nghành" style="width: 240px">
-                            <el-option v-for="item in itemsListProfessions" :key="item.professionId"
-                                :value="item.professionId" :label="item.professionName" />
-                        </el-select>
-                        <el-select placeholder="Chọn theo kinh nghiệm làm việc" style="width: 240px">
-                            <el-option v-for="item in itemsListWorkexperienceks" :key="item.workexperienceId"
-                                :value="item.workexperienceId" :label="item.workexperienceName" />
-                        </el-select>
-                        <el-select placeholder="Chọn theo hình thức làm việc" style="width: 240px">
-                            <el-option v-for="item in itemsListFormofworks" :key="item.formofworkId"
-                                :value="item.formofworkId" :label="item.formofworkName" />
-                        </el-select>
-                    </div>
-                </div>
-            </el-col>
-            <el-col :span="24" class="pl-2 pr-2">
-                <el-row class="flex items-center justify-center m-10">
-                    <el-input style="width: 340px" size="large" placeholder="Nhập thông tin tìm kiếm"
-                        :suffix-icon="Search" />
-                    <el-button class="ml-4" size="large">Tìm kiếm</el-button>
-                </el-row>
-                <el-row :gutter="15">
-                    <el-col :span="12" v-for="item in 10" :key="item" class="mt-4">
-                        <el-card shadow="hover" class="h-[300px]">
-                            a
-                        </el-card>
-                    </el-col>
-                </el-row>
-                <div class="text-center mt-4">
-                    <nav aria-label="Page navigation">
-                        <ul class="inline-flex space-x-2">
-                            <li><button
-                                    class="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100">
-                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                        <path
-                                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                            clip-rule="evenodd" fill-rule="evenodd"></path>
-                                    </svg></button>
-                            </li>
-                            <li><button
-                                    class="w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100">1</button>
-                            </li>
-                            <li><button
-                                    class="w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100">2</button>
-                            </li>
-                            <li><button
-                                    class="w-10 h-10 text-white transition-colors duration-150 bg-indigo-600 border border-r-0 border-indigo-600 rounded-full focus:shadow-outline">3</button>
-                            </li>
-                            <li><button
-                                    class="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 bg-white rounded-full focus:shadow-outline hover:bg-indigo-100">
-                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                        <path
-                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                            clip-rule="evenodd" fill-rule="evenodd"></path>
-                                    </svg></button>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </el-col>
+  <div>
+    <el-row>
+      <el-col :span="24" class="pl-2 pr-2">
+        <div style="border-radius: 5px">
+          <div class="flex justify-evenly items-center">
+            <el-select
+              placeholder="Chọn theo khu vực"
+              style="width: 240px"
+              v-model="cityId"
+            >
+              <el-option
+                v-for="item in itemsListCitys"
+                :key="item.cityId"
+                :value="item.cityId"
+                :label="item.cityName"
+              />
+            </el-select>
+            <el-select
+              placeholder="Chọn mức lương"
+              style="width: 240px"
+              v-model="salaryId"
+            >
+              <el-option
+                v-for="item in itemsListSalarys"
+                :key="item.salaryId"
+                :value="item.salaryId"
+                :label="item.salaryPrice"
+              />
+            </el-select>
+            <el-select
+              placeholder="Chọn theo nghành"
+              style="width: 240px"
+              v-model="professionId"
+            >
+              <el-option
+                v-for="item in itemsListProfessions"
+                :key="item.professionId"
+                :value="item.professionId"
+                :label="item.professionName"
+              />
+            </el-select>
+            <el-select
+              placeholder="Chọn theo kinh nghiệm làm việc"
+              style="width: 240px"
+              v-model="workexperienceId"
+            >
+              <el-option
+                v-for="item in itemsListWorkexperienceks"
+                :key="item.workexperienceId"
+                :value="item.workexperienceId"
+                :label="item.workexperienceName"
+              />
+            </el-select>
+            <el-select
+              placeholder="Chọn theo hình thức làm việc"
+              style="width: 240px"
+              v-model="formofworkId"
+            >
+              <el-option
+                v-for="item in itemsListFormofworks"
+                :key="item.formofworkId"
+                :value="item.formofworkId"
+                :label="item.formofworkName"
+              />
+            </el-select>
+          </div>
+        </div>
+      </el-col>
+      <el-col :span="24" class="pl-2 pr-2">
+        <el-row class="flex items-center justify-center m-10">
+          <el-input
+            style="width: 340px"
+            @change="searchData()"
+            v-model="search"
+            size="large"
+            placeholder="Nhập thông tin tìm kiếm"
+            :suffix-icon="Search"
+          />
+          <el-button class="ml-4" size="large" @click="refeshJobs"
+            >Làm mới</el-button
+          >
         </el-row>
-    </div>
+        <el-row :gutter="15">
+          <el-col :span="12" v-for="item in jobDatas" :key="item" class="mt-4">
+            <el-card shadow="hover" class="max-h-[300px]">
+              <el-row :gutter="20">
+                <el-col :span="4">
+                  <el-image
+                    style="height: 100px; width: 100px"
+                    fit="cover"
+                    :src="item.companyLogo"
+                  />
+                </el-col>
+                <el-col :span="16" class="w-full max-h-full">
+                  <div class="flex flex-col h-full">
+                    <div>
+                      {{ item.jobName }}
+                    </div>
+                    <div class="uppercase">
+                      {{ item.companyName }}
+                    </div>
+                    <div class="flex">
+                      <div class="mr-2 bg-slate-100 p-1 rounded">
+                        {{ item.salaryPrice }}vnđ
+                      </div>
+                      -
+                      <div class="ml-2 bg-slate-100 p-1 rounded">
+                        {{ item.cityName }}
+                      </div>
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :span="4" class="w-full max-h-full relative">
+                  <i
+                    class="ri-heart-line absolute right-12 text-3xl cursor-pointer"
+                  ></i>
+                  <el-button class="absolute bottom-0" type="success"
+                    >Ứng tuyển</el-button
+                  >
+                </el-col>
+              </el-row>
+            </el-card>
+          </el-col>
+        </el-row>
+        <div class="float-right mt-4">
+            <el-pagination background layout="prev, pager, next" :total="totalItems" v-model="page" prev-text
+                v-model:current-page="page" />
+  </div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { Search } from "@element-plus/icons-vue";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import { cityApi } from "@/layouts/Admin/City/Services/city.api";
 import { salaryApi } from "@/layouts/Admin/Salary/Services/salary.api";
 import { formofworkApi } from "@/layouts/Admin/Formofwork/Services/formofwork.api";
 import { professionApi } from "@/layouts/Admin/Profession/Services/profession.api";
 import { workexperiencekApi } from "@/layouts/Admin/Workexperience/Services/workexperience.api";
-
+import { useJobHome } from "../../layouts/Home/Services/home.service";
+import { DEFAULT_COMMON_LIST_QUERY_BY_HOME } from "@/common/constants";
+const { fetchJobHome, searchJobHome } = useJobHome();
 const itemsListCitys = ref<any | null>([]);
 const itemsListSalarys = ref<any | null>([]);
 const itemsListFormofworks = ref<any | null>([]);
 const itemsListProfessions = ref<any | null>([]);
 const itemsListWorkexperienceks = ref<any | null>([]);
+const jobDatas = ref<any | undefined>([]);
+const search = ref("");
+const cityId = ref("");
+const salaryId = ref("");
+const professionId = ref("");
+const workexperienceId = ref("");
+const formofworkId = ref("");
+const totalItems = ref<Number | undefined>(0);
+let page = ref(1);
+    let lengthPage = ref<Number | undefined>(100);
+
 const loadData = async () => {
-    const itemcitys = await cityApi.itemsList();
-    itemsListCitys.value = itemcitys.data;
-    const itemsalarys = await salaryApi.itemsList();
-    itemsListSalarys.value = itemsalarys.data;
-    const itemformofworks = await formofworkApi.itemsList();
-    itemsListFormofworks.value = itemformofworks.data;
-    const itemprofessions = await professionApi.itemsList();
-    itemsListProfessions.value = itemprofessions.data;
-    const itemworkexperienceks = await workexperiencekApi.itemsList();
-    itemsListWorkexperienceks.value = itemworkexperienceks.data;
+  const itemcitys = await cityApi.itemsList();
+  itemsListCitys.value = itemcitys.data;
+  const itemsalarys = await salaryApi.itemsList();
+  itemsListSalarys.value = itemsalarys.data;
+  const itemformofworks = await formofworkApi.itemsList();
+  itemsListFormofworks.value = itemformofworks.data;
+  const itemprofessions = await professionApi.itemsList();
+  itemsListProfessions.value = itemprofessions.data;
+  const itemworkexperienceks = await workexperiencekApi.itemsList();
+  itemsListWorkexperienceks.value = itemworkexperienceks.data;
+  // const resjobdata = await fetchJobHome();
+  // jobDatas.value = resjobdata?.items;
 };
+const searchData = async () => {
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.keyword = search.value;
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.page = 1;
+  const data = await searchJobHome();
+  jobDatas.value = data?.items;
+  totalItems.value = data?.totalItems;
+  lengthPage.value = Math.ceil(data?.totalItems / 10) * 10;
+
+};
+
+
+const refeshJobs = async () => {
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.cityId = "";
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.salaryId = "";
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.formofworkId = "";
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.professionId = "";
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.workexperienceId = "";
+  loadJobs();
+  cityId.value = "";
+  salaryId.value = "";
+  formofworkId.value = "";
+  professionId.value = "";
+  workexperienceId.value = "";
+};
+const loadJobs = async () => {
+  const data = await fetchJobHome();
+  jobDatas.value = data?.items;
+  totalItems.value = data?.totalItems;
+  lengthPage.value = Math.ceil(data?.totalItems / 10) * 10;
+
+};
+watch(cityId, (newval) => {
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.cityId = newval;
+  loadJobs();
+});
+watch(formofworkId, (newval) => {
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.formofworkId = newval;
+  loadJobs();
+});
+watch(professionId, (newval) => {
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.professionId = newval;
+  loadJobs();
+});
+watch(workexperienceId, (newval) => {
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.workexperienceId = newval;
+  loadJobs();
+});
+watch(salaryId, (newval) => {
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.salaryId = newval;
+  loadJobs();
+});
+watch(search, (newval, oldval) => {
+  if (newval === "" && oldval !== "") {
+      DEFAULT_COMMON_LIST_QUERY_BY_HOME.page = 1;
+      loadJobs();
+  }
+});
+watch(page, (newVal, oldval) => {
+    DEFAULT_COMMON_LIST_QUERY_BY_HOME.page = newVal;
+    loadJobs();
+});
+
+
 onMounted(() => {
-    loadData();
-})
+  loadData();
+  loadJobs();
+});
 </script>
 
 <style></style>

@@ -1,4 +1,4 @@
-import type { IBodyResponse, ICommonListQuery, IGetListResponse } from '@/common/interfaces';
+import type { IBodyResponse, ICommonListQuery, ICommonListQueryByHome, IGetListResponse } from '@/common/interfaces';
 import localStorageAuthService from '@/common/storages/authStorage';
 import { type AxiosInstance } from 'axios';
 
@@ -44,7 +44,14 @@ export class ApiService {
             }
         );
     }
-
+    _getListByHome<T>(
+        queryString: ICommonListQueryByHome,
+    ): Promise<IBodyResponse<any>> {
+        return this.client.get(`${this.baseUrl}`, {
+            params: queryString
+            }
+        );
+    }
     _getDetail<R>(id: number | string): Promise<R> {
         return this.client.get<R, R>(this.detailUrl + '/' + id,
         );

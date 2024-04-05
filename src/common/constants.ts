@@ -175,7 +175,16 @@ export enum PageName {
     keyword: '',
     limit: DEFAULT_LIMIT_FOR_PAGINATION,
   };
-
+  export const DEFAULT_COMMON_LIST_QUERY_BY_HOME = {
+    page: DEFAULT_FIRST_PAGE,
+    keyword: '',
+    limit: DEFAULT_LIMIT_FOR_PAGINATION,
+    cityId:'',
+    salaryId:'',
+    professionId:'',
+    workexperienceId:'',
+    formofworkId:'',
+  };
   export const optionsSelect = [
     {
         value: '10',
