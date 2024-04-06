@@ -4,103 +4,54 @@
       <el-col :span="24" class="pl-2 pr-2">
         <div style="border-radius: 5px">
           <div class="flex justify-evenly items-center">
-            <el-select
-              placeholder="Chọn theo khu vực"
-              style="width: 240px"
-              v-model="cityId"
-            >
-              <el-option
-                v-for="item in itemsListCitys"
-                :key="item.cityId"
-                :value="item.cityId"
-                :label="item.cityName"
-              />
+            <el-select placeholder="Chọn theo khu vực" style="width: 240px" v-model="cityId">
+              <el-option v-for="item in itemsListCitys" :key="item.cityId" :value="item.cityId"
+                :label="item.cityName" />
             </el-select>
-            <el-select
-              placeholder="Chọn mức lương"
-              style="width: 240px"
-              v-model="salaryId"
-            >
-              <el-option
-                v-for="item in itemsListSalarys"
-                :key="item.salaryId"
-                :value="item.salaryId"
-                :label="item.salaryPrice"
-              />
+            <el-select placeholder="Chọn mức lương" style="width: 240px" v-model="salaryId">
+              <el-option v-for="item in itemsListSalarys" :key="item.salaryId" :value="item.salaryId"
+                :label="item.salaryPrice" />
             </el-select>
-            <el-select
-              placeholder="Chọn theo nghành"
-              style="width: 240px"
-              v-model="professionId"
-            >
-              <el-option
-                v-for="item in itemsListProfessions"
-                :key="item.professionId"
-                :value="item.professionId"
-                :label="item.professionName"
-              />
+            <el-select placeholder="Chọn theo nghành" style="width: 240px" v-model="professionId">
+              <el-option v-for="item in itemsListProfessions" :key="item.professionId" :value="item.professionId"
+                :label="item.professionName" />
             </el-select>
-            <el-select
-              placeholder="Chọn theo kinh nghiệm làm việc"
-              style="width: 240px"
-              v-model="workexperienceId"
-            >
-              <el-option
-                v-for="item in itemsListWorkexperienceks"
-                :key="item.workexperienceId"
-                :value="item.workexperienceId"
-                :label="item.workexperienceName"
-              />
+            <el-select placeholder="Chọn theo kinh nghiệm làm việc" style="width: 240px" v-model="workexperienceId">
+              <el-option v-for="item in itemsListWorkexperienceks" :key="item.workexperienceId"
+                :value="item.workexperienceId" :label="item.workexperienceName" />
             </el-select>
-            <el-select
-              placeholder="Chọn theo hình thức làm việc"
-              style="width: 240px"
-              v-model="formofworkId"
-            >
-              <el-option
-                v-for="item in itemsListFormofworks"
-                :key="item.formofworkId"
-                :value="item.formofworkId"
-                :label="item.formofworkName"
-              />
+            <el-select placeholder="Chọn theo hình thức làm việc" style="width: 240px" v-model="formofworkId">
+              <el-option v-for="item in itemsListFormofworks" :key="item.formofworkId" :value="item.formofworkId"
+                :label="item.formofworkName" />
             </el-select>
           </div>
         </div>
       </el-col>
       <el-col :span="24" class="pl-2 pr-2">
         <el-row class="flex items-center justify-center m-10">
-          <el-input
-            style="width: 340px"
-            @change="searchData()"
-            v-model="search"
-            size="large"
-            placeholder="Nhập thông tin tìm kiếm rồi ấn Enter"
-            :suffix-icon="Search"
-          />
-          <el-button class="ml-4" size="large" @click="refeshJobs"
-            >Làm mới</el-button
-          >
+          <el-input style="width: 340px" @change="searchData()" v-model="search" size="large"
+            placeholder="Nhập thông tin tìm kiếm rồi ấn Enter" :suffix-icon="Search" />
+          <el-button class="ml-4" size="large" @click="refeshJobs">Làm mới</el-button>
         </el-row>
         <el-row :gutter="15">
           <el-col :span="12" v-for="item in jobDatas" :key="item" class="mt-4">
             <el-card shadow="hover" class="max-h-[300px]">
               <el-row :gutter="20">
                 <el-col :span="4">
-                  <el-image
-                    style="height: 100px; width: 100px"
-                    fit="cover"
-                    :src="item.companyLogo"
-                  />
+                  <el-image style="height: 100px; width: 100px" fit="cover" :src="item.companyLogo" />
                 </el-col>
                 <el-col :span="16" class="w-full max-h-full">
                   <div class="flex flex-col h-full">
-                    <div>
+                    <div class="cursor-pointer hover:text-indigo-500 hover:underline">
                       {{ item.jobName }}
                     </div>
-                    <div class="uppercase">
-                      {{ item.companyName }}
-                    </div>
-                    <div class="flex">
+                    <router-link :to="`/companny/${item.employersId}`"
+                      class="uppercase cursor-pointer hover:text-[blue] hover:underline">
+                      <el-tooltip :content="item.companyName" placement="top">
+                        {{ item.companyName }}
+                      </el-tooltip>
+                    </router-link>
+                    <div class="flex items-center">
                       <div class="mr-2 bg-slate-100 p-1 rounded">
                         {{ item.salaryPrice }}vnđ
                       </div>
@@ -109,28 +60,30 @@
                         {{ item.cityName }}
                       </div>
                     </div>
+                    <div class="flex items-center">
+                      <div class="mr-2"> {{ item.formofworkName }} </div> - <div class="ml-2 text-sm">Hạn {{
+                        item.expirationDate
+                        }}</div>
+                    </div>
                   </div>
                 </el-col>
                 <el-col :span="4" class="w-full max-h-full relative">
-                 <div class="flex justify-center items-center text-sm">
-                    <i
-      :class="{ 'ri-heart-line': !liked, 'ri-heart-fill text-red-500': liked }"
-      class="text-3xl cursor-pointer"
-      @click="toggleLike"
-    ></i>Like
-                 </div>
-                  <el-button class="absolute bottom-0" type="success" plain @click="OkSave"
-                    >Ứng tuyển</el-button
-                  >
+                  <el-tooltip content="Số lượt thích 1k" placement="top">
+                    <div class="flex justify-center items-center text-sm cursor-pointer">
+                      <i :class="{ 'ri-heart-line': !liked, 'ri-heart-fill text-red-500': liked }"
+                        class="text-3xl cursor-pointer" @click="toggleLike"></i>Like
+                    </div>
+                  </el-tooltip>
+                  <el-button class="absolute bottom-0" type="success" plain @click="OkSave">Ứng tuyển</el-button>
                 </el-col>
               </el-row>
             </el-card>
           </el-col>
         </el-row>
         <div class="float-end mt-4">
-            <el-pagination background layout="prev, pager, next" :total="totalItems" v-model="page" prev-text
-                v-model:current-page="page" />
-  </div>
+          <el-pagination background layout="prev, pager, next" :total="totalItems" v-model="page" prev-text
+            v-model:current-page="page" />
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -147,9 +100,9 @@ import { workexperiencekApi } from "@/layouts/Admin/Workexperience/Services/work
 import { useJobHome } from "../../layouts/Home/Services/home.service";
 import { DEFAULT_COMMON_LIST_QUERY_BY_HOME } from "@/common/constants";
 import { showSuccessNotification, showErrorNotification } from "@/common/helpers";
-import {useAuthService} from '../../pages/Auth/Services/auth.service'
+import { useAuthService } from '../../pages/Auth/Services/auth.service'
 import { useLoadingStore } from "@/store/loading.store";
-const {isAuthenticated}=useAuthService();
+const { isAuthenticated } = useAuthService();
 const loading = useLoadingStore();
 
 const { fetchJobHome, searchJobHome } = useJobHome();
@@ -168,7 +121,7 @@ const formofworkId = ref("");
 const totalItems = ref<Number | undefined>(0);
 let page = ref(1);
 let lengthPage = ref<Number | undefined>(100);
-const liked=ref(true);
+const liked = ref(true);
 const loadData = async () => {
   loading.showLoading(true);
   const itemcitys = await cityApi.itemsList();
@@ -186,11 +139,11 @@ const loadData = async () => {
   loading.showLoading(false);
 
 };
-const toggleLike=()=>{
-    liked.value = !liked.value;
+const toggleLike = () => {
+  liked.value = !liked.value;
 }
 const searchData = async () => {
-    loading.showLoading(true);
+  loading.showLoading(true);
   DEFAULT_COMMON_LIST_QUERY_BY_HOME.keyword = search.value;
   DEFAULT_COMMON_LIST_QUERY_BY_HOME.page = 1;
   const data = await searchJobHome();
@@ -201,12 +154,12 @@ const searchData = async () => {
 
 
 };
-const OkSave=()=>{
- if(isAuthenticated.value)   {
-     showSuccessNotification('Ok');
-}else{
+const OkSave = () => {
+  if (isAuthenticated.value) {
+    showSuccessNotification('Ok');
+  } else {
     showErrorNotification('Hãy đăng nhập');
- }
+  }
 }
 
 const refeshJobs = async () => {
@@ -221,10 +174,11 @@ const refeshJobs = async () => {
   formofworkId.value = "";
   professionId.value = "";
   workexperienceId.value = "";
+  search.value = "";
 
 };
 const loadJobs = async () => {
-    loading.showLoading(true);
+  loading.showLoading(true);
 
   const data = await fetchJobHome();
   jobDatas.value = data?.items;
@@ -255,13 +209,13 @@ watch(salaryId, (newval) => {
 });
 watch(search, (newval, oldval) => {
   if (newval === "" && oldval !== "") {
-      DEFAULT_COMMON_LIST_QUERY_BY_HOME.page = 1;
-      loadJobs();
+    DEFAULT_COMMON_LIST_QUERY_BY_HOME.page = 1;
+    loadJobs();
   }
 });
 watch(page, (newVal, oldval) => {
-    DEFAULT_COMMON_LIST_QUERY_BY_HOME.page = newVal;
-    loadJobs();
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.page = newVal;
+  loadJobs();
 });
 
 

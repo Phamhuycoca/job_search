@@ -10,13 +10,8 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeView,
     meta:{
       public:true,
-    },
+    },   
     children:[
-      // {
-      //   path: '',
-      //   name: 'index',
-      //   component: ()=>import('../layouts/Home/Index.vue'),
-      // },
       {
         path:'/job_seeker',
         name:'job_seeker',
@@ -24,6 +19,14 @@ const routes: Array<RouteRecordRaw> = [
         meta:{
           public:false,
         },
+      },
+      {
+        path: '/companny/:id',
+        name: PageName.COMPANNY_PAGE,
+        component: ()=>import('../layouts/Home/Companny/Companny.vue'),
+        meta:{
+          public:true,
+        }
       }
     ]
   },

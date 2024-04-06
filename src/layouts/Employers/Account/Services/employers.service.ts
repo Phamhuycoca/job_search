@@ -25,9 +25,39 @@ export const useEmployers = () => {
       loading.showLoading(false);
     }
   };
+  const getById=async(id:any)=>{
+    try{
+      loading.showLoading(true);
+      const res:any=await employersApi._getDetail(id);
+      if (res.errors !== undefined) {
+        showErrors(res.errors);
+    }
+      return res.data;
+    }catch (error) {
+      console.error("Error GetDetail:", error);
+    }finally {
+      loading.showLoading(false);
+    }
+  };
+  const GetListJobById=async(id:any)=>{
+    try{
+      loading.showLoading(true);
+      const res:any=await employersApi.GetListJobById(query,id);
+      if (res.errors !== undefined) {
+        showErrors(res.errors);
+    }
+      return res;
+    }catch (error) {
+      console.error("Error GetDetail:", error);
+    }finally {
+      loading.showLoading(false);
+    }
+  };
   return {
     query,
     getInfo,
-    updateEmployers
+    updateEmployers,
+    getById,
+    GetListJobById
   };
 };
