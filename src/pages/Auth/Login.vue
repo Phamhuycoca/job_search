@@ -71,11 +71,13 @@ import facebook from '../../assets/image-png/facebook.png'
 import { ref } from 'vue'
 import { useAuthService } from '../Auth/Services/auth.service'
 import { useOneTap, type CredentialResponse } from "vue3-google-signin";
-//const { login } = useAuthService();
+const { loginbyEmail } = useAuthService();
 import type { IBodyLogin } from './Services/interfaces';
 import router from '../../router';
 import { useLoadingStore } from '../../store/loading.store';
 import axios from 'axios';
+import localStorageAuthService from '@/common/storages/authStorage';
+import { showErrors, showSuccessNotification } from '@/common/helpers';
 // const email = ref('');
 // const password = ref('');
 const loading = useLoadingStore();
@@ -96,7 +98,7 @@ const { value: password, errorMessage: passwordError } = useField(
         .required("Không được bỏ trống")
 );
 const submitLogin = handleSubmit(async values => {
-    // const res = await login({ email: values.email, password: values.password });
+    const res = await loginbyEmail({ email: values.email, password: values.password });
     // if (res.success) {
     //     setTimeout(() => {
     //         router.push('/');
@@ -113,14 +115,30 @@ const { isReady, login } = useOneTap({
     onError: () => console.error("Error with One Tap Login"),
     // options
 });
-const sendTokenToBackend = async (idToken: any) => {
+const sendTokenToBackend = async (credential: any) => {
     try {
-        const response = await axios.post('http://localhost:25874/api/Auth/google-login', { idToken });
-        console.log(response.data); // Xử lý kết quả từ backend
+        loading.showLoading(true);
+        const response = await axios.post('http://localhost:25874/api/Auth/google-login', { credential });
+        console.log(response.data);
+        if (response.data.success) {
+            showSuccessNotification(response.data.message);
+            localStorageAuthService.setAccessToken(response.data.data?.accessToken);
+            localStorageAuthService.setAccessTokenExpiredAt(response.data.data?.accessTokenExpiration);
+            localStorageAuthService.setRole(response.data.data?.role);
+            loading.showLoading(false);
+            setTimeout(() => {
+                router.push('/');
+            }, 3000)
+        }
     } catch (error) {
-        console.error(error); // Xử lý lỗi
-    }
-};
+        if (axios.isAxiosError(error)) {
+            if (error.response?.data.errors !== undefined) {
+                showErrors(error.response?.data.errors);
+            }
+        }
+        loading.showLoading(false);
+    };
+}
 </script>
 
 <style></style>

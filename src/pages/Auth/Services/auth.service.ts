@@ -10,7 +10,7 @@ export const useAuthService=()=>{
     let errors;
     const loading = useLoadingStore();
 
-    const login =async(body: IBodyLogin)=>{
+    const loginbyEmail =async(body: IBodyLogin)=>{
         loading.showLoading(true);
         const res = await authApi.login(body);
         if (res.success) {
@@ -58,7 +58,7 @@ export const useAuthService=()=>{
         return !!localStorageAuthService.getAccessToken();
       });
     return{
-        login,
+        loginbyEmail,
         employerslogin,
         isAuthenticated,
         hasToken
