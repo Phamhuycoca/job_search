@@ -6,7 +6,7 @@
             </h2>
         </div>
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form class="space-y-6" action="#" method="POST">
+            <form class="space-y-6">
                 <div>
                     <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Nhập email</label>
                     <div class="mt-2">
@@ -35,7 +35,12 @@
                         nhập</el-button>
                 </div>
                 <div class="flex">
-                    <el-button class="flex justify-center items-center w-48">
+                    <!-- <el-button class="flex justify-center items-center w-48">
+                        <el-image :src="google" class="mr-2" />
+                        <span class="text-xs">Google</span>
+                    </el-button> -->
+                    <el-button :disabled="!isReady" @click="() => login()"
+                        class="flex justify-center items-center w-48">
                         <el-image :src="google" class="mr-2" />
                         <span class="text-xs">Google</span>
                     </el-button>
@@ -65,11 +70,12 @@ import google from '../../assets/image-png/google.png'
 import facebook from '../../assets/image-png/facebook.png'
 import { ref } from 'vue'
 import { useAuthService } from '../Auth/Services/auth.service'
-
-const { login } = useAuthService();
+import { useOneTap, type CredentialResponse } from "vue3-google-signin";
+//const { login } = useAuthService();
 import type { IBodyLogin } from './Services/interfaces';
 import router from '../../router';
 import { useLoadingStore } from '../../store/loading.store';
+import axios from 'axios';
 // const email = ref('');
 // const password = ref('');
 const loading = useLoadingStore();
@@ -90,14 +96,31 @@ const { value: password, errorMessage: passwordError } = useField(
         .required("Không được bỏ trống")
 );
 const submitLogin = handleSubmit(async values => {
-    const res = await login({ email: values.email, password: values.password });
-    if (res.success) {
-       setTimeout(()=>{
-        router.push('/');
-       },3000)
-    }
+    // const res = await login({ email: values.email, password: values.password });
+    // if (res.success) {
+    //     setTimeout(() => {
+    //         router.push('/');
+    //     }, 3000)
+    // }
 })
 
+const { isReady, login } = useOneTap({
+    disableAutomaticPrompt: true,
+    onSuccess: (response: CredentialResponse) => {
+        console.log("Success:", response);
+        sendTokenToBackend(response.credential);
+    },
+    onError: () => console.error("Error with One Tap Login"),
+    // options
+});
+const sendTokenToBackend = async (idToken: any) => {
+    try {
+        const response = await axios.post('http://localhost:25874/api/Auth/google-login', { idToken });
+        console.log(response.data); // Xử lý kết quả từ backend
+    } catch (error) {
+        console.error(error); // Xử lý lỗi
+    }
+};
 </script>
 
 <style></style>
