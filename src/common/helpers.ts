@@ -7,6 +7,7 @@ import {
   OrderDirection,
 } from './constants';
 import { type IOption, type IOrderDirection } from './interfaces';
+import { ElMessage } from 'element-plus'
 const toast = useToast();
 
 export function isValidJSON(str: string) {
@@ -179,6 +180,15 @@ export function showErrors (errors: any[]){
   errors.forEach((message, index) => {
       setTimeout(() => {
           showErrorNotification(message);
+      }, index * 1000);
+  });
+};
+
+export function showToasrErrors (errors: any[]){
+  errors.forEach((message, index) => {
+      setTimeout(() => {
+        ElMessage.error(message)
+          //showErrorNotification(message);
       }, index * 1000);
   });
 };

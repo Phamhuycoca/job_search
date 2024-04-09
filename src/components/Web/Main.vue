@@ -63,7 +63,7 @@
                     <div class="flex items-center">
                       <div class="mr-2"> {{ item.formofworkName }} </div> - <div class="ml-2 text-sm">Hạn {{
                         item.expirationDate
-                        }}</div>
+                      }}</div>
                     </div>
                   </div>
                 </el-col>
@@ -74,7 +74,11 @@
                         class="text-3xl cursor-pointer" @click="toggleLike"></i>Like
                     </div>
                   </el-tooltip>
-                  <el-button class="absolute bottom-0" type="success" plain @click="OkSave">Ứng tuyển</el-button>
+                  <el-button class="absolute bottom-0" type="success" plain v-if="isAuthenticated"
+                    @click="dialog = true, currentItem = item">Ứng
+                    tuyển</el-button>
+                  <el-button v-else class="absolute bottom-0" type="success" plain @click="open4">Ứng
+                    tuyển</el-button>
                 </el-col>
               </el-row>
             </el-card>
@@ -86,11 +90,13 @@
         </div>
       </el-col>
     </el-row>
+    <RecruimentDialog :dialog="dialog" @close="dialog = false" :currentItem="currentItem" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { Search } from "@element-plus/icons-vue";
+import RecruimentDialog from '../../layouts/Home/Recruitment/RecruimentDialog.vue'
 import { ref, onMounted, watch, computed } from "vue";
 import { cityApi } from "@/layouts/Admin/City/Services/city.api";
 import { salaryApi } from "@/layouts/Admin/Salary/Services/salary.api";
@@ -99,12 +105,16 @@ import { professionApi } from "@/layouts/Admin/Profession/Services/profession.ap
 import { workexperiencekApi } from "@/layouts/Admin/Workexperience/Services/workexperience.api";
 import { useJobHome } from "../../layouts/Home/Services/home.service";
 import { DEFAULT_COMMON_LIST_QUERY_BY_HOME } from "@/common/constants";
-import { showSuccessNotification, showErrorNotification } from "@/common/helpers";
+import { showSuccessNotification, showErrorNotification, showErrors, showToasrErrors } from "@/common/helpers";
 import { useAuthService } from '../../pages/Auth/Services/auth.service'
 import { useLoadingStore } from "@/store/loading.store";
+import { useRecruitment } from '@/layouts/Home/Recruitment/Services/recruitment.service';
+import { ElMessage } from 'element-plus'
+const { createuseRecruitment } = useRecruitment();
 const { isAuthenticated } = useAuthService();
 const loading = useLoadingStore();
-
+const dialog = ref(false);
+const currentItem = ref([]);
 const { fetchJobHome, searchJobHome } = useJobHome();
 const itemsListCitys = ref<any | null>([]);
 const itemsListSalarys = ref<any | null>([]);
@@ -138,7 +148,14 @@ const loadData = async () => {
   // jobDatas.value = resjobdata?.items;
   loading.showLoading(false);
 
+
 };
+const open4 = () => {
+  ElMessage({
+    message: 'Vui lòng đăng nhập',
+    type: 'error',
+  })
+}
 const toggleLike = () => {
   liked.value = !liked.value;
 }
@@ -154,13 +171,31 @@ const searchData = async () => {
 
 
 };
-const OkSave = () => {
-  if (isAuthenticated.value) {
-    showSuccessNotification('Ok');
-  } else {
-    showErrorNotification('Hãy đăng nhập');
-  }
-}
+// const recruitment = async (jobId: string, employersId: string) => {
+//   if (isAuthenticated.value) {
+//     // alert(jobId + " is authenticated");
+//     // alert(employersId + "a")
+//     const formData = new FormData();
+//     formData.append('jobId', jobId);
+//     formData.append('employersId', employersId);
+//     const res = await createuseRecruitment(formData);
+//     if (res.success) {
+//       // showSuccessNotification(res.message)
+//       ElMessage({
+//         message: res.message,
+//         type: 'success',
+//       })
+//     }
+//     else {
+//       if (res.errors !== undefined) {
+//         showToasrErrors(res.errors);
+//         //showErrors(res.errors);
+//       }
+//     }
+//   } else {
+//     showErrorNotification('Hãy đăng nhập');
+//   }
+// }
 
 const refeshJobs = async () => {
   DEFAULT_COMMON_LIST_QUERY_BY_HOME.cityId = "";

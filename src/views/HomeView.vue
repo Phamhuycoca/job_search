@@ -88,10 +88,16 @@ import Footer from '../components/Web/Footer.vue';
 import logo from "../assets/image-png/logo.png"
 import { Search } from "@element-plus/icons-vue";
 import { onMounted, ref } from 'vue';
-const {isAuthenticated}=useAuthService();
+const { isAuthenticated } = useAuthService();
 import { useAuthService } from '../pages/Auth/Services/auth.service';
+import { useRecruitment } from '@/layouts/Home/Recruitment/Services/recruitment.service';
+const { fetchuseRecruitments } = useRecruitment();
 
-const loadData = () => {
+const loadData = async () => {
+  if (isAuthenticated.value) {
+    const res = await fetchuseRecruitments();
+    console.log(res?.items);
+  }
 }
 onMounted(() => {
   loadData();

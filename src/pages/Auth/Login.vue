@@ -99,11 +99,11 @@ const { value: password, errorMessage: passwordError } = useField(
 );
 const submitLogin = handleSubmit(async values => {
     const res = await loginbyEmail({ email: values.email, password: values.password });
-    // if (res.success) {
-    //     setTimeout(() => {
-    //         router.push('/');
-    //     }, 3000)
-    // }
+    if (res.success) {
+        setTimeout(() => {
+            router.push('/');
+        }, 3000)
+    }
 })
 
 const { isReady, login } = useOneTap({
@@ -113,7 +113,6 @@ const { isReady, login } = useOneTap({
         sendTokenToBackend(response.credential);
     },
     onError: () => console.error("Error with One Tap Login"),
-    // options
 });
 const sendTokenToBackend = async (credential: any) => {
     try {

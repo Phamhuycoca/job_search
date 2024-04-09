@@ -131,7 +131,9 @@ import { Edit } from "@element-plus/icons-vue";
 import { onMounted, ref } from "vue";
 import { useJobSeeker } from "../../layouts/Home/Account/Services/Job_seeker.service";
 import { showErrors, showSuccessNotification } from "@/common/helpers";
+import { useLoadingStore } from "@/store/loading.store";
 const { getInfo, updateJobSeeker } = useJobSeeker();
+const loading = useLoadingStore();
 const file = ref<File | null>(null);
 const filecv = ref<File | null>(null);
 const selectedImage = ref<string | null>(null);
@@ -193,6 +195,7 @@ const onRemoveCV = () => {
     filecv.value = null;
 };
 const loadData = async () => {
+    loading.showLoading(true);
     const res = await getInfo();
     fullName.value = res.data.fullName;
     birthday.value = res.data.birthday;
@@ -209,8 +212,11 @@ const loadData = async () => {
     job_SeekerId.value = res.data.job_SeekerId;
     academic_Level.value = res.data.academic_Level;
     inputLook.value = true;
+    loading.showLoading(false);
+
 };
 const saveData = async () => {
+    loading.showLoading(true);
     const formData = new FormData();
     formData.append("fullName", fullName.value);
     formData.append("birthday", birthday.value);
@@ -236,6 +242,7 @@ const saveData = async () => {
         }
     }
     loadData();
+    loading.showLoading(false);
 };
 onMounted(() => {
     loadData();
