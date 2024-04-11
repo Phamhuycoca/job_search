@@ -87,6 +87,11 @@ const routes: Array<RouteRecordRaw> = [
         name: PageName.EMPLOYERS_ACCOUNT_PAGE,
         component: ()=>import('../layouts/Employers/Account/AccountIndex.vue'),
       },
+      {
+        path: 'recruitment',
+        name: PageName.EMPLOYERS_RECRUIMENT_PAGE,
+        component: ()=>import('../layouts/Employers/Recruitment/RecruitmentIndex.vue'),
+      },
     ]
   },
 

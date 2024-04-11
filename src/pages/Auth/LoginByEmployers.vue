@@ -78,7 +78,10 @@ const { value: password, errorMessage: passwordError } = useField(
 const submitLogin = handleSubmit(async values => {
     const res = await employerslogin({ email: values.email, password: values.password });
     if (res.success) {
-        router.push('/employers')
+        setTimeout(() => {
+            router.push('/employers')
+
+        }, 3000)
     }
 })
 

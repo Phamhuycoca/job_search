@@ -13,25 +13,10 @@
                         <el-icon><icon-menu /></el-icon>
                         <template #title>Đăng tin tuyển dụng</template>
                     </el-menu-item>
-                    <el-sub-menu index="3">
-                        <template #title>
-                            <el-icon>
-                                <setting />
-                            </el-icon>Navigator Three
-                        </template>
-                        <el-menu-item-group>
-                            <template #title>Group 1</template>
-                            <el-menu-item index="3-1">Option 1</el-menu-item>
-                            <el-menu-item index="3-2">Option 2</el-menu-item>
-                        </el-menu-item-group>
-                        <el-menu-item-group title="Group 2">
-                            <el-menu-item index="3-3">Option 3</el-menu-item>
-                        </el-menu-item-group>
-                        <el-sub-menu index="3-4">
-                            <template #title>Option 4</template>
-                            <el-menu-item index="3-4-1">Option 4-1</el-menu-item>
-                        </el-sub-menu>
-                    </el-sub-menu>
+                    <el-menu-item index="3" route="/employers/recruitment">
+                        <el-icon><icon-menu /></el-icon>
+                        <template #title>Danh sách ứng viên ứng tuyển</template>
+                    </el-menu-item>
                 </el-menu>
                 <el-menu style="position: absolute; bottom: 0;width: 100%;z-index: 1000;" background-color="#b1b3b8"
                     text-color="black" active-text-color="#eebe77" router="true">
@@ -55,7 +40,7 @@
             <el-header class="flex justify-end items-center ">
                 <div class="w-[90px] flex justify-end items-center">
                     <el-dropdown trigger="click">
-                        <el-badge :value="3" circle>
+                        <el-badge :value="count" circle>
                             <i class="ri-notification-3-line text-xl"></i>
                         </el-badge>
                         <template #dropdown class="mr-10">
@@ -64,7 +49,7 @@
                                     class="flex flex-col rounded-xl border-gray-300 hover:border-gray-500 overflow-hidden shadow-xl w-full border-1">
                                     <div
                                         class="h-14 bg-white border-b transition-all gap-2 p-4 flex flex-row items-center">
-                                        <span class="flex-grow font-bold">Card Header</span>
+                                        <span class="flex-grow font-bold">Thông báo</span>
                                     </div>
                                     <div class="flex flex-col bg-whiteflex-grow bg-white">
                                         <div class="min-hv-4 overflow-y-auto flex-grow p-4 "
@@ -127,8 +112,12 @@
 
 <script lang="ts" setup>
 import { RouterView } from "vue-router";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import logo from "../../assets/image-png/logo.png";
+import { useRecruitment } from '@/layouts/Home/Recruitment/Services/recruitment.service';
+const { fetchuseRecruitmentsByEmployer } = useRecruitment();
+const { isAuthenticated, logout } = useAuthService();
+import { useAuthService } from "@/pages/Auth/Services/auth.service";
 
 import {
     Menu as IconMenu,
@@ -138,15 +127,24 @@ import {
 } from "@element-plus/icons-vue";
 import router from "@/router";
 const isCollapse = ref(false);
+const count = ref<any>(0);
 const handleOpen = (key: string, keyPath: string[]) => {
     console.log(key, keyPath);
 };
+const loadData = async () => {
+    if (isAuthenticated.value) {
+
+    }
+}
 const handleClose = (key: string, keyPath: string[]) => {
     console.log(key, keyPath);
 };
-const Logout=()=>{
+const Logout = () => {
     alert('Logout');
 }
+onMounted(() => {
+    loadData();
+})
 </script>
 <style scoped>
 .el-card__header {

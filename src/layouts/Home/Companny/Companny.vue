@@ -17,7 +17,8 @@
                             Giới thiệu về công ty
                             <i class="ri-community-line text-xl ml-1"></i>
                         </div>
-                        <div class="indent-8 mt-2 leading-8 text-base text-gray-700">{{ companny.companyDescription }}
+                        <div class="indent-8 mt-2 leading-8 text-base text-gray-700">{{ companny.companyDescription
+                            }}
                         </div>
                     </el-col>
                     <el-col :span="24"

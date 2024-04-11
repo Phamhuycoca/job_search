@@ -203,13 +203,13 @@ const refeshJobs = async () => {
   DEFAULT_COMMON_LIST_QUERY_BY_HOME.formofworkId = "";
   DEFAULT_COMMON_LIST_QUERY_BY_HOME.professionId = "";
   DEFAULT_COMMON_LIST_QUERY_BY_HOME.workexperienceId = "";
-  loadJobs();
   cityId.value = "";
   salaryId.value = "";
   formofworkId.value = "";
   professionId.value = "";
   workexperienceId.value = "";
   search.value = "";
+  loadJobs();
 
 };
 const loadJobs = async () => {

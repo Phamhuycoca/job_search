@@ -15,7 +15,7 @@ class Job_seekerApiService extends ApiService {
     return this.client.get(`${this.baseUrl}/GetInfo`);
   }
   uploadCv(data: any): Promise<any> {
-    return this.client.patch(`${this.baseUrl}`, data, {
+    return this.client.post(`${this.baseUrl}/upload-cv`, data, {
       headers: { "Content-Type": "multipart/form-data" },
     });
   }

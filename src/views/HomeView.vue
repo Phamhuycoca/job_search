@@ -21,7 +21,7 @@
           </el-menu>
           <div>
             <div v-if="isAuthenticated" class="w-[80px] flex justify-between items-center">
-              <el-badge :value="3" circle>
+              <el-badge :value="count" circle>
                 <i class="ri-notification-3-line text-xl"></i>
               </el-badge>
               <el-dropdown trigger="click">
@@ -36,7 +36,7 @@
                     </router-link>
                     <el-dropdown-item>Đổi mật khẩu</el-dropdown-item>
                     <el-dropdown-item>Quản lý hồ sơ/CV</el-dropdown-item>
-                    <el-dropdown-item>Đăng xuất</el-dropdown-item>
+                    <el-dropdown-item @click="dialog = true">Đăng xuất</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
@@ -77,6 +77,7 @@
       </el-main>
     </el-container>
     <Footer />
+    <ConfirmLogout :dialog="dialog" @close="dialog = false" @Logout="Logout" />
   </div>
 </template>
 
@@ -88,15 +89,28 @@ import Footer from '../components/Web/Footer.vue';
 import logo from "../assets/image-png/logo.png"
 import { Search } from "@element-plus/icons-vue";
 import { onMounted, ref } from 'vue';
-const { isAuthenticated } = useAuthService();
+const dialog = ref(false);
+const { isAuthenticated, logout } = useAuthService();
 import { useAuthService } from '../pages/Auth/Services/auth.service';
 import { useRecruitment } from '@/layouts/Home/Recruitment/Services/recruitment.service';
-const { fetchuseRecruitments } = useRecruitment();
-
+import ConfirmLogout from '@/components/Element/ConfirmLogout.vue';
+const { fetchuseRecruitmentsByJob_seeker } = useRecruitment();
+const count = ref<any>(0);
+const Logout = async () => {
+  const res = await logout();
+  if (res) {
+    dialog.value = false;
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000)
+  }
+}
 const loadData = async () => {
   if (isAuthenticated.value) {
-    const res = await fetchuseRecruitments();
-    console.log(res?.items);
+    const res = await fetchuseRecruitmentsByJob_seeker();
+    console.log(res);
+    console.log(res?.totalItems);
+    count.value = res?.totalItems;
   }
 }
 onMounted(() => {

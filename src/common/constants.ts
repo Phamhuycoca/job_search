@@ -17,13 +17,14 @@ export enum PageName {
     SALARY_PAGE = 'salary_page',
     CITY_PAGE = 'city_page',
     PRORESSION_PAGE = 'profession_page',
-    LOGINBYEMPLOYERS_PAGE = 'loginbyemployers_page',
-    REGISTERBYEMPLOYERS_PAGE = 'registerbyemployers_page',
     EMPLOYERS_PAGE = 'employers_page',
     NEWS_PAGE = 'news_page',
+    COMPANNY_PAGE = 'companny_page',
+    LOGINBYEMPLOYERS_PAGE = 'loginbyemployers_page',
+    REGISTERBYEMPLOYERS_PAGE = 'registerbyemployers_page',
     EMPLOYERS_DASHBOARD_PAGE = 'employers_dashboard_page',
     EMPLOYERS_ACCOUNT_PAGE = 'employers_account_page',
-    COMPANNY_PAGE = 'companny_page',
+    EMPLOYERS_RECRUIMENT_PAGE = 'employers_recruitment_page',
 
   }
   
@@ -217,4 +218,30 @@ export const optionsGender = [
       value: 'Nữ',
       label: 'Nữ',
   }
+]
+export const optionsSelectMultiplier = [
+  {
+      value: '10',
+      label: '10',
+  },
+  {
+    value: '20',
+    label: '20',
+},
+  {
+      value: '40',
+      label: '40',
+  },
+  {
+      value: '60',
+      label: '60',
+  },
+  {
+      value: '80',
+      label: '80',
+  },
+  {
+      value: '100',
+      label: '100',
+  },
 ]

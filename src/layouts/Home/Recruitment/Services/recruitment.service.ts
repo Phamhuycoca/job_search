@@ -1,12 +1,32 @@
-import { DEFAULT_COMMON_LIST_QUERY } from "@/common/constants";
+import { DEFAULT_COMMON_LIST_QUERY, DEFAULT_COMMON_LIST_QUERY_BY_HOME } from "@/common/constants";
 import { useLoadingStore } from "@/store/loading.store";
 import { showErrors } from "@/common/helpers";
 import { recruitmentApi } from "./recruitment.api";
 export const useRecruitment = () => {
-  const query = DEFAULT_COMMON_LIST_QUERY;
-  const fetchuseRecruitments = async () => {
+  const query = DEFAULT_COMMON_LIST_QUERY_BY_HOME;
+  const fetchuseRecruitmentsByJob_seeker = async () => {
     try {
-      const res = await recruitmentApi._getList<any>(query);
+      const res = await recruitmentApi.ItemsByJob_seeker(query);
+      if (res.errors !== undefined) {
+        showErrors(res.errors);
+    }
+      if (res.success) {
+        return {
+          items: res.items,
+          totalItems: res.totalItems,
+        };
+      }
+      return {
+        items: [],
+        totalItems: 0,
+      };
+    } catch (error) {
+      console.error("Error Fetching:", error);
+    }
+  };
+  const fetchuseRecruitmentsByEmployer=async()=>{
+    try {
+      const res = await recruitmentApi.ItemsByEmployer(query);
       if (res.errors !== undefined) {
         showErrors(res.errors);
     }
@@ -48,11 +68,53 @@ export const useRecruitment = () => {
     }
   };
 
+  const changeFeedback =async(data:any)=>{
+    try{
+      return await recruitmentApi.ChangeFeedback(data);
+    }catch (error) {
+      console.error("Error ChangeFeedback:");
+    }
+  };
+
+  const changeStatus =async(data:any)=>{
+    try{
+      return await recruitmentApi.ChangeStatus(data);
+    }catch (error){
+      console.error("Error ChangeStatus");
+    }
+  };
+
+  const searchByEmployer=async()=>{
+    try {
+      const res = await recruitmentApi.ItemsByEmployer(query);
+      if (res.errors !== undefined) {
+        showErrors(res.errors);
+    }
+      if (res.success) {
+        return {
+          items: res.items,
+          totalItems: res.totalItems,
+        };
+      }
+      return {
+        items: [],
+        totalItems: 0,
+      };
+    } catch (error) {
+      console.error("Error Fetching:", error);
+    }
+  }
+  
+
   return {
     query,
-    fetchuseRecruitments,
+    fetchuseRecruitmentsByJob_seeker,
     createuseRecruitment,
     updateuseRecruitment,
     deleteuseRecruitment,
+    fetchuseRecruitmentsByEmployer,
+    changeFeedback,
+    changeStatus,
+    searchByEmployer
   };
 };

@@ -1,4 +1,4 @@
-import { showErrors, showSuccessNotification } from "@/common/helpers";
+import { showErrors, showSuccessNotification,showNotification } from "@/common/helpers";
 import { authApi } from "./auth.api";
 import type { IBodyLogin } from "./interfaces"
 import localStorageAuthService from "@/common/storages/authStorage";
@@ -49,6 +49,16 @@ export const useAuthService=()=>{
         }
         return res;
     }
+    const logout=async()=>{
+        loading.showLoading(true);
+        const res=await authApi.logout();
+        if(res.success) {
+            showNotification(res.message);
+            localStorageAuthService.resetAll()
+        }
+        loading.showLoading(false);
+        return res.success;
+    };
     const isAuthenticated = computed(() => {
         const token = localStorageAuthService.getAccessToken();
         const expiredAt = localStorageAuthService.getAccessTokenExpiredAt();
@@ -61,6 +71,7 @@ export const useAuthService=()=>{
         loginbyEmail,
         employerslogin,
         isAuthenticated,
-        hasToken
+        hasToken,
+        logout
     }
 }

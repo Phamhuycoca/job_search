@@ -7,7 +7,7 @@ import {
   OrderDirection,
 } from './constants';
 import { type IOption, type IOrderDirection } from './interfaces';
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElNotification } from 'element-plus'
 const toast = useToast();
 
 export function isValidJSON(str: string) {
@@ -192,3 +192,12 @@ export function showToasrErrors (errors: any[]){
       }, index * 1000);
   });
 };
+
+export function showNotification (message:string) 
+{
+  return ElNotification({
+    title: 'Success',
+    message: message,
+    type: 'success',
+  })
+}
