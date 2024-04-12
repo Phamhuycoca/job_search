@@ -20,11 +20,13 @@ export enum PageName {
     EMPLOYERS_PAGE = 'employers_page',
     NEWS_PAGE = 'news_page',
     COMPANNY_PAGE = 'companny_page',
+    JOBDETAIL_PAGE = 'jobdetail_page',
     LOGINBYEMPLOYERS_PAGE = 'loginbyemployers_page',
     REGISTERBYEMPLOYERS_PAGE = 'registerbyemployers_page',
     EMPLOYERS_DASHBOARD_PAGE = 'employers_dashboard_page',
     EMPLOYERS_ACCOUNT_PAGE = 'employers_account_page',
     EMPLOYERS_RECRUIMENT_PAGE = 'employers_recruitment_page',
+    EMPLOYERS_RECRUIMENT_SUITABLE_PAGE = 'employers_recruitment_suitable_page',
 
   }
   

@@ -38,14 +38,18 @@
             <el-table-column prop="jobName" label="Tên công việc" width="300" />
             <el-table-column prop="content" label="Nội dung đính kèm" width="400" />
             <el-table-column fixed="right" label="Đánh giá" width="200" align="center">
-                <el-row>
-                    <el-col :span="24" class="mb-2">
-                        <el-button type="primary" plain class="min-w-[100px]" size="small">Phù hợp</el-button>
-                    </el-col>
-                    <el-col :span="24" class="mt-2">
-                        <el-button type="danger" plain class="min-w-[100px]" size="small">Không phù hợp</el-button>
-                    </el-col>
-                </el-row>
+                <template #default="scope">
+                    <el-row>
+                        <el-col :span="24" class="mb-2">
+                            <el-button @click="ChangeFeedback(scope.row.recruitmentId)" type="primary" plain
+                                class="min-w-[100px]" size="small">Phù hợp</el-button>
+                        </el-col>
+                        <el-col :span="24" class="mt-2">
+                            <el-button type="danger" plain class="min-w-[100px]"
+                                @click="deleteItem(scope.row.recruitmentId)" size="small">Không phù hợp</el-button>
+                        </el-col>
+                    </el-row>
+                </template>
             </el-table-column>
         </el-table>
         <div class="flex justify-between items-center my-4">
@@ -63,13 +67,13 @@
 
 <script lang="ts" setup>
 import { DEFAULT_COMMON_LIST_QUERY, DEFAULT_COMMON_LIST_QUERY_BY_HOME, DEFAULT_LIMIT_FOR_PAGINATION, optionsSelectMultiplier } from '@/common/constants';
-import { useRecruitment } from '@/layouts/Home/Recruitment/Services/recruitment.service';
 import { formofworkApi } from "@/layouts/Admin/Formofwork/Services/formofwork.api";
 import { professionApi } from "@/layouts/Admin/Profession/Services/profession.api";
 import { workexperiencekApi } from "@/layouts/Admin/Workexperience/Services/workexperience.api";
-const { fetchuseRecruitmentsByEmployer, searchByEmployer, changeStatus } = useRecruitment();
-const { isAuthenticated, logout } = useAuthService();
+import { useRecruitment } from '@/layouts/Home/Recruitment/Services/recruitment.service';
+const { fetchuseRecruitmentsByEmployer, searchByEmployer, changeStatus, deleteuseRecruitment, changeFeedback } = useRecruitment();
 import { useAuthService } from "@/pages/Auth/Services/auth.service";
+const { isAuthenticated, logout } = useAuthService();
 import { useLoadingStore } from '@/store/loading.store';
 import { onMounted, ref, watch } from 'vue';
 const loading = useLoadingStore();
@@ -109,6 +113,18 @@ const ChangeStatus = async (recruitmentId: string) => {
         loadData();
     }
 
+}
+const ChangeFeedback = async (recruitmentId: string) => {
+    const res = await changeFeedback({ isFeedback: true, recruitmentId: recruitmentId });
+    if (res.success) {
+        loadData();
+    }
+}
+const deleteItem = async (recruitmentId: string) => {
+    const res = await deleteuseRecruitment(recruitmentId);
+    if (res.success) {
+        loadData();
+    }
 }
 const searchData = async () => {
     loading.showLoading(true);

@@ -104,7 +104,26 @@ export const useRecruitment = () => {
       console.error("Error Fetching:", error);
     }
   }
-  
+  const fetchuseRecruitmentsByEmployerSuitable=async()=>{
+    try {
+      const res = await recruitmentApi.ItemsByEmployerSuitable(query);
+      if (res.errors !== undefined) {
+        showErrors(res.errors);
+    }
+      if (res.success) {
+        return {
+          items: res.items,
+          totalItems: res.totalItems,
+        };
+      }
+      return {
+        items: [],
+        totalItems: 0,
+      };
+    } catch (error) {
+      console.error("Error Fetching:", error);
+    }
+  };
 
   return {
     query,
@@ -115,6 +134,7 @@ export const useRecruitment = () => {
     fetchuseRecruitmentsByEmployer,
     changeFeedback,
     changeStatus,
-    searchByEmployer
+    searchByEmployer,
+    fetchuseRecruitmentsByEmployerSuitable
   };
 };

@@ -71,9 +71,16 @@
         <div v-if="$router.currentRoute.value.path === '/'">
           <Carousel />
           <Main class="mt-10 mb-10" />
+
           <Slider />
         </div>
         <RouterView v-else />
+        <el-button v-if="showScrollButton" class="scroll-to-top w-20 h-16 z-[1000]" @click="scrollToTop" plain
+          type="danger">
+          <el-icon class="text-3xl">
+            <ArrowUpBold />
+          </el-icon>
+        </el-button>
       </el-main>
     </el-container>
     <Footer />
@@ -88,7 +95,7 @@ import Slider from '../components/Web/Slider.vue'
 import Footer from '../components/Web/Footer.vue';
 import logo from "../assets/image-png/logo.png"
 import { Search } from "@element-plus/icons-vue";
-import { onMounted, ref } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 const dialog = ref(false);
 const { isAuthenticated, logout } = useAuthService();
 import { useAuthService } from '../pages/Auth/Services/auth.service';
@@ -115,7 +122,27 @@ const loadData = async () => {
 }
 onMounted(() => {
   loadData();
+  window.addEventListener('scroll', handleScroll);
 })
+const showScrollButton = ref(false);
+const handleScroll = () => {
+  showScrollButton.value = window.scrollY > 100; // Adjust 1000 to your desired scroll threshold
+}
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll);
+})
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
 </script>
 
-<style scoped></style>
+<style scoped>
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+</style>

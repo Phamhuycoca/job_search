@@ -42,9 +42,21 @@ export const useJobHome = () => {
       console.error("Error Search:", error);
     } 
   };
+  const getById=async(id:any)=>{
+    try{
+      const res:any=await homeApi.ItemById(id);
+      if (res.errors !== undefined) {
+        showErrors(res.errors);
+    }
+      return res.data;
+    }catch (error) {
+      console.error("Error GetDetail:", error);
+    }
+  };
   return {
     query_by_home,
     fetchJobHome,
-    searchJobHome
+    searchJobHome,
+    getById
   };
 };

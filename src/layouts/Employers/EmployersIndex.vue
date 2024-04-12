@@ -1,6 +1,6 @@
 <template>
     <el-container class="h-screen">
-        <el-aside width="240px" class="max-h-screen">
+        <el-aside width="260px" class="max-h-screen">
             <el-scrollbar class=" bg-black relative ">
                 <el-menu default-active="5" active-text-color="#eebe77" background-color="black" text-color="white"
                     style="border: none;" router="true">
@@ -13,10 +13,20 @@
                         <el-icon><icon-menu /></el-icon>
                         <template #title>Đăng tin tuyển dụng</template>
                     </el-menu-item>
-                    <el-menu-item index="3" route="/employers/recruitment">
+                    <!-- <el-menu-item index="3" route="/employers/recruitment">
                         <el-icon><icon-menu /></el-icon>
                         <template #title>Danh sách ứng viên ứng tuyển</template>
-                    </el-menu-item>
+                    </el-menu-item> -->
+                    <el-sub-menu index="3">
+                        <template #title>
+                            <el-icon>
+                                <location />
+                            </el-icon>
+                            <span>Quản lý thông tin ứng tuyển</span>
+                        </template>
+                        <el-menu-item index="1-1" route="/employers/recruitment">Danh sách ứng viên</el-menu-item>
+                        <el-menu-item index="1-2" route="/employers/suitable">Danh sách ứng viên phù hợp</el-menu-item>
+                    </el-sub-menu>
                 </el-menu>
                 <el-menu style="position: absolute; bottom: 0;width: 100%;z-index: 1000;" background-color="#b1b3b8"
                     text-color="black" active-text-color="#eebe77" router="true">

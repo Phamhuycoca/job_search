@@ -24,6 +24,11 @@ class RecruitmentApiService extends ApiService {
       params: DEFAULT_COMMON_LIST_QUERY_BY_HOME
       });
   }
+  ItemsByEmployerSuitable(DEFAULT_COMMON_LIST_QUERY_BY_HOME:any):Promise<any> {
+    return this.client.get(`${this.baseUrl}/ItemsByEmployerSuitable`,{
+      params: DEFAULT_COMMON_LIST_QUERY_BY_HOME
+      });
+  }
   ChangeStatus(data:any):Promise<any> 
   {
     return this.client.patch(`${this.baseUrl}/ChangeStatus`, data);

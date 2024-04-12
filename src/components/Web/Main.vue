@@ -33,7 +33,7 @@
             placeholder="Nhập thông tin tìm kiếm rồi ấn Enter" :suffix-icon="Search" />
           <el-button class="ml-4" size="large" @click="refeshJobs">Làm mới</el-button>
         </el-row>
-        <el-row :gutter="15">
+        <el-row :gutter="15" class="min-h-[1000px]">
           <el-col :span="12" v-for="item in jobDatas" :key="item" class="mt-4">
             <el-card shadow="hover" class="max-h-[300px]">
               <el-row :gutter="20">
@@ -42,9 +42,12 @@
                 </el-col>
                 <el-col :span="16" class="w-full max-h-full">
                   <div class="flex flex-col h-full">
-                    <div class="cursor-pointer hover:text-indigo-500 hover:underline">
-                      {{ item.jobName }}
-                    </div>
+                    <router-link :to="`/jobdetail/${item.jobId}`"
+                      class="cursor-pointer hover:text-indigo-500 hover:underline">
+                      <el-tooltip :content="item.jobName" placement="top">
+                        {{ item.jobName }}
+                      </el-tooltip>
+                    </router-link>
                     <router-link :to="`/companny/${item.employersId}`"
                       class="uppercase cursor-pointer hover:text-[blue] hover:underline">
                       <el-tooltip :content="item.companyName" placement="top">

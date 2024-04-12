@@ -27,7 +27,16 @@ const routes: Array<RouteRecordRaw> = [
         meta:{
           public:true,
         }
+      },
+      {
+        path: '/jobdetail/:id',
+        name: PageName.JOBDETAIL_PAGE,
+        component: ()=>import('../layouts/Home/Job/Jobdetail.vue'),
+        meta:{
+          public:true,
+        }
       }
+
     ]
   },
   {
@@ -91,6 +100,11 @@ const routes: Array<RouteRecordRaw> = [
         path: 'recruitment',
         name: PageName.EMPLOYERS_RECRUIMENT_PAGE,
         component: ()=>import('../layouts/Employers/Recruitment/RecruitmentIndex.vue'),
+      },
+      {
+        path: 'suitable',
+        name: PageName.EMPLOYERS_RECRUIMENT_SUITABLE_PAGE,
+        component: ()=>import('../layouts/Employers/Recruitment/RecruimentSuitable.vue'),
       },
     ]
   },
