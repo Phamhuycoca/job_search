@@ -188,6 +188,7 @@ export enum PageName {
     professionId:'',
     workexperienceId:'',
     formofworkId:'',
+    levelworkId:''
   };
   export const optionsSelect = [
     {

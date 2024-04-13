@@ -1,7 +1,7 @@
 <template>
     <div>
-        <el-dialog v-model="props.dialogEdit" width="1200" align-center close-icon="false" :before-close="props.dialogEdit"
-            draggable>
+        <el-dialog v-model="props.dialogEdit" width="1200" align-center close-icon="false"
+            :before-close="props.dialogEdit" draggable>
             <template #header>
                 <h1 class="text-center">Cập nhật thông tin</h1>
             </template>
@@ -74,6 +74,12 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
+                        <el-form-item label="Mô tả công việv">
+                            <el-input type="textarea" :autosize="{ minRows: 6, maxRows: 8 }" size="large"
+                                placeholder="Nhập thông tin" v-model="jobDescription" />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
                         <el-form-item label="Địa điểm">
                             <el-input type="textarea" :autosize="{ minRows: 6, maxRows: 8 }" size="large"
                                 placeholder="Nhập thông tin" v-model="addressJob" />
@@ -118,7 +124,7 @@ import { professionApi } from "@/layouts/Admin/Profession/Services/profession.ap
 import { workexperiencekApi } from "@/layouts/Admin/Workexperience/Services/workexperience.api";
 import { levelworksApi } from "@/layouts/Admin/Levelworks/Services/levelworks.api";
 import { useJob } from "./Services/job.service";
-const { getData,updateJob } = useJob();
+const { getData, updateJob } = useJob();
 const emit = defineEmits();
 const props = defineProps(['dialogEdit', 'id']);
 const jobName = ref('');
@@ -134,6 +140,7 @@ const salaryId = ref('');
 const professionId = ref('');
 const levelworkId = ref('');
 const employersId = ref('');
+const jobDescription = ref('');
 
 const Workexperiences = ref<any | undefined>([]);
 const Salaries = ref<any | undefined>([]);
@@ -150,18 +157,19 @@ watch(() => props.id, (newValue, oldValue) => {
 const getDetail = async (id: any) => {
     const res = await getData(id);
     salaryId.value = res.data.salaryId;
-    jobName.value=res.data.jobName;
-requestJob.value=res.data.requestJob;
-benefitsJob.value=res.data.benefitsJob;
-addressJob.value=res.data.addressJob;
-workingTime.value=res.data.workingTime;
-expirationDate.value=res.data.expirationDate;
-workexperienceId.value=res.data.workexperienceId;
-formofworkId.value=res.data.formofworkId;
-cityId.value=res.data.cityId;
-professionId.value=res.data.professionId;
-levelworkId.value=res.data.levelworkId;
-employersId.value=res.data.employersId;
+    jobName.value = res.data.jobName;
+    requestJob.value = res.data.requestJob;
+    benefitsJob.value = res.data.benefitsJob;
+    addressJob.value = res.data.addressJob;
+    workingTime.value = res.data.workingTime;
+    expirationDate.value = res.data.expirationDate;
+    workexperienceId.value = res.data.workexperienceId;
+    formofworkId.value = res.data.formofworkId;
+    cityId.value = res.data.cityId;
+    professionId.value = res.data.professionId;
+    levelworkId.value = res.data.levelworkId;
+    employersId.value = res.data.employersId;
+    jobDescription.value = res.data.jobDescription;
 }
 
 const loadDrops = async () => {
@@ -205,6 +213,7 @@ const saveData = async () => {
     formData.append("cityId", cityId.value);
     formData.append("professionId", professionId.value);
     formData.append("salaryId", salaryId.value);
+    formData.append("jobDescription", jobDescription.value);
     formData.append("employersId", employersId.value);
     formData.append("jobId", props.id);
     const res = await updateJob(formData, props.id);

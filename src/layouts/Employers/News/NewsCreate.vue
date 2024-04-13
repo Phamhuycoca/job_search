@@ -74,6 +74,12 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
+                        <el-form-item label="Mô tả công việv">
+                            <el-input type="textarea" :autosize="{ minRows: 6, maxRows: 8 }" size="large"
+                                placeholder="Nhập thông tin" v-model="jobDescription" />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
                         <el-form-item label="Địa điểm">
                             <el-input type="textarea" :autosize="{ minRows: 6, maxRows: 8 }" size="large"
                                 placeholder="Nhập thông tin" v-model="addressJob" />
@@ -133,6 +139,7 @@ const cityId = ref('');
 const salaryId = ref('');
 const professionId = ref('');
 const levelworkId = ref('');
+const jobDescription = ref('');
 
 const Workexperiences = ref<any | undefined>([]);
 const Salaries = ref<any | undefined>([]);
@@ -183,6 +190,7 @@ const saveData = async () => {
     formData.append("levelworkId", levelworkId.value);
     formData.append("cityId", cityId.value);
     formData.append("professionId", professionId.value);
+    formData.append("jobDescription", jobDescription.value);
     formData.append("salaryId", salaryId.value);
     const res = await createJob(formData);
     if (res.success) {

@@ -24,8 +24,8 @@
                             </el-icon>
                             <span>Quản lý thông tin ứng tuyển</span>
                         </template>
-                        <el-menu-item index="1-1" route="/employers/recruitment">Danh sách ứng viên</el-menu-item>
-                        <el-menu-item index="1-2" route="/employers/suitable">Danh sách ứng viên phù hợp</el-menu-item>
+                        <el-menu-item index="3-1" route="/employers/recruitment">Danh sách ứng viên</el-menu-item>
+                        <el-menu-item index="3-2" route="/employers/suitable">Danh sách ứng viên phù hợp</el-menu-item>
                     </el-sub-menu>
                 </el-menu>
                 <el-menu style="position: absolute; bottom: 0;width: 100%;z-index: 1000;" background-color="#b1b3b8"
