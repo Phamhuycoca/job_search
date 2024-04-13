@@ -33,7 +33,7 @@
             placeholder="Nhập thông tin tìm kiếm rồi ấn Enter" :suffix-icon="Search" />
           <el-button class="ml-4" size="large" @click="refeshJobs">Làm mới</el-button>
         </el-row>
-        <el-row :gutter="15" class="min-h-[1000px]">
+        <el-row :gutter="15" v-if="total > 0">
           <el-col :span="12" v-for="item in jobDatas" :key="item" class="mt-4">
             <el-card shadow="hover" class="max-h-[300px]">
               <el-row :gutter="20">
@@ -87,6 +87,11 @@
             </el-card>
           </el-col>
         </el-row>
+        <el-row v-else>
+          <div class="w-full flex justify-center">
+            <span class="text-2xl">Không có dữ liệu</span>
+          </div>
+        </el-row>
         <div class="float-end mt-4">
           <el-pagination background layout="prev, pager, next" :total="totalItems" v-model="page" prev-text
             v-model:current-page="page" />
@@ -132,6 +137,7 @@ const professionId = ref("");
 const workexperienceId = ref("");
 const formofworkId = ref("");
 const totalItems = ref<Number | undefined>(0);
+const total = ref<number>(0);
 let page = ref(1);
 let lengthPage = ref<Number | undefined>(100);
 const liked = ref(true);
@@ -170,6 +176,7 @@ const searchData = async () => {
   jobDatas.value = data?.items;
   totalItems.value = data?.totalItems;
   lengthPage.value = Math.ceil(data?.totalItems / 10) * 10;
+  total.value = data?.totalItems;
   loading.showLoading(false);
 
 
@@ -222,6 +229,8 @@ const loadJobs = async () => {
   jobDatas.value = data?.items;
   totalItems.value = data?.totalItems;
   lengthPage.value = Math.ceil(data?.totalItems / 10) * 10;
+  total.value = data?.totalItems;
+
   loading.showLoading(false);
 
 };
@@ -258,6 +267,16 @@ watch(page, (newVal, oldval) => {
 
 
 onMounted(() => {
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.cityId = "";
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.salaryId = "";
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.formofworkId = "";
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.professionId = "";
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.workexperienceId = "";
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.keyword = "";
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.levelworkId = "";
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.page = 1;
+  DEFAULT_COMMON_LIST_QUERY_BY_HOME.limit = 10;
+
   loadData();
   loadJobs();
 });

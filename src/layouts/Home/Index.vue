@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-[600px] w-fu">
+    <div class="min-h-[600px] w-full mb-10">
         <el-row justify="center">
             <h1 class="mt-5 mb-5 text-2xl">Thông tin tài khoản</h1>
         </el-row>

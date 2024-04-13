@@ -97,9 +97,9 @@
                                 <el-button size="large" plain color="blue" @click="seeMore">
                                     <i class="ri-eye-line m-2"></i>
                                     Xem thêm</el-button>
-                                <el-button v-if="total > 10" size="large" plain color="green" @click="Collaps">
+                                <!-- <el-button v-if="total > 10" size="large" plain color="green" @click="Collaps">
                                     <i class="ri-eye-close-line m-1"></i>
-                                    Thu gọn</el-button>
+                                    Thu gọn</el-button> -->
                             </div>
                         </el-scrollbar>
                     </el-col>

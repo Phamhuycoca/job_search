@@ -53,10 +53,28 @@ export const useJobHome = () => {
       console.error("Error GetDetail:", error);
     }
   };
+  const fetchRelatedJobs =async(id:string) =>{
+    try {
+      const res = await homeApi.RelatedJobs(query_by_home,id);
+      if (res.success) {
+        return {
+          items: res.items,
+          totalItems: res.totalItems,
+        };
+      }
+      return {
+        items: [],
+        totalItems: 0,
+      };
+    } catch (error) {
+      console.error("Error fetchRelatedJobs:", error);
+    } 
+  }
   return {
     query_by_home,
     fetchJobHome,
     searchJobHome,
-    getById
+    getById,
+    fetchRelatedJobs
   };
 };
