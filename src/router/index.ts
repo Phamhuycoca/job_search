@@ -40,6 +40,14 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
+    path: '/test',
+    name: 'Test',
+    component: ()=>import('../components/Element/Test.vue'),
+    meta:{
+      public:true,
+    }
+  },
+  {
     path: '/login',
     name: PageName.LOGIN_PAGE,
     component: ()=>import('../pages/Auth/Login.vue'),
