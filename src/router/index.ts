@@ -18,6 +18,16 @@ const routes: Array<RouteRecordRaw> = [
         component:()=>import('../layouts/Home/Index.vue'),
         meta:{
           public:false,
+          role:Role.JOB_SEEKER
+        },
+      },
+      {
+        path:'/managercv',
+        name:'managercv',
+        component:()=>import('../layouts/Home/FileCv/FileCvIndex.vue'),
+        meta:{
+          public:false,
+          role:Role.JOB_SEEKER
         },
       },
       {

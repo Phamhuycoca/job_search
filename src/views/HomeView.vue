@@ -112,16 +112,17 @@ const Logout = async () => {
     }, 2000)
   }
 }
-const loadData = async () => {
+// const loadData = async () => {
+//   if (isAuthenticated.value) {
+//     const res = await fetchuseRecruitmentsByJob_seeker();
+//     count.value = res?.totalItems;
+//   }
+// }
+onMounted(async () => {
   if (isAuthenticated.value) {
     const res = await fetchuseRecruitmentsByJob_seeker();
-    console.log(res);
-    console.log(res?.totalItems);
     count.value = res?.totalItems;
   }
-}
-onMounted(() => {
-  loadData();
   window.addEventListener('scroll', handleScroll);
 })
 const showScrollButton = ref(false);

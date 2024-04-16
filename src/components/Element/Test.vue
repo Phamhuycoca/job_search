@@ -1,17 +1,16 @@
 <template>
-  <div class="flex justify-center items-center">
+  <div class="flex flex-col items-center m-20">
     <div ref="contentToConvert" style="height: auto; min-height: 800px;min-width:790px;">
       <el-card class="border">
         <el-row>
           <el-col :span="7" class="flex justify-between">
-            <div class="w-40 h-40">
+            <div class="max-w-40 max-h-40">
               <label for="file" class="labelFile flex items-center justify-center">
                 <div v-if="imageData" class="image-container" @mouseover="showButton = true"
                   @mouseleave="showButton = false">
-                  <img v-if="imageData" :src="imageData" alt="Uploaded Image">
+                  <img class="max-w-40 max-h-40" v-if="imageData" :src="imageData" alt="Uploaded Image">
                   <button v-if="showButton" class="centered-button" @click="deleteImage">Xóa ảnh</button>
                 </div>
-
                 <div v-else>
                   <span><svg xml:space="preserve" viewBox="0 0 184.69 184.69" xmlns:xlink="http://www.w3.org/1999/xlink"
                       xmlns="http://www.w3.org/2000/svg" id="Capa_1" version="1.1" width="60px" height="60px">
@@ -169,73 +168,225 @@
         </el-row>
       </el-card>
     </div>
-    <button class="mb-20" @click="convertToPdf">Chuyển đổi sang PDF</button>
+    <div class="w-96 flex justify-between items-center m-20">
+      <button
+        class="relative flex h-[50px] w-40 items-center justify-center overflow-hidden bg-gray-800 text-white shadow-2xl transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-orange-600 before:duration-500 before:ease-out hover:shadow-orange-600 hover:before:h-56 hover:before:w-56">
+        <span class="relative z-10" @click="savePDF">Tải xuống</span>
+      </button>
+      <button @click="convertToPdf"
+        class="relative flex h-[50px] w-40 items-center justify-center overflow-hidden bg-blue-600 font-medium text-white shadow-2xl transition-all duration-300 before:absolute before:inset-0 before:border-0 before:border-white before:duration-100 before:ease-linear hover:bg-white hover:text-blue-600 hover:shadow-blue-600 hover:before:border-[25px]">
+        <span class="relative z-10">Lưu và tải xuống</span>
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue';
 import html2pdf from 'html2pdf.js';
+import { useFileCV } from '../../layouts/Home/FileCv/filecv.service'
+const { uploadFileCv } = useFileCV();
+import { ElMessage } from 'element-plus'
+import { showToasrErrors } from '@/common/helpers';
+import { useLoadingStore } from '@/store/loading.store';
+const loading = useLoadingStore();
+
 export default {
-  data() {
-    return {
-      textareas: [
-        { rows: 4, content: '' }
-      ],
-      inputExps: [{ name: '', description: '' }],
-      showDeleteIcon: false,
-      imageData: null,
-      showButton: false
+  setup() {
+    const contentToConvert = ref(null);
+    const textareas = ref([{ rows: 4, content: '' }]);
+    const inputExps = ref([{ name: '', description: '' }]);
+    const showDeleteIcon = ref(false);
+    const imageData = ref(null);
+    const showButton = ref(false);
+
+    const addinputExp = () => {
+      inputExps.value.push({ name: '', description: '' });
     };
-  },
-  methods: {
-    addinputExp() {
-      this.inputExps.push({ name: '', description: '' });
-    },
-    removeinputExp(index) {
-      this.inputExps.splice(index, 1); // Xóa một đối tượng từ mảng
-    },
-    addTextarea() {
-      this.textareas.push({ rows: 4, content: '' });
-    },
-    removeTextarea(index) {
+
+    const removeinputExp = (index) => {
+      inputExps.value.splice(index, 1);
+    };
+
+    const addTextarea = () => {
+      textareas.value.push({ rows: 4, content: '' });
+    };
+
+    const removeTextarea = (index) => {
       if (index !== 0) {
-        this.textareas.splice(index, 1);
+        textareas.value.splice(index, 1);
       }
-    },
-    toggleDeleteIcon(index, value) {
-      this.showDeleteIcon = value;
-    },
-    handleImageChange(event) {
+    };
+
+    const toggleDeleteIcon = (index, value) => {
+      showDeleteIcon.value = value;
+    };
+
+    const handleImageChange = (event) => {
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
-          this.imageData = reader.result;
+          imageData.value = reader.result;
         };
         reader.onerror = error => {
           console.error('Error converting image to base64:', error);
         };
       }
-    },
-    deleteImage() {
-      this.imageData = null;
-    },
-    convertToPdf() {
-      const element = this.$refs.contentToConvert;
+    };
+
+    const deleteImage = () => {
+      imageData.value = null;
+    };
+
+    // const convertToPdf = () => {
+    //   var fileName = prompt("Nhập tên tệp PDF:");
+    //   if (!fileName) {
+    //     return;
+    //   }
+
+    //   const options = {
+    //     border: 1,
+    //     width: 800,
+    //     height: 800
+    //   };
+    //   html2pdf().from(contentToConvert.value).set(options).toPdf().get('pdf').then(pdf => {
+    //     const reader = new FileReader();
+    //     reader.readAsArrayBuffer(pdf.output('blob'));
+    //     reader.onload = () => {
+    //       loading.showLoading(true);
+
+    //       const formData = new FormData();
+    //       formData.append('fileCVName', fileName);
+    //       formData.append('pdfFile', new Blob([reader.result], { type: 'application/pdf' }), fileName + '.pdf');
+    //       const res = uploadFileCv(formData);
+    //       console.log(res);
+    //       if (res.success) {
+    //         // showSuccessNotification(res.message)
+    //         ElMessage({
+    //           message: res.message,
+    //           type: 'success',
+    //         })
+    //       }
+    //       else {
+    //         if (res.errors !== undefined) {
+    //           showToasrErrors(res.errors);
+    //           //showErrors(res.errors);
+    //         }
+    //       }
+    //       loading.showLoading(false);
+
+    //     }
+    //   });
+
+    // };
+    const convertToPdf = async () => {
+      var fileName = prompt("Nhập tên tệp PDF:");
+      if (!fileName) {
+        return;
+      }
 
       const options = {
         border: 1,
         width: 800,
         height: 800
       };
-      html2pdf().from(element).set(options).save();
-    },
-    autoResize() {
-      const textarea = this.$refs.textarea;
+
+      try {
+        const pdf = await html2pdf().from(contentToConvert.value).set(options).toPdf().get('pdf');
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(pdf.output('blob'));
+
+        loading.showLoading(true);
+
+        const formData = new FormData();
+        formData.append('fileCVName', fileName);
+        formData.append('pdfFile', new Blob([reader.result], { type: 'application/pdf' }), fileName + '.pdf');
+
+        const res = await uploadFileCv(formData);
+        console.log(res);
+
+        if (res.success) {
+          ElMessage({
+            message: res.message,
+            type: 'success',
+          });
+        } else {
+          if (res.errors !== undefined) {
+            showToasrErrors(res.errors);
+          }
+        }
+
+        loading.showLoading(false);
+      } catch (error) {
+        console.error('Error converting to PDF:', error);
+        loading.showLoading(false);
+        // Handle error here
+      }
+    };
+
+    // const savePDF = () => {
+    //   loading.showLoading(true);
+    //   const element = contentToConvert.value;
+    //   const options = {
+    //     border: 1,
+    //     width: 800,
+    //     height: 800,
+    //   };
+    //   html2pdf().from(element).set(options).save();
+    //   ElMessage({
+    //     message: 'Cv đã được tải xuống',
+    //     type: 'success',
+    //   });
+    //   loading.showLoading(false);
+    // }
+    const savePDF = async () => {
+      try {
+        loading.showLoading(true);
+        const element = contentToConvert.value;
+        const options = {
+          border: 1,
+          width: 800,
+          height: 800,
+        };
+        await html2pdf().from(element).set(options).save();
+        ElMessage({
+          message: 'Cv đã được tải xuống',
+          type: 'success',
+        });
+      } catch (error) {
+        console.error('Error saving PDF:', error);
+      } finally {
+        loading.showLoading(false);
+      }
+    };
+
+
+    const autoResize = () => {
+      const textarea = document.getElementById('message');
       textarea.style.height = "auto";
       textarea.style.height = `${textarea.scrollHeight}px`;
-    }
+    };
+
+    return {
+      contentToConvert,
+      textareas,
+      inputExps,
+      showDeleteIcon,
+      imageData,
+      showButton,
+      addinputExp,
+      removeinputExp,
+      addTextarea,
+      removeTextarea,
+      toggleDeleteIcon,
+      handleImageChange,
+      deleteImage,
+      convertToPdf,
+      autoResize,
+      savePDF
+    };
   },
   mounted() {
     this.autoResize();
