@@ -23,7 +23,16 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path:'/managercv',
-        name:'managercv',
+        name:PageName.MANAGERCV_PAGE,
+        component:()=>import('../layouts/Home/FileCv/FileCv.vue'),
+        meta:{
+          public:false,
+          role:Role.JOB_SEEKER
+        },
+      },
+      {
+        path:'/createcv',
+        name:PageName.CREATECV_PAGE,
         component:()=>import('../layouts/Home/FileCv/FileCvIndex.vue'),
         meta:{
           public:false,

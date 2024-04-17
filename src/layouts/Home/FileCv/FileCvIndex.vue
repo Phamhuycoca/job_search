@@ -196,6 +196,7 @@ import { useFileCV } from './filecv.service';
 const loading = useLoadingStore();
 
 export default {
+    name: 'managercv',
     setup() {
         const contentToConvert = ref(null);
         const textareas = ref([{ rows: 4, content: '' }]);
@@ -286,7 +287,7 @@ export default {
 
         // };
         const convertToPdf = async () => {
-            var fileName = prompt("Nhập tên tệp PDF:");
+            var fileName = prompt("Nhập tên file:");
             if (!fileName) {
                 return;
             }
