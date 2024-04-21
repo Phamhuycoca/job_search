@@ -5,7 +5,7 @@
             <el-link href="/createcv" class="border text-xl no-underline rounded" style="padding: 8px;">Tạo mới
                 cv</el-link>
         </div>
-        <div class="w-full px-40">
+        <div class="w-full px-72">
             <el-row class="mb-10">
                 <el-col :span="12" class="p-2" v-for="item in FileCvs" :key="item">
                     <el-card shadow="nerver">
@@ -25,14 +25,22 @@
                 </el-col>
             </el-row>
         </div>
+        <div class="flex justify-center m-10">
+            <el-pagination background layout="prev, pager, next" :total="totalItems" v-model="page" prev-text
+                v-model:current-page="page" />
+        </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useFileCV } from './filecv.service';
 import { useLoadingStore } from '@/store/loading.store';
 import { showErrors, showSuccessNotification } from '@/common/helpers';
+import { DEFAULT_COMMON_LIST_QUERY } from '@/common/constants';
+const total = ref<number>(0);
+let page = ref(1);
+const totalItems = ref<Number | undefined>(0);
 
 const { fetchFileCvs, deletefileCV } = useFileCV();
 const loading = useLoadingStore();
@@ -43,6 +51,11 @@ const viewCV = (fileCv: string) => {
         console.log('');
     }
 }
+watch(page, (newVal, oldval) => {
+    DEFAULT_COMMON_LIST_QUERY.page = newVal;
+    loadData();
+});
+
 const FileCvs = ref<any | null>([]);
 const loadData = async () => {
     loading.showLoading(true);
@@ -50,6 +63,8 @@ const loadData = async () => {
     console.log(res?.items);
     FileCvs.value = res?.items;
     loading.showLoading(false);
+    totalItems.value = Math.ceil(res?.totalItems / 10) * 10;
+    total.value = res?.totalItems;
 }
 const deleteCV = async (id: string) => {
     loading.showLoading(true);
