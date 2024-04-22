@@ -48,7 +48,7 @@
                         {{ item.jobName }}
                       </el-tooltip>
                     </router-link>
-                    <router-link :to="`/companny/${item.employersId}`"
+                    <router-link :to="`/compannydetail/${item.employersId}`"
                       class="uppercase cursor-pointer hover:text-[blue] hover:underline">
                       <el-tooltip :content="item.companyName" placement="top">
                         {{ item.companyName }}

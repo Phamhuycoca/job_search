@@ -40,8 +40,8 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: '/companny/:id',
-        name: PageName.COMPANNY_PAGE,
+        path: '/compannydetail/:id',
+        name: PageName.COMPANNYDETAIL_PAGE,
         component: ()=>import('../layouts/Home/Companny/Companny.vue'),
         meta:{
           public:true,
@@ -62,8 +62,15 @@ const routes: Array<RouteRecordRaw> = [
         meta:{
           public:true,
         }
+      },
+      {
+        path: '/companny',
+        name: PageName.COMPANNY_PAGE,
+        component: ()=>import('../components/Web/Companny.vue'),
+        meta:{
+          public:true,
+        }
       }
-
     ]
   },
   {

@@ -245,47 +245,7 @@ export default {
             imageData.value = null;
         };
 
-        // const convertToPdf = () => {
-        //   var fileName = prompt("Nhập tên tệp PDF:");
-        //   if (!fileName) {
-        //     return;
-        //   }
 
-        //   const options = {
-        //     border: 1,
-        //     width: 800,
-        //     height: 800
-        //   };
-        //   html2pdf().from(contentToConvert.value).set(options).toPdf().get('pdf').then(pdf => {
-        //     const reader = new FileReader();
-        //     reader.readAsArrayBuffer(pdf.output('blob'));
-        //     reader.onload = () => {
-        //       loading.showLoading(true);
-
-        //       const formData = new FormData();
-        //       formData.append('fileCVName', fileName);
-        //       formData.append('pdfFile', new Blob([reader.result], { type: 'application/pdf' }), fileName + '.pdf');
-        //       const res = uploadFileCv(formData);
-        //       console.log(res);
-        //       if (res.success) {
-        //         // showSuccessNotification(res.message)
-        //         ElMessage({
-        //           message: res.message,
-        //           type: 'success',
-        //         })
-        //       }
-        //       else {
-        //         if (res.errors !== undefined) {
-        //           showToasrErrors(res.errors);
-        //           //showErrors(res.errors);
-        //         }
-        //       }
-        //       loading.showLoading(false);
-
-        //     }
-        //   });
-
-        // };
         const convertToPdf = async () => {
             var fileName = prompt("Nhập tên file:");
             if (!fileName) {
@@ -293,59 +253,47 @@ export default {
             }
 
             const options = {
-                border: 1,
                 width: 800,
                 height: 800
             };
 
             try {
-                const pdf = await html2pdf().from(contentToConvert.value).set(options).toPdf().get('pdf');
+                const pdf = await html2pdf().from(contentToConvert.value).set(options).outputPdf('blob');
+
                 const reader = new FileReader();
-                reader.readAsArrayBuffer(pdf.output('blob'));
+                reader.readAsArrayBuffer(pdf);
 
-                loading.showLoading(true);
+                reader.onload = async () => {
+                    loading.showLoading(true);
 
-                const formData = new FormData();
-                formData.append('fileCVName', fileName);
-                formData.append('pdfFile', new Blob([reader.result], { type: 'application/pdf' }), fileName + '.pdf');
+                    const formData = new FormData();
+                    formData.append('fileCVName', fileName);
+                    formData.append('pdfFile', new Blob([reader.result], { type: 'application/pdf' }), fileName + '.pdf');
 
-                const res = await uploadFileCv(formData);
-                console.log(res);
+                    const res = await uploadFileCv(formData);
+                    console.log(res);
 
-                if (res.success) {
-                    ElMessage({
-                        message: res.message,
-                        type: 'success',
-                    });
-                } else {
-                    if (res.errors !== undefined) {
-                        showToasrErrors(res.errors);
+                    if (res.success) {
+                        ElMessage({
+                            message: res.message,
+                            type: 'success',
+                        });
+                    } else {
+                        if (res.errors !== undefined) {
+                            showToasrErrors(res.errors);
+                        }
                     }
-                }
 
-                loading.showLoading(false);
+                    loading.showLoading(false);
+                };
             } catch (error) {
                 console.error('Error converting to PDF:', error);
                 loading.showLoading(false);
-                // Handle error here
             }
+
         };
 
-        // const savePDF = () => {
-        //   loading.showLoading(true);
-        //   const element = contentToConvert.value;
-        //   const options = {
-        //     border: 1,
-        //     width: 800,
-        //     height: 800,
-        //   };
-        //   html2pdf().from(element).set(options).save();
-        //   ElMessage({
-        //     message: 'Cv đã được tải xuống',
-        //     type: 'success',
-        //   });
-        //   loading.showLoading(false);
-        // }
+
         const savePDF = async () => {
             try {
                 loading.showLoading(true);
