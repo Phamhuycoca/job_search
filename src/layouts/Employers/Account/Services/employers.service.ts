@@ -1,10 +1,11 @@
-import { DEFAULT_COMMON_LIST_QUERY } from "@/common/constants";
+import { DEFAULT_COMMON_LIST_QUERY, DEFAULT_COMMON_LIST_QUERY_BY_HOME } from "@/common/constants";
 import { useLoadingStore } from "@/store/loading.store";
 import { showErrors } from "@/common/helpers";
 import { employersApi } from "./employers.api";
 const loading = useLoadingStore();
 export const useEmployers = () => {
   const query = DEFAULT_COMMON_LIST_QUERY;
+  const query_by_home=DEFAULT_COMMON_LIST_QUERY_BY_HOME;
   const getInfo=async()=>{
     try{
       loading.showLoading(true);
@@ -53,11 +54,53 @@ export const useEmployers = () => {
       loading.showLoading(false);
     }
   };
+  const fetchCompannys=async ()=>{
+    try {
+      const res = await employersApi.CompannyList(query_by_home);
+      if (res.errors !== undefined) {
+        showErrors(res.errors);
+    }
+      if (res.success) {
+        return {
+          items: res.items,
+          totalItems: res.totalItems,
+        };
+      }
+      return {
+        items: [],
+        totalItems: 0,
+      };
+    } catch (error) {
+      console.error("Error Fetching:", error);
+    } 
+  };
+  const searchCompannys=async ()=>{
+    try {
+      const res = await employersApi.CompannyList(query_by_home);
+      if (res.errors !== undefined) {
+        showErrors(res.errors);
+    }
+      if (res.success) {
+        return {
+          items: res.items,
+          totalItems: res.totalItems,
+        };
+      }
+      return {
+        items: [],
+        totalItems: 0,
+      };
+    } catch (error) {
+      console.error("Error Fetching:", error);
+    } 
+  };
   return {
     query,
     getInfo,
     updateEmployers,
     getById,
-    GetListJobById
+    GetListJobById,
+    fetchCompannys,
+    searchCompannys
   };
 };

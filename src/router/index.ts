@@ -48,6 +48,14 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
+        path: '/compannylist',
+        name: PageName.COMPANNYLIST_PAGE,
+        component: ()=>import('../layouts/Home/Companny/CompanyList.vue'),
+        meta:{
+          public:true,
+        }
+      },
+      {
         path: '/jobdetail/:id',
         name: PageName.JOBDETAIL_PAGE,
         component: ()=>import('../layouts/Home/Job/Jobdetail.vue'),

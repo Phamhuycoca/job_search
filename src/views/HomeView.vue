@@ -7,18 +7,24 @@
           </el-image>
         </router-link>
         <div class="w-full h-full flex justify-between items-center">
-          <el-menu ellipsis mode="horizontal" :popper-offset="16" class="w-full">
+          <!-- <el-menu router="true" active-text-color="black" ellipsis mode="horizontal" :popper-offset="16"
+            class="w-full">
             <el-menu-item index="1">Việc làm</el-menu-item>
-            <el-menu-item index="2">
+            <el-menu-item index="2" route="/compannylist">
               <template #title>Công ty</template>
-            </el-menu-item>
-            <el-sub-menu index="3" :popper-offset="8">
-              <template #title>Khu vực</template>
-              <el-menu-item index="3-1">Miền bắc</el-menu-item>
-              <el-menu-item index="3-2">Miền trung</el-menu-item>
-              <el-menu-item index="3-3">Miền nam</el-menu-item>
-            </el-sub-menu>
-          </el-menu>
+</el-menu-item>
+<el-sub-menu index="3" :popper-offset="8">
+  <template #title>Khu vực</template>
+  <el-menu-item index="3-1">Miền bắc</el-menu-item>
+  <el-menu-item index="3-2">Miền trung</el-menu-item>
+  <el-menu-item index="3-3">Miền nam</el-menu-item>
+</el-sub-menu>
+</el-menu> -->
+          <div class="flex w-[200px] justify-between">
+            <el-link href="/companny" class="-m-2 block p-2 font-medium text-gray-900">Việc làm</el-link>
+            <el-link href="/compannylist" class="-m-2 block p-2 font-medium text-gray-900">Công ty</el-link>
+            <el-link href="#" class="-m-2 block p-2 font-medium text-gray-900">Tin tức</el-link>
+          </div>
           <div>
             <div v-if="isAuthenticated" class="w-[80px] flex justify-between items-center">
               <el-badge :value="count" circle>
@@ -145,5 +151,10 @@ const scrollToTop = () => {
   position: fixed;
   bottom: 20px;
   right: 20px;
+}
+
+
+.el-menu--horizontal>.el-menu-item.is-active {
+  border-bottom: none !important;
 }
 </style>
