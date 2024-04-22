@@ -29,7 +29,7 @@
                                         <el-tooltip effect="dark" :content="item.companyName" placement="top">
                                             <span class="text-md truncate"><i class="ri-community-line mr-2"></i>{{
                                                 item.companyName
-                                                }}</span>
+                                            }}</span>
                                         </el-tooltip>
                                         <el-tooltip effect="dark" :content="item.companyAddress" placement="top">
                                             <span class="text-md truncate"><i class="ri-map-pin-fill mr-2"></i>{{
