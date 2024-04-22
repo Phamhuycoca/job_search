@@ -33,6 +33,11 @@
             placeholder="Nhập thông tin tìm kiếm rồi ấn Enter" :suffix-icon="Search" />
           <el-button class="ml-4" size="large" @click="refeshJobs">Làm mới</el-button>
         </el-row>
+        <el-row>
+          <el-col>
+            <span class="text-2xl uppercase w-full flex justify-center">Danh sách việc làm</span>
+          </el-col>
+        </el-row>
         <el-row :gutter="15" v-if="total > 0">
           <el-col :span="12" v-for="item in jobDatas" :key="item" class="mt-4">
             <el-card shadow="hover" class="max-h-[300px]">
@@ -96,6 +101,57 @@
           <el-pagination background layout="prev, pager, next" :total="totalItems" v-model="page" prev-text
             v-model:current-page="page" />
         </div>
+
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24" class="px-2">
+        <span class="text-2xl w-full flex justify-center mt-10 uppercase">Danh sách công ty</span>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24" class="px-2 my-10">
+        <el-row :gutter="10">
+          <el-col :span="12" v-for="item in compannyLists" :key="item">
+            <el-card shadow="hover" class="mb-5">
+              <el-row>
+                <el-col :span="4" class="flex justify-center items-center">
+                  <el-image style="max-height: 128px;height: 100%; max-width: 128px;width: 100%;" fit="cover"
+                    :src="item.companyLogo" />
+                </el-col>
+                <el-col :span="15" class=" h-32 ml-2">
+                  <div class="h-full w-full flex flex-col justify-between">
+                    <el-tooltip effect="dark" :content="item.companyName" placement="top">
+                      <span class="text-md truncate"><i class="ri-community-line mr-2"></i>{{
+                        item.companyName
+                      }}</span>
+                    </el-tooltip>
+                    <el-tooltip effect="dark" :content="item.companyAddress" placement="top">
+                      <span class="text-md truncate"><i class="ri-map-pin-fill mr-2"></i>{{
+                        item.companyAddress }}</span>
+                    </el-tooltip>
+                    <span class="text-md"><i class="ri-phone-fill mr-2"></i>{{
+                      item.contactPhoneNumber }}</span>
+                    <span class="text-md"><i class="ri-road-map-line mr-2"></i>{{ item.cityName
+                      }}</span>
+                  </div>
+                </el-col>
+                <el-col :span="4" style="position: relative;margin-left: 15px;">
+                  <el-tooltip content="Số lượt thích 1k" placement="top">
+                    <div class="flex justify-center items-center text-sm cursor-pointer">
+                      <i :class="{ 'ri-heart-line': !liked, 'ri-heart-fill text-red-500': liked }"
+                        class="text-3xl cursor-pointer" @click="toggleLike"></i>Like
+                    </div>
+                  </el-tooltip>
+                  <el-link :href="`/companny/${item.employersId}`"
+                    style="position: absolute;bottom: 0;display: flex;justify-content: center;width: 100%;align-items: center;"
+                    type="info"><i class="ri-eye-line"></i>Xem
+                    chi tiết</el-link>
+                </el-col>
+              </el-row>
+            </el-card>
+          </el-col>
+        </el-row>
       </el-col>
     </el-row>
     <RecruimentDialog :dialog="dialog" @close="dialog = false" :currentItem="currentItem" />
@@ -116,8 +172,12 @@ import { DEFAULT_COMMON_LIST_QUERY_BY_HOME } from "@/common/constants";
 import { showSuccessNotification, showErrorNotification, showErrors, showToasrErrors } from "@/common/helpers";
 import { useAuthService } from '../../pages/Auth/Services/auth.service'
 import { useLoadingStore } from "@/store/loading.store";
+const { fetchCompannys, searchCompannys } = useEmployers();
+const compannyLists = ref<any | undefined>([]);
+
 import { useRecruitment } from '@/layouts/Home/Recruitment/Services/recruitment.service';
 import { ElMessage } from 'element-plus'
+import { useEmployers } from "@/layouts/Employers/Account/Services/employers.service";
 const { createuseRecruitment } = useRecruitment();
 const { isAuthenticated } = useAuthService();
 const loading = useLoadingStore();
@@ -230,7 +290,8 @@ const loadJobs = async () => {
   totalItems.value = data?.totalItems;
   lengthPage.value = Math.ceil(data?.totalItems / 10) * 10;
   total.value = data?.totalItems;
-
+  const res = await fetchCompannys();
+  compannyLists.value = res?.items;
   loading.showLoading(false);
 
 };
