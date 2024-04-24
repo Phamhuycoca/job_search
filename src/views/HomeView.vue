@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-container>
+
       <el-header class="sticky top-0 flex items-center border bg-white z-[1000]" style="padding: 0px!important;">
         <router-link to="/">
           <el-image :src="logo" class="w-40 h-[50px] cursor-pointer" fit="contain">
@@ -8,7 +9,7 @@
         </router-link>
         <div class="w-full h-full flex justify-between items-center">
           <div class="flex w-[200px] justify-between">
-            <el-link href="/companny" class="-m-2 block p-2 font-medium text-gray-900">Việc làm</el-link>
+            <el-link href="/joblist" class="-m-2 block p-2 font-medium text-gray-900">Việc làm</el-link>
             <el-link href="/compannylist" class="-m-2 block p-2 font-medium text-gray-900">Công ty</el-link>
             <el-link href="#" class="-m-2 block p-2 font-medium text-gray-900">Tin tức</el-link>
           </div>

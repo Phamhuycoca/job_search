@@ -35,7 +35,7 @@
         </el-row>
         <el-row>
           <el-col>
-            <span class="text-2xl uppercase w-full flex justify-center">Danh sách việc làm</span>
+            <span class="text-2xl uppercase w-full">Danh sách việc làm</span>
           </el-col>
         </el-row>
         <el-row :gutter="15" v-if="total > 0">
@@ -79,7 +79,7 @@
                   <el-tooltip content="Số lượt thích 1k" placement="top">
                     <div class="flex justify-center items-center text-sm cursor-pointer">
                       <i :class="{ 'ri-heart-line': !liked, 'ri-heart-fill text-red-500': liked }"
-                        class="text-3xl cursor-pointer" @click="toggleLike"></i>Like
+                        class="text-3xl cursor-pointer m-2" @click="toggleLike"></i>Yêu thích
                     </div>
                   </el-tooltip>
                   <el-button class="absolute bottom-0" type="success" plain v-if="isAuthenticated"
@@ -104,9 +104,9 @@
 
       </el-col>
     </el-row>
-    <el-row>
+    <!-- <el-row>
       <el-col :span="24" class="px-2">
-        <span class="text-2xl w-full flex justify-center mt-10 uppercase">Danh sách công ty</span>
+        <span class="text-2xl  mt-10 uppercase">Danh sách công ty</span>
       </el-col>
     </el-row>
     <el-row>
@@ -153,7 +153,7 @@
           </el-col>
         </el-row>
       </el-col>
-    </el-row>
+    </el-row> -->
     <RecruimentDialog :dialog="dialog" @close="dialog = false" :currentItem="currentItem" />
   </div>
 </template>
@@ -241,31 +241,6 @@ const searchData = async () => {
 
 
 };
-// const recruitment = async (jobId: string, employersId: string) => {
-//   if (isAuthenticated.value) {
-//     // alert(jobId + " is authenticated");
-//     // alert(employersId + "a")
-//     const formData = new FormData();
-//     formData.append('jobId', jobId);
-//     formData.append('employersId', employersId);
-//     const res = await createuseRecruitment(formData);
-//     if (res.success) {
-//       // showSuccessNotification(res.message)
-//       ElMessage({
-//         message: res.message,
-//         type: 'success',
-//       })
-//     }
-//     else {
-//       if (res.errors !== undefined) {
-//         showToasrErrors(res.errors);
-//         //showErrors(res.errors);
-//       }
-//     }
-//   } else {
-//     showErrorNotification('Hãy đăng nhập');
-//   }
-// }
 
 const refeshJobs = async () => {
   DEFAULT_COMMON_LIST_QUERY_BY_HOME.cityId = "";
