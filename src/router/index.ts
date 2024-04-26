@@ -127,8 +127,9 @@ const routes: Array<RouteRecordRaw> = [
     name: PageName.EMPLOYERS_PAGE,
     component: ()=>import('../layouts/Employers/EmployersIndex.vue'),
     meta:{
-      public:false,
-      role:Role.EMPLOYER
+      // public:false,
+      // role:Role.EMPLOYER
+      public:true,
     },
     children:[
       {
@@ -174,8 +175,8 @@ const routes: Array<RouteRecordRaw> = [
     name: PageName.ADMIN,
     component: ()=> import('../views/AdminView.vue'),
     meta:{
-      public:false,
-      role:Role.ADMIN
+      public:true,
+      // role:Role.ADMIN
     },
     children:[
       {
