@@ -93,7 +93,16 @@ export const useLevelworks = () => {
       loading.showLoading(false);
     }
   };
-
+  const getLevelworksList=async(id:any)=>{
+    try{
+      loading.showLoading(true);
+      return await levelworksApi.getDataById(id);
+    }catch (error) {
+      console.error("Error GetDetail:", error);
+    }finally {
+      loading.showLoading(false);
+    }
+  };
   return {
     fetchLevelworks,
     createLevelworks,
@@ -102,5 +111,6 @@ export const useLevelworks = () => {
     query,
     getLevelworks,
     searchLevelworks,
+    getLevelworksList
   };
 };

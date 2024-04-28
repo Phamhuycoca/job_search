@@ -10,23 +10,13 @@
             </el-col>
         </el-row>
         <el-table :data="tableData" style="width: 100%;">
-            <el-table-column type="expand">
-                <template #default="props">
-                    <el-table :data="props.row.family">
-                        <el-table-column label="City" prop="city" width="550" align="center" />
-                        <el-table-column label="Address" width="500" prop="address" align="center" />
-                        <el-table-column label="Zip" prop="zip" align="center" min-width="150" />
-                    </el-table>
-                </template>
+
+            <el-table-column type="index" label="STT" width="450" align="center">
+
             </el-table-column>
-            <el-table-column type="index" label="STT" width="450" align="center" />
             <el-table-column prop="professionName" label="Nghành nghề" align="center" width="600" />
             <el-table-column fixed="right" label="Tùy chọn" min-width="150" align="center">
                 <template #default="scope">
-                    <!-- <el-button type="primary" size="small"
-                        @click="id = scope.row.professionId, dialogEdit = true">Sửa</el-button>
-                    <el-button type="primary" size="small"
-                        @click="dialogDelete = true, idRemove = scope.row.professionId">Xóa</el-button> -->
                     <el-dropdown size="large" split-button type="primary">
                         <span>
                             Chức năng
@@ -41,7 +31,7 @@
                                     @click="dialogDelete = true, idRemove = scope.row.professionId">
                                     Xóa</el-dropdown-item>
                                 <el-dropdown-item :icon="Plus"
-                                    @click="dialog_levelwork = true, professionName = scope.row.professionName">Thêm cấp
+                                    @click="dialog_levelwork = true, profession = scope.row">Thêm cấp
                                     bậc</el-dropdown-item>
                             </el-dropdown-menu>
                         </template>
@@ -63,8 +53,8 @@
         <ProfessionCreate :dialog="dialog" @close="dialog = false" @loadData="loadData()" />
         <ProfessionUpdate :dialogEdit="dialogEdit" :id="id" @close="dialogEdit = false" @loadData="loadData()" />
         <ConfirmVue :dialogDelete="dialogDelete" @close="dialogDelete = false" @saveData="RemoveItem" />
-        <LevelworksCreate :professionName="professionName" :dialog_levelwork="dialog_levelwork"
-            @close="dialog_levelwork = false, professionName = ''" />
+        <LevelworksCreate :profession="profession" :dialog_levelwork="dialog_levelwork"
+            @close="dialog_levelwork = false, profession = ''" />
     </div>
 </template>
 
@@ -86,25 +76,39 @@ import { DEFAULT_COMMON_LIST_QUERY, DEFAULT_LIMIT_FOR_PAGINATION, optionsSelect 
 import { showErrors, showSuccessNotification } from "@/common/helpers";
 import { useProfession } from "./Services/profession.service"
 import LevelworksCreate from '../Levelworks/LevelworksCreate.vue'
+import { useLevelworks } from '../Levelworks/Services/levelworks.service'
+const { getLevelworksList } = useLevelworks();
 const { fetchProfessions, searchProfessions, deleteProfession } = useProfession();
 
-const professionName = ref('');
+const profession = ref('');
 const dialog_levelwork = ref(false);
 const dialog = ref(false);
 const dialogEdit = ref(false);
 const dialogDelete = ref(false);
 const id = ref('');
 const idRemove = ref('');
-
 const seletedValue = ref(DEFAULT_LIMIT_FOR_PAGINATION);
 const totalItems = ref<Number | undefined>(0);
 let page = ref(1);
 let lengthPage = ref<Number | undefined>(100);
 const tableData = ref<any | undefined>([]);
+const tableLevelworks = ref<any | undefined>([]);
 const search = ref('');
+const professionId = ref();
+console.log(professionId.value);
+const loadLevels = async (id: any) => {
+    const data = await getLevelworksList(id);
+    if (data) {
+        tableLevelworks.value = data.items;
+    }
+}
+watch(professionId, (newVal, oldval) => {
+    alert(newVal);
+    if (newVal !== '' || newVal !== null) {
+        loadLevels(newVal);
+    }
 
-
-
+});
 const RemoveItem = async () => {
     const res = await deleteProfession(idRemove.value);
     if (res.success) {

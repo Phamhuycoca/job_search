@@ -18,5 +18,8 @@ class LevelworksApiService extends ApiService {
   itemsList():Promise<ItemsList> {
     return this.client.get(`${this.baseUrl}/ItemsList`);
   }
+  getDataById(id: any): Promise<any> {
+    return this.client.get(`${this.baseUrl}/GetByProfession/${id}`);
+  }
 }
 export const levelworksApi = new LevelworksApiService({ baseUrl: "/Levelwork" }, axiosInstance);

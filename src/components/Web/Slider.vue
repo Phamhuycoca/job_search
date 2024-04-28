@@ -45,7 +45,7 @@
     </div> -->
     <div style="margin-top: 100px;" class="px-2">
         <el-row>
-            <span class="text-2xl my-4 uppercase w-full">Danh sách việc làm</span>
+            <span class="text-2xl my-4 uppercase w-full">Danh sách công ty nổi bật</span>
         </el-row>
         <el-carousel>
             <el-carousel-item style="height: 100%;">

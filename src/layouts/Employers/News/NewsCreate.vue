@@ -39,7 +39,8 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="Cấp bậc làm việc">
-                            <el-select size="large" placeholder="Chọn thông tin" v-model="levelworkId">
+                            <el-select size="large" placeholder="Chọn thông tin" v-model="levelworkId"
+                                :disabled="disnable">
                                 <el-option v-for="item in Levelworks" :key="item.levelworkId" :value="item.levelworkId"
                                     :label="item.levelworkName" />
                             </el-select>
@@ -115,7 +116,7 @@
 
 <script lang="ts" setup>
 import { optionsGender } from "@/common/constants";
-import { defineProps, defineEmits, ref, onMounted } from "vue";
+import { defineProps, defineEmits, ref, onMounted, watch } from "vue";
 import { showErrors, showSuccessNotification } from "@/common/helpers";
 import { cityApi } from "@/layouts/Admin/City/Services/city.api";
 import { salaryApi } from "@/layouts/Admin/Salary/Services/salary.api";
@@ -124,6 +125,8 @@ import { professionApi } from "@/layouts/Admin/Profession/Services/profession.ap
 import { workexperiencekApi } from "@/layouts/Admin/Workexperience/Services/workexperience.api";
 import { levelworksApi } from "@/layouts/Admin/Levelworks/Services/levelworks.api";
 import { useJob } from "./Services/job.service";
+import { useLevelworks } from "@/layouts/Admin/Levelworks/Services/levelworks.service";
+const { getLevelworksList } = useLevelworks();
 const { createJob } = useJob();
 const emit = defineEmits();
 const props = defineProps(['dialog']);
@@ -140,6 +143,7 @@ const salaryId = ref('');
 const professionId = ref('');
 const levelworkId = ref('');
 const jobDescription = ref('');
+const disnable = ref(true);
 
 const Workexperiences = ref<any | undefined>([]);
 const Salaries = ref<any | undefined>([]);
@@ -148,8 +152,18 @@ const Levelworks = ref<any | undefined>([]);
 const Formofworks = ref<any | undefined>([]);
 const Cities = ref<any | undefined>([]);
 
-
-
+watch(() => professionId.value, (newVal) => {
+    if (newVal !== '') {
+        disnable.value = false;
+        getLevelworksListById(newVal);
+    } else {
+        disnable.value = true;
+    }
+})
+const getLevelworksListById = async (id: any) => {
+    const levelworks = await getLevelworksList(id);
+    Levelworks.value = levelworks.data
+}
 const loadDrops = async () => {
     const professions = await professionApi.itemsList();
     Professions.value = professions.data;
@@ -157,8 +171,8 @@ const loadDrops = async () => {
     Workexperiences.value = workexperiences.data;
     const salaries = await salaryApi.itemsList();
     Salaries.value = salaries.data;
-    const levelworks = await levelworksApi.itemsList();
-    Levelworks.value = levelworks.data;
+    // const levelworks = await levelworksApi.itemsList();
+    // Levelworks.value = levelworks.data;
     const formofworks = await formofworkApi.itemsList();
     Formofworks.value = formofworks.data;
     const cities = await cityApi.itemsList();
@@ -173,6 +187,7 @@ onMounted(() => {
 
 
 const handleClose = () => {
+    disnable.value = true;
     emit('close');
 };
 
@@ -203,6 +218,8 @@ const saveData = async () => {
     }
     emit('loadData');
     emit('close');
+    disnable.value = true;
+
 }
 </script>
 
