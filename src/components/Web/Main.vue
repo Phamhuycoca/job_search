@@ -71,15 +71,19 @@
                     <div class="flex items-center">
                       <div class="mr-2"> {{ item.formofworkName }} </div> - <div class="ml-2 text-sm">Hạn {{
                         item.expirationDate
-                      }}</div>
+                        }}</div>
                     </div>
                   </div>
                 </el-col>
                 <el-col :span="4" class="w-full max-h-full relative">
                   <el-tooltip content="Số lượt thích 1k" placement="top">
                     <div class="flex justify-center items-center text-sm cursor-pointer">
-                      <i :class="{ 'ri-heart-line': !liked, 'ri-heart-fill text-red-500': liked }"
-                        class="text-3xl cursor-pointer m-2" @click="toggleLike"></i>Yêu thích
+                      <i v-if="isAuthenticated"
+                        :class="{ 'ri-heart-line': !showLikeByJobId(item.jobId).isFavoufite_Job, 'ri-heart-fill text-red-500': showLikeByJobId(item.jobId).isFavoufite_Job }"
+                        class="text-3xl cursor-pointer m-2"
+                        @click="toggleLike(item.jobId, !showLikeByJobId(item.jobId).isFavoufite_Job, showLikeByJobId(item.jobId).favoufite_Job_Id)"></i>
+                      <i v-else class="text-3xl cursor-pointer m-2 ri-heart-line"></i>
+                      Yêu thích
                     </div>
                   </el-tooltip>
                   <el-button class="absolute bottom-0" type="success" plain v-if="isAuthenticated"
@@ -174,10 +178,12 @@ import { useAuthService } from '../../pages/Auth/Services/auth.service'
 import { useLoadingStore } from "@/store/loading.store";
 const { fetchCompannys, searchCompannys } = useEmployers();
 const compannyLists = ref<any | undefined>([]);
-
+const { fetchfavouriteJobs, changeFavourites } = useFarourite();
 import { useRecruitment } from '@/layouts/Home/Recruitment/Services/recruitment.service';
 import { ElMessage } from 'element-plus'
 import { useEmployers } from "@/layouts/Employers/Account/Services/employers.service";
+import { useFarourite } from "@/layouts/Home/Favourite/favourite.service";
+import { favouriteApi } from "@/layouts/Home/Favourite/favourite.api";
 const { createuseRecruitment } = useRecruitment();
 const { isAuthenticated } = useAuthService();
 const loading = useLoadingStore();
@@ -201,6 +207,7 @@ const total = ref<number>(0);
 let page = ref(1);
 let lengthPage = ref<Number | undefined>(100);
 const liked = ref(true);
+const favourite_jobs = ref<any | undefined>([]);
 const loadData = async () => {
   loading.showLoading(true);
   const itemcitys = await cityApi.itemsList();
@@ -219,14 +226,56 @@ const loadData = async () => {
 
 
 };
+
+const showLikeByJobId = (id: any) => {
+  const filteredJobs = favourite_jobs.value.filter((x: any) => x.jobId === id);
+  if (filteredJobs.length > 0) {
+    return {
+      isFavoufite_Job: filteredJobs[0].isFavoufite_Job,
+      favoufite_Job_Id: filteredJobs[0].favoufite_Job_Id
+    };
+  } else {
+    return {
+      isFavoufite_Job: false,
+      favoufite_Job_Id: ''
+    };
+  }
+}
+
+
 const open4 = () => {
   ElMessage({
     message: 'Vui lòng đăng nhập',
     type: 'error',
   })
 }
-const toggleLike = () => {
-  liked.value = !liked.value;
+const toggleLike = async (item: any, like: any, favoufite_Job_Id: any) => {
+  if (isAuthenticated.value) {
+    console.log(item, like, favoufite_Job_Id);
+    const formData = new FormData();
+    formData.append('jobId', item);
+    formData.append('isFavoufite_Job', like);
+    formData.append('favoufite_Job_Id', favoufite_Job_Id);
+    const res = await changeFavourites(formData);
+    if (res.success) {
+      // const data = await fetchJobHome();
+      // jobDatas.value = data?.items;
+      // totalItems.value = data?.totalItems;
+      loadFavourites();
+
+    }
+    else {
+      console.log(res.errors);
+      if (res.errors !== undefined) {
+        showErrors(res.errors);
+      }
+    }
+  }
+}
+const loadFavourites = async () => {
+  const favourites = await fetchfavouriteJobs();
+  //favourite_jobs.value = favourites?.items;
+  favourite_jobs.value = favourites?.data;
 }
 const searchData = async () => {
   loading.showLoading(true);
@@ -237,8 +286,10 @@ const searchData = async () => {
   totalItems.value = data?.totalItems;
   lengthPage.value = Math.ceil(data?.totalItems / 10) * 10;
   total.value = data?.totalItems;
+  if (isAuthenticated.value) {
+    loadFavourites();
+  }
   loading.showLoading(false);
-
 
 };
 
@@ -268,7 +319,9 @@ const loadJobs = async () => {
   const res = await fetchCompannys();
   compannyLists.value = res?.items;
   loading.showLoading(false);
-
+  if (isAuthenticated.value) {
+    loadFavourites();
+  }
 };
 watch(cityId, (newval) => {
   DEFAULT_COMMON_LIST_QUERY_BY_HOME.cityId = newval;
@@ -285,10 +338,12 @@ watch(professionId, (newval) => {
 watch(workexperienceId, (newval) => {
   DEFAULT_COMMON_LIST_QUERY_BY_HOME.workexperienceId = newval;
   loadJobs();
+
 });
 watch(salaryId, (newval) => {
   DEFAULT_COMMON_LIST_QUERY_BY_HOME.salaryId = newval;
   loadJobs();
+
 });
 watch(search, (newval, oldval) => {
   if (newval === "" && oldval !== "") {
