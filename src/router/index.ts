@@ -78,6 +78,14 @@ const routes: Array<RouteRecordRaw> = [
         meta:{
           public:true,
         }
+      },
+      {
+        path: '/template_cv',
+        name: PageName.TEMPLATECV_PAGE,
+        component: ()=>import('../layouts/Home/FileCv/TemplateCV.vue'),
+        meta:{
+          public:true,
+        }
       }
     ]
   },

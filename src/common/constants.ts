@@ -23,6 +23,7 @@ export enum PageName {
     COMPANNY_PAGE = 'companny_page',
     COMPANNYDETAIL_PAGE = 'companny_detail_page',
     COMPANNYLIST_PAGE = 'compannylist_page',
+    TEMPLATECV_PAGE = 'templatecv_page',
     MANAGERCV_PAGE = 'managercv_page',
     CREATECV_PAGE = 'createcv_page',
     JOBDETAIL_PAGE = 'jobdetail_page',

@@ -8,10 +8,11 @@
           </el-image>
         </router-link>
         <div class="w-full h-full flex justify-between items-center">
-          <div class="flex w-[200px] justify-between">
+          <div class="flex w-[300px] justify-between">
             <el-link href="/joblist" class="-m-2 block p-2 font-medium text-gray-900">Việc làm</el-link>
             <el-link href="/compannylist" class="-m-2 block p-2 font-medium text-gray-900">Công ty</el-link>
             <el-link href="#" class="-m-2 block p-2 font-medium text-gray-900">Tin tức</el-link>
+            <el-link href="/template_cv" class="-m-2 block p-2 font-medium text-gray-900">CV xin việc</el-link>
           </div>
           <div>
             <div v-if="isShow" class="w-[80px] flex justify-between items-center">
@@ -87,6 +88,9 @@
 </template>
 
 <script lang="ts" setup>
+import * as signalR from "@microsoft/signalr";
+
+//const connection = ref<signalR.HubConnection | null>(null);
 import Carousel from '../components/Web/Carousel.vue'
 import Main from '../components/Web/Main.vue'
 import Slider from '../components/Web/Slider.vue'
@@ -117,6 +121,7 @@ const Logout = async () => {
 //     count.value = res?.totalItems;
 //   }
 // }
+
 onMounted(async () => {
   if (isAuthenticated.value) {
     const res = await fetchuseRecruitmentsByJob_seeker();

@@ -1,6 +1,7 @@
 <template>
     <div class="min-h-screen">
-        <div class="text-3xl mt-5 mr-20 mb-5" style="display: flex;justify-content: flex-end;">Danh sách hồ sơ</div>
+        <div class="text-3xl mt-5 mr-20 mb-5" style="display: flex;justify-content: flex-end;">Danh sách CV của bạn
+        </div>
         <div class="mr-20 mb-2" style="display: flex;justify-content: flex-end;">
             <el-link href="/createcv" class="border text-xl no-underline rounded" style="padding: 8px;">Tạo mới
                 cv</el-link>
@@ -83,6 +84,8 @@ const deleteCV = async (id: string) => {
 }
 
 onMounted(async () => {
+    DEFAULT_COMMON_LIST_QUERY.page = 1;
+    DEFAULT_COMMON_LIST_QUERY.limit = 10;
     loadData();
 })
 

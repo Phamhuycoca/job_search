@@ -71,7 +71,7 @@
                     <div class="flex items-center">
                       <div class="mr-2"> {{ item.formofworkName }} </div> - <div class="ml-2 text-sm">Hạn {{
                         item.expirationDate
-                        }}</div>
+                      }}</div>
                     </div>
                   </div>
                 </el-col>
@@ -176,14 +176,14 @@ import { DEFAULT_COMMON_LIST_QUERY_BY_HOME } from "@/common/constants";
 import { showSuccessNotification, showErrorNotification, showErrors, showToasrErrors } from "@/common/helpers";
 import { useAuthService } from '../../pages/Auth/Services/auth.service'
 import { useLoadingStore } from "@/store/loading.store";
-const { fetchCompannys, searchCompannys } = useEmployers();
-const compannyLists = ref<any | undefined>([]);
-const { fetchfavouriteJobs, changeFavourites } = useFarourite();
 import { useRecruitment } from '@/layouts/Home/Recruitment/Services/recruitment.service';
 import { ElMessage } from 'element-plus'
 import { useEmployers } from "@/layouts/Employers/Account/Services/employers.service";
 import { useFarourite } from "@/layouts/Home/Favourite/favourite.service";
 import { favouriteApi } from "@/layouts/Home/Favourite/favourite.api";
+const { fetchfavouriteJobs, changeFavourites } = useFarourite();
+const { fetchCompannys, searchCompannys } = useEmployers();
+const compannyLists = ref<any | undefined>([]);
 const { createuseRecruitment } = useRecruitment();
 const { isAuthenticated } = useAuthService();
 const loading = useLoadingStore();
@@ -220,8 +220,6 @@ const loadData = async () => {
   itemsListProfessions.value = itemprofessions.data;
   const itemworkexperienceks = await workexperiencekApi.itemsList();
   itemsListWorkexperienceks.value = itemworkexperienceks.data;
-  // const resjobdata = await fetchJobHome();
-  // jobDatas.value = resjobdata?.items;
   loading.showLoading(false);
 
 
