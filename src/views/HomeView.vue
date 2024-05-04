@@ -121,18 +121,44 @@ const loadNotifications = async () => {
   const notifications = await fetchNotifications();
   total_notifications.value = notifications?.totalItems;
 }
-const connection = new signalR.HubConnectionBuilder()
-  .withUrl("http://localhost:25874/notificationHub")
-  .configureLogging(signalR.LogLevel.Information)
-  .build();
+// const connection = new signalR.HubConnectionBuilder()
+//   .withUrl("http://localhost:25874/notificationHub")
+//   .configureLogging(signalR.LogLevel.Information)
+//   .build();
 
-connection.on("ReceiveNotification", (message: string) => {
-  loadNotifications();
-});
+// connection.on("ReceiveNotification", (message: string) => {
+//   loadNotifications();
+// });
 
-connection.start().catch(err => console.error(err));
+// connection.start().catch(err => console.error(err));
+const setupSignalRConnection = async () => {
+  try {
+    // Setup SignalR connection
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl("http://localhost:25874/notificationHub")
+      .configureLogging(signalR.LogLevel.Information)
+      .build();
+
+    // Define a function to load notifications asynchronously
+    async function loadNotifications() {
+      // Implement the logic to load notifications
+    }
+
+    // Configure the connection to listen for "ReceiveNotification" events
+    connection.on("ReceiveNotification", (message: string) => {
+      // Call the loadNotifications function asynchronously when a notification is received
+      loadNotifications();
+    });
+
+    // Start the connection
+    await connection.start();
+  } catch (error) {
+    console.error('Error setting up SignalR connection:', error);
+  }
+}
 onMounted(async () => {
   if (isAuthenticated.value) {
+    await setupSignalRConnection();
     const res = await fetchuseRecruitmentsByJob_seeker();
     count.value = res?.totalItems;
     await loadNotifications();
