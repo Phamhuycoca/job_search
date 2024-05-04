@@ -16,7 +16,7 @@
           </div>
           <div>
             <div v-if="isShow" class="w-[80px] flex justify-between items-center">
-              <el-badge :value="count" circle>
+              <el-badge :value="total_notifications" circle>
                 <i class="ri-notification-3-line text-xl"></i>
               </el-badge>
               <el-dropdown trigger="click">
@@ -89,7 +89,7 @@
 
 <script lang="ts" setup>
 import * as signalR from "@microsoft/signalr";
-
+const { fetchNotifications } = useNotifications();
 //const connection = ref<signalR.HubConnection | null>(null);
 import Carousel from '../components/Web/Carousel.vue'
 import Main from '../components/Web/Main.vue'
@@ -104,7 +104,9 @@ const isShow = ref(false);
 import { useAuthService } from '../pages/Auth/Services/auth.service';
 import { useRecruitment } from '@/layouts/Home/Recruitment/Services/recruitment.service';
 import ConfirmLogout from '@/components/Element/ConfirmLogout.vue';
+import { useNotifications } from "@/store/notification";
 const { fetchuseRecruitmentsByJob_seeker } = useRecruitment();
+const total_notifications = ref<number | undefined>(0);
 const count = ref<any>(0);
 const Logout = async () => {
   const res = await logout();
@@ -115,17 +117,26 @@ const Logout = async () => {
     }, 2000)
   }
 }
-// const loadData = async () => {
-//   if (isAuthenticated.value) {
-//     const res = await fetchuseRecruitmentsByJob_seeker();
-//     count.value = res?.totalItems;
-//   }
-// }
+const loadNotifications = async () => {
+  const notifications = await fetchNotifications();
+  total_notifications.value = notifications?.totalItems;
+}
+const connection = new signalR.HubConnectionBuilder()
+  .withUrl("http://localhost:25874/notificationHub")
+  .configureLogging(signalR.LogLevel.Information)
+  .build();
 
+connection.on("ReceiveNotification", (message: string) => {
+  loadNotifications();
+});
+
+connection.start().catch(err => console.error(err));
 onMounted(async () => {
   if (isAuthenticated.value) {
     const res = await fetchuseRecruitmentsByJob_seeker();
     count.value = res?.totalItems;
+    await loadNotifications();
+
   }
   isShow.value = isAuthenticated.value;
   window.addEventListener('scroll', handleScroll);

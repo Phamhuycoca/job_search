@@ -44,10 +44,12 @@ import { useAuthService } from "@/pages/Auth/Services/auth.service";
 import { useRecruitment } from "./Services/recruitment.service";
 import { showSuccessNotification, showErrorNotification, showErrors, showToasrErrors } from "@/common/helpers";
 import { ElMessage } from 'element-plus'
-
+import { useNotifications } from "@/store/notification";
+const { createNoti } = useNotifications();
 const loading = useLoadingStore();
 const { isAuthenticated } = useAuthService();
 const { createuseRecruitment } = useRecruitment();
+
 const emit = defineEmits();
 const { getInfo, uploadCVJobSeeker } = useJobSeeker();
 const props = defineProps(['dialog', 'currentItem']);
@@ -89,8 +91,12 @@ const sendRecruiment = async () => {
     formData.append('employersId', employersId.value);
     formData.append('content', content.value);
     const res = await createuseRecruitment(formData);
+    if (res.data) {
+        const response = await createNoti(res.data);
+        console.log(response.success);
+
+    }
     if (res.success) {
-        // showSuccessNotification(res.message)
         ElMessage({
             message: res.message,
             type: 'success',

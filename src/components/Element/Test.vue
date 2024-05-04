@@ -1,51 +1,42 @@
 <template>
   <div>
-    <button @click="sendNotification">Send Notification</button>
-    <ul id="notifications">
-      <li v-for="notification in notifications" :key="notification">{{ notification }}</li>
+    <h2>Notifications</h2>
+    <p>Total Notifications: {{ notifications.length }}</p>
+    <ul>
+      <li v-for="notification in notifications" :key="notification.id">{{ notification.text }}</li>
     </ul>
+    <button @click="addNotification">Add Notification</button>
   </div>
 </template>
 
 <script>
-import { HubConnectionBuilder } from '@aspnet/signalr';
+import * as signalR from "@microsoft/signalr";
 
 export default {
   data() {
     return {
-      notifications: [],
-      connection: null,
+      notifications: []
     };
   },
-  mounted() {
-    this.connectToHub();
+  created() {
+    this.connection = new signalR.HubConnectionBuilder()
+      .withUrl("http://localhost:25874/notificationHub")
+      .configureLogging(signalR.LogLevel.Information)
+      .build();
+
+    this.connection.on("ReceiveNotification", message => {
+      this.notifications.push({ id: this.notifications.length + 1, text: message });
+    });
+
+    this.connection.start().catch(err => console.error(err));
   },
   methods: {
-    async connectToHub() {
-      const connection = new HubConnectionBuilder()
-        .withUrl('ws://localhost:25874/notificationHub')
-        .build();
-
-      connection.on('ReceiveNotification', (message) => {
-        this.notifications.push(message);
-      });
-
-      try {
-        await connection.start();
-        console.log('Connected to SignalR Hub!');
-      } catch (error) {
-        console.error('Error connecting to SignalR Hub:', error);
-      }
-
-      this.connection = connection;
-    },
-    async sendNotification() {
-      try {
-        await this.connection.invoke('ReceiveNotification', 'This is a test notification!');
-      } catch (error) {
-        console.error('Error sending notification:', error);
-      }
-    },
-  },
+    addNotification() {
+      const newNotification = { id: this.notifications.length + 1, text: "New Notification" };
+      this.notifications.push(newNotification);
+      // Send notification to backend
+      this.connection.invoke("SendNotification", newNotification.text).catch(err => console.error(err));
+    }
+  }
 };
 </script>
