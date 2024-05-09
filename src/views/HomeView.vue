@@ -16,12 +16,44 @@
           </div>
           <div>
             <div v-if="isShow" class="w-[80px] flex justify-between items-center">
-              <el-badge :value="total_notifications" circle>
-                <i class="ri-notification-3-line text-xl"></i>
-              </el-badge>
               <el-dropdown trigger="click">
-                <el-avatar
-                  src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"></el-avatar>
+                <el-badge :value="total_notifications" circle>
+                  <i class="ri-notification-3-line text-xl"></i>
+                </el-badge>
+                <template #dropdown>
+                  <el-card body-style="padding:0;margin:4px 0px 4px 0px;" class="w-[450px]">
+                    <template #header>
+                      <div class="w-full text-2xl">
+                        Thông báo
+                      </div>
+                    </template>
+                    <el-scrollbar max-height="600px">
+                      <el-dropdown-menu class="w-full" v-for="item in notifications" :key="item"
+                        v-if="total_notifications > 0">
+                        <el-dropdown-item>
+                          {{ item.message }}
+                        </el-dropdown-item>
+                      </el-dropdown-menu>
+                      <el-dropdown-menu class="w-full flex justify-center" v-else>
+                        <div class="text-2xl">
+                          Không có thông báo
+                        </div>
+                      </el-dropdown-menu>
+                    </el-scrollbar>
+                    <template #footer>
+                      <div class="w-full flex justify-between items-center">
+                        <el-text size="large" class="cursor-pointer">Xem tất cả</el-text>
+                        <el-text size="large" class="cursor-pointer">Đọc tất cả</el-text>
+                      </div>
+                    </template>
+                  </el-card>
+                </template>
+              </el-dropdown>
+              <el-dropdown trigger="click">
+                <el-avatar :src="currentProfile.avatar"
+                  v-if="currentProfile.avatar !== null || currentProfile.avatar !== ' ' || currentProfile !== null"></el-avatar>
+                <el-avatar v-else
+                  src="https://res.cloudinary.com/drhdgw1xx/image/upload/v1713533834/account_gzt5kr.png"></el-avatar>
                 <template #dropdown>
                   <el-dropdown-menu class="w-60">
                     <router-link to="/job_seeker">
@@ -99,14 +131,17 @@ import logo from "../assets/image-png/logo.png"
 import { Search } from "@element-plus/icons-vue";
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 const dialog = ref(false);
-const { isAuthenticated, logout } = useAuthService();
+const { isAuthenticated, logout, getProfileJob_Seeker } = useAuthService();
 const isShow = ref(false);
 import { useAuthService } from '../pages/Auth/Services/auth.service';
 import { useRecruitment } from '@/layouts/Home/Recruitment/Services/recruitment.service';
 import ConfirmLogout from '@/components/Element/ConfirmLogout.vue';
 import { useNotifications } from "@/store/notification";
 const { fetchuseRecruitmentsByJob_seeker } = useRecruitment();
-const total_notifications = ref<number | undefined>(0);
+const total_notifications = ref<number>(0);
+const notifications = ref<any | undefined>([]);
+const currentProfile = ref<any | undefined>([]);
+
 const count = ref<any>(0);
 const Logout = async () => {
   const res = await logout();
@@ -118,8 +153,9 @@ const Logout = async () => {
   }
 }
 const loadNotifications = async () => {
-  const notifications = await fetchNotifications();
-  total_notifications.value = notifications?.totalItems;
+  const res = await fetchNotifications();
+  notifications.value = res?.items;
+  total_notifications.value = res?.totalItems;
 }
 // const connection = new signalR.HubConnectionBuilder()
 //   .withUrl("http://localhost:25874/notificationHub")
@@ -131,7 +167,7 @@ const loadNotifications = async () => {
 // });
 
 // connection.start().catch(err => console.error(err));
-const setupSignalRConnection = async () => {
+async function setupSignalRConnection() {
   try {
     // Setup SignalR connection
     const connection = new signalR.HubConnectionBuilder()
@@ -139,10 +175,7 @@ const setupSignalRConnection = async () => {
       .configureLogging(signalR.LogLevel.Information)
       .build();
 
-    // Define a function to load notifications asynchronously
-    async function loadNotifications() {
-      // Implement the logic to load notifications
-    }
+    await loadNotifications();
 
     // Configure the connection to listen for "ReceiveNotification" events
     connection.on("ReceiveNotification", (message: string) => {
@@ -158,10 +191,11 @@ const setupSignalRConnection = async () => {
 }
 onMounted(async () => {
   if (isAuthenticated.value) {
-    await setupSignalRConnection();
     const res = await fetchuseRecruitmentsByJob_seeker();
     count.value = res?.totalItems;
-    await loadNotifications();
+    const profile = await getProfileJob_Seeker();
+    currentProfile.value = profile.data;
+    setupSignalRConnection();
 
   }
   isShow.value = isAuthenticated.value;

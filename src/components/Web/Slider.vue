@@ -75,7 +75,7 @@
                                     </div>
                                 </el-col>
                                 <el-col :span="4" style="position: relative;margin-left: 15px;">
-                                    <el-link :href="`/companny/${item.employersId}`"
+                                    <el-link :href="`/compannydetail/${item.employersId}`"
                                         style="position: absolute;bottom: 0;display: flex;justify-content: center;width: 100%;align-items: center;"
                                         type="info"><i class="ri-eye-line"></i>Xem
                                         chi tiết</el-link>

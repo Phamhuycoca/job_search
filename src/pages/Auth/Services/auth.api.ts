@@ -13,5 +13,8 @@ class AuthApiService extends ApiService {
   logout():Promise<any>{
     return this.client.post(`${this.baseUrl}/logout`,);
   }
+  getProfileJob_Seeker():Promise<any>{
+    return this.client.get(`${this.baseUrl}/GetProfileJob_Seeker`,);
+  }
 }
 export const authApi = new AuthApiService({ baseUrl: '/Auth' }, axiosInstance);

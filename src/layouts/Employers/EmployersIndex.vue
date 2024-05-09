@@ -24,7 +24,7 @@
                             </el-icon>
                             <span>Quản lý thông tin ứng tuyển</span>
                         </template>
-                        <el-menu-item index="3-1" route="/employers/recruitment">Danh sách ứng viên</el-menu-item>
+                        <el-menu-item index="3-1" route="/employers/job_recruitment">Danh sách ứng viên</el-menu-item>
                         <el-menu-item index="3-2" route="/employers/suitable">Danh sách ứng viên phù hợp</el-menu-item>
                     </el-sub-menu>
                 </el-menu>
@@ -62,50 +62,19 @@
                                         <span class="flex-grow font-bold">Thông báo</span>
                                     </div>
                                     <div class="flex flex-col bg-whiteflex-grow bg-white">
-                                        <div class="min-hv-4 overflow-y-auto flex-grow p-4 "
-                                            style="max-height:calc(60vh - 56px)">
-                                            <h1>Card title</h1>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card tex2t</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card text</p>
-                                            <p>Card tex2t</p>
-                                        </div>
-
+                                        <el-scrollbar max-height="600px">
+                                            <div class="min-hv-4 overflow-y-auto flex-grow p-2"
+                                                style="max-height:calc(60vh - 56px)" v-for="item in notifications"
+                                                :key="item">
+                                                <div
+                                                    class="h-8 px-3 py-6 mx-auto text-sm hover:bg-slate-300 w-full flex items-center cursor-pointer rounded-md">
+                                                    {{ item.message }}
+                                                </div>
+                                            </div>
+                                        </el-scrollbar>
                                     </div>
                                     <div class="flex p-4 bg-white border-t h-14 hover:text-brand">
-                                        Card footer
+                                        Xem tất cả
                                     </div>
                                 </div>
                             </el-dropdown-menu>
@@ -121,6 +90,8 @@
 </template>
 
 <script lang="ts" setup>
+import * as signalR from "@microsoft/signalr";
+
 import { RouterView } from "vue-router";
 import { onMounted, ref } from "vue";
 import logo from "../../assets/image-png/logo.png";
@@ -128,7 +99,9 @@ import { useRecruitment } from '@/layouts/Home/Recruitment/Services/recruitment.
 const { fetchuseRecruitmentsByEmployer } = useRecruitment();
 const { isAuthenticated, logout } = useAuthService();
 import { useAuthService } from "@/pages/Auth/Services/auth.service";
-
+const { fetchNotificationsByEmployer } = useNotifications();
+const total_notifications = ref<number>(0);
+const notifications = ref<any | undefined>([]);
 import {
     Menu as IconMenu,
     Location,
@@ -136,14 +109,38 @@ import {
     TrendCharts,
 } from "@element-plus/icons-vue";
 import router from "@/router";
+import { useNotifications } from "@/store/notification";
 const isCollapse = ref(false);
 const count = ref<any>(0);
 const handleOpen = (key: string, keyPath: string[]) => {
     console.log(key, keyPath);
 };
+const loadNotifications = async () => {
+    const res = await fetchNotificationsByEmployer();
+    notifications.value = res?.data;
+    count.value = notifications.value.length;
+}
+async function setupSignalRConnection() {
+    try {
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("http://localhost:25874/notificationHub")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        await loadNotifications();
+
+        connection.on("ReceiveNotification", (message: string) => {
+            loadNotifications();
+        });
+
+        await connection.start();
+    } catch (error) {
+        console.error('Error setting up SignalR connection:', error);
+    }
+}
 const loadData = async () => {
     if (isAuthenticated.value) {
-
+        setupSignalRConnection();
     }
 }
 const handleClose = (key: string, keyPath: string[]) => {

@@ -222,7 +222,6 @@ const loadData = async () => {
   itemsListWorkexperienceks.value = itemworkexperienceks.data;
   loading.showLoading(false);
 
-
 };
 
 const showLikeByJobId = (id: any) => {

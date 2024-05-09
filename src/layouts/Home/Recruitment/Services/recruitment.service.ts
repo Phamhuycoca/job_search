@@ -24,9 +24,9 @@ export const useRecruitment = () => {
       console.error("Error Fetching:", error);
     }
   };
-  const fetchuseRecruitmentsByEmployer=async()=>{
+  const fetchuseRecruitmentsByEmployer=async(id:any)=>{
     try {
-      const res = await recruitmentApi.ItemsByEmployer(query);
+      const res = await recruitmentApi.ItemsByEmployer(query,id);
       if (res.errors !== undefined) {
         showErrors(res.errors);
     }
@@ -84,9 +84,9 @@ export const useRecruitment = () => {
     }
   };
 
-  const searchByEmployer=async()=>{
+  const searchByEmployer=async(id:any)=>{
     try {
-      const res = await recruitmentApi.ItemsByEmployer(query);
+      const res = await recruitmentApi.ItemsByEmployer(query,id);
       if (res.errors !== undefined) {
         showErrors(res.errors);
     }
@@ -124,6 +124,7 @@ export const useRecruitment = () => {
       console.error("Error Fetching:", error);
     }
   };
+ 
 
   return {
     query,

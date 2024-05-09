@@ -73,12 +73,13 @@ import { workexperiencekApi } from "@/layouts/Admin/Workexperience/Services/work
 import { useRecruitment } from '@/layouts/Home/Recruitment/Services/recruitment.service';
 const { fetchuseRecruitmentsByEmployer, searchByEmployer, changeStatus, deleteuseRecruitment, changeFeedback } = useRecruitment();
 import { useAuthService } from "@/pages/Auth/Services/auth.service";
+import router from '@/router';
 const { isAuthenticated, logout } = useAuthService();
 import { useLoadingStore } from '@/store/loading.store';
 import { onMounted, ref, watch } from 'vue';
 const loading = useLoadingStore();
 const search = ref("");
-
+const id = ref<any | undefined>('');
 const tableData = ref<[]>([]);
 const seletedValue = ref(DEFAULT_LIMIT_FOR_PAGINATION);
 const totalItems = ref<Number | undefined>(0);
@@ -93,10 +94,9 @@ const itemsListWorkexperienceks = ref<any | null>([]);
 const loadData = async () => {
     if (isAuthenticated.value) {
         loading.showLoading(true);
-        const res = await fetchuseRecruitmentsByEmployer();
-        console.log(res);
+        id.value = router.currentRoute.value.params.id;
+        const res = await fetchuseRecruitmentsByEmployer(id.value);
         tableData.value = res?.items;
-        console.log(res?.totalItems);
         if (res) {
             tableData.value = res.items;
             if (res.totalItems !== undefined) {
@@ -130,7 +130,7 @@ const searchData = async () => {
     loading.showLoading(true);
     DEFAULT_COMMON_LIST_QUERY_BY_HOME.keyword = search.value;
     DEFAULT_COMMON_LIST_QUERY_BY_HOME.page = 1;
-    const data = await searchByEmployer();
+    const data = await searchByEmployer(id.value);
     tableData.value = data?.items;
     totalItems.value = data?.totalItems;
     lengthPage.value = Math.ceil(data?.totalItems / 10) * 10;

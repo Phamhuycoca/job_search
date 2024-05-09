@@ -2,7 +2,7 @@
     <div class="min-h-screen px-10 my-5">
         <el-row :gutter="10">
             <el-col :span="5">
-                <h5 class="mb-2 text-center">Kiểu mẫu cv phù hợp</h5>
+                <h5 class="mb-2 text-center">Kiểu mẫu cv xin việc phù hợp</h5>
                 <el-menu style="border: none;">
                     <el-menu-item index="1">
                         <span>Thanh lịch</span>

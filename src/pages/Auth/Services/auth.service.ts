@@ -67,11 +67,15 @@ export const useAuthService=()=>{
       const hasToken = computed(() => {
         return !!localStorageAuthService.getAccessToken();
       });
+      const getProfileJob_Seeker=async()=>{
+        return await authApi.getProfileJob_Seeker();
+      }
     return{
         loginbyEmail,
         employerslogin,
         isAuthenticated,
         hasToken,
-        logout
+        logout,
+        getProfileJob_Seeker
     }
 }

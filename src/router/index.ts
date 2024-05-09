@@ -72,7 +72,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: '/companny',
+        path: '/companny/:id',
         name: PageName.COMPANNY_PAGE,
         component: ()=>import('../components/Web/Companny.vue'),
         meta:{
@@ -135,9 +135,9 @@ const routes: Array<RouteRecordRaw> = [
     name: PageName.EMPLOYERS_PAGE,
     component: ()=>import('../layouts/Employers/EmployersIndex.vue'),
     meta:{
-      // public:false,
-      // role:Role.EMPLOYER
-      public:true,
+      public:false,
+      role:Role.EMPLOYER
+      // public:true,
     },
     children:[
       {
@@ -156,7 +156,7 @@ const routes: Array<RouteRecordRaw> = [
         component: ()=>import('../layouts/Employers/Account/AccountIndex.vue'),
       },
       {
-        path: 'recruitment',
+        path: 'recruitment/:id',
         name: PageName.EMPLOYERS_RECRUIMENT_PAGE,
         component: ()=>import('../layouts/Employers/Recruitment/RecruitmentIndex.vue'),
       },
@@ -164,6 +164,11 @@ const routes: Array<RouteRecordRaw> = [
         path: 'suitable',
         name: PageName.EMPLOYERS_RECRUIMENT_SUITABLE_PAGE,
         component: ()=>import('../layouts/Employers/Recruitment/RecruimentSuitable.vue'),
+      },
+      {
+        path: 'job_recruitment',
+        name: PageName.JOB_RECRUIMENT_PAGE,
+        component: ()=>import('../layouts/Employers/Recruitment/Job_Recruitment.vue'),
       },
     ]
   },
@@ -184,7 +189,7 @@ const routes: Array<RouteRecordRaw> = [
     component: ()=> import('../views/AdminView.vue'),
     meta:{
       public:true,
-      // role:Role.ADMIN
+      role:Role.ADMIN
     },
     children:[
       {
