@@ -1,41 +1,33 @@
 <template>
   <div>
-    <h2>Notifications</h2>
-    <p>Total Notifications: {{ notifications.length }}</p>
-    <ul>
-      <li v-for="notification in notifications" :key="notification.id">{{ notification.text }}</li>
-    </ul>
-    <button @click="addNotification">Add Notification</button>
+    <div id="chat-container"></div>
   </div>
 </template>
 
 <script>
-import * as signalR from "@microsoft/signalr";
-
 export default {
   data() {
     return {
-      notifications: []
+      host: 'http://localhost:5005/webhooks/rest/webhook',
+      botLogo: 'https://hanoicomputercdn.com/media/lib/09-08-2023/logo-hacom-since-2001.png',
+      title: 'Trợ Lý AI',
+      welcomeMessage: 'Tôi có thể giúp gì cho bạn',
+      inactiveMsg: 'Server đang lỗi ...',
+      theme: 'purple'
     };
   },
-  created() {
-    this.connection = new signalR.HubConnectionBuilder()
-      .withUrl("http://localhost:25874/notificationHub")
-      .configureLogging(signalR.LogLevel.Information)
-      .build();
-
-    this.connection.on("ReceiveNotification", message => {
-      this.notifications.push({ id: this.notifications.length + 1, text: message });
-    });
-
-    this.connection.start().catch(err => console.error(err));
+  mounted() {
+    this.createChatBot();
   },
   methods: {
-    addNotification() {
-      const newNotification = { id: this.notifications.length + 1, text: "New Notification" };
-      this.notifications.push(newNotification);
-      // Send notification to backend
-      this.connection.invoke("SendNotification", newNotification.text).catch(err => console.error(err));
+    createChatBot() {
+      const container = document.getElementById('chat-container');
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://example.com/chatbot.html?host=${encodeURIComponent(this.host)}&botLogo=${encodeURIComponent(this.botLogo)}&title=${encodeURIComponent(this.title)}&welcomeMessage=${encodeURIComponent(this.welcomeMessage)}&inactiveMsg=${encodeURIComponent(this.inactiveMsg)}&theme=${encodeURIComponent(this.theme)}`;
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.border = 'none';
+      container.appendChild(iframe);
     }
   }
 };
