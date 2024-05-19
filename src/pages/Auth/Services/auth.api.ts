@@ -7,6 +7,9 @@ class AuthApiService extends ApiService {
   login(body: IBodyLogin): Promise<IBodyResponse<ILoginResponse>> {
     return this.client.post(`${this.baseUrl}/JobSeekerLogin`, body);
   }
+  register(data:any): Promise<any> {
+    return this.client.post(`${this.baseUrl}/JobSeekerRegister`, data);
+  }
   employerslogin(body: IBodyLogin): Promise<IBodyResponse<ILoginResponse>> {
     return this.client.post(`${this.baseUrl}/EmployersLogin`, body);
   }

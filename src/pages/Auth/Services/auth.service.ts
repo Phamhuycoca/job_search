@@ -70,7 +70,13 @@ export const useAuthService=()=>{
       const getProfileJob_Seeker=async()=>{
         return await authApi.getProfileJob_Seeker();
       }
+
+      const register=async(data:any)=>{
+        const res=await authApi.register(data);
+        return res;
+    };
     return{
+        register,
         loginbyEmail,
         employerslogin,
         isAuthenticated,
