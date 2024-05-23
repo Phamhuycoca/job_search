@@ -187,10 +187,7 @@ const routes: Array<RouteRecordRaw> = [
     redirect:'/admin/dashboard',
     name: PageName.ADMIN,
     component: ()=> import('../views/AdminView.vue'),
-    meta:{
-      public:true,
-      role:Role.ADMIN
-    },
+ 
     children:[
       {
         path: 'dashboard',
