@@ -13,6 +13,14 @@ const routes: Array<RouteRecordRaw> = [
     },   
     children:[
       {
+        path: '/test',
+        name: 'Test',
+        component: ()=>import('../components/Element/Test.vue'),
+        meta:{
+          public:true,
+        }
+      },
+      {
         path:'/job_seeker',
         name:'job_seeker',
         component:()=>import('../layouts/Home/Index.vue'),
@@ -89,14 +97,7 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
-  {
-    path: '/test',
-    name: 'Test',
-    component: ()=>import('../components/Element/Test.vue'),
-    meta:{
-      public:true,
-    }
-  },
+ 
   {
     path: '/login',
     name: PageName.LOGIN_PAGE,
@@ -228,6 +229,16 @@ const routes: Array<RouteRecordRaw> = [
         path: 'profession',
         name: PageName.PRORESSION_PAGE,
         component: ()=>import('../layouts/Admin/Profession/ProfessionIndex.vue'),
+      },
+      {
+        path: 'companny',
+        name: 'companny',
+        component: ()=>import('../layouts/Admin/Companny/Companny_index.vue'),
+      },
+      {
+        path: 'news',
+        name: 'news',
+        component: ()=>import('../layouts/Admin/News/News_index.vue'),
       },
     ]
   },

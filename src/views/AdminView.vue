@@ -65,7 +65,7 @@
               <el-menu-item index="5-3" route="/admin/salary">Quản lý lương</el-menu-item>
               <el-menu-item index="5-4" route="/admin/profession">Quản lý thông nghành nghề</el-menu-item>
               <el-menu-item index="5-5" route="/admin/city">Quản lý Khu vực</el-menu-item>
-              <el-menu-item index="5-6">Quản lý thông tin nhà tuyển dụng</el-menu-item>
+              <el-menu-item index="5-6" route="/admin/companny">Quản lý thông tin nhà tuyển dụng</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
         </el-menu>

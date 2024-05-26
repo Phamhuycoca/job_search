@@ -140,7 +140,7 @@ async function setupSignalRConnection() {
 }
 const loadData = async () => {
     if (isAuthenticated.value) {
-        setupSignalRConnection();
+        // setupSignalRConnection();
     }
 }
 const handleClose = (key: string, keyPath: string[]) => {

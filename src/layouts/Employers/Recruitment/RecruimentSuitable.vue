@@ -19,7 +19,8 @@
             <el-table-column fixed="right" label="Đánh giá" width="150" align="center">
                 <el-row>
                     <el-col :span="24" class="mb-2">
-                        <el-button>Liên hệ<i class="ri-message-3-line m-2"></i></el-button>
+                        <el-button @click="contactDialog = true">Liên hệ<i
+                                class="ri-message-3-line m-2"></i></el-button>
                     </el-col>
                 </el-row>
             </el-table-column>
@@ -33,6 +34,7 @@
             </div>
             <el-pagination background layout="prev, pager, next" :total="lengthPage" v-model="page" prev-text
                 v-model:current-page="page" />
+            <Contact :Contact="contactDialog" @close="contactDialog = false" />
         </div>
     </div>
 </template>
@@ -42,11 +44,14 @@ import { DEFAULT_COMMON_LIST_QUERY_BY_HOME, DEFAULT_LIMIT_FOR_PAGINATION, option
 import { useRecruitment } from '@/layouts/Home/Recruitment/Services/recruitment.service';
 import { onMounted, ref, watch } from 'vue';
 import { useAuthService } from "@/pages/Auth/Services/auth.service";
+import Contact from './Contact.vue';
 const { isAuthenticated, logout } = useAuthService();
 import { useLoadingStore } from '@/store/loading.store';
+import { fromPairs } from 'lodash';
 const loading = useLoadingStore();
 
 const tableData = ref<[]>([]);
+const contactDialog = ref(false);
 const seletedValue = ref(DEFAULT_LIMIT_FOR_PAGINATION);
 const totalItems = ref<Number | undefined>(0);
 let page = ref(1);

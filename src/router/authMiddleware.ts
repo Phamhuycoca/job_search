@@ -20,47 +20,47 @@ export default async (
     dayjs(localStorageAuthService.getRefeshTokenExpiredAt()),
     "second"
   );
-  console.log(isExpiredRefresh);
-  const RoleRouter = to?.meta?.role||Role.JOB_SEEKER;
-  const IS_AUTHENTICATED = tokenExpiredAt && !isExpired && hasToken;
-  if(to.name === PageName.LOGIN_PAGE)
-  {
-    localStorageAuthService.resetAll()
-  }
-  if (IS_PUBLIC) {
-    if(IS_AUTHENTICATED){
-      if (role === RoleRouter) {
-        return next(true);
-      } else {
-        showErrorNotification("Bạn không có quyền");
-        return next(false);
-      }
-    }else{
-      return next();
-    }
-  }
-  if (!IS_AUTHENTICATED) {
-    if (isExpiredRefresh) {
-      showWarningsNotification("Vui lòng đăng nhập lại");
-      return next({ name: PageName.LOGIN_PAGE });
-    } else {
-      return next();
-    }
-  }
-  if (!IS_PUBLIC) {
-    if (IS_AUTHENTICATED) {
-      if (role === RoleRouter) {
-        return next(true);
-      } else {
-        showErrorNotification("Không thể thực hiện");
-        return next(false);
-      }
-    }
-  }
-  if (!IS_PUBLIC && !IS_AUTHENTICATED) {
-    return next({
-      name: PageName.LOGIN_PAGE,
-    });
-  }
+  // console.log(isExpiredRefresh);
+  // const RoleRouter = to?.meta?.role||Role.JOB_SEEKER;
+  // const IS_AUTHENTICATED = tokenExpiredAt && !isExpired && hasToken;
+  // if(to.name === PageName.LOGIN_PAGE)
+  // {
+  //   localStorageAuthService.resetAll()
+  // }
+  // if (IS_PUBLIC) {
+  //   if(IS_AUTHENTICATED){
+  //     if (role === RoleRouter) {
+  //       return next(true);
+  //     } else {
+  //       showErrorNotification("Bạn không có quyền");
+  //       return next(false);
+  //     }
+  //   }else{
+  //     return next();
+  //   }
+  // }
+  // if (!IS_AUTHENTICATED) {
+  //   if (isExpiredRefresh) {
+  //     showWarningsNotification("Vui lòng đăng nhập lại");
+  //     return next({ name: PageName.LOGIN_PAGE });
+  //   } else {
+  //     return next();
+  //   }
+  // }
+  // if (!IS_PUBLIC) {
+  //   if (IS_AUTHENTICATED) {
+  //     if (role === RoleRouter) {
+  //       return next(true);
+  //     } else {
+  //       showErrorNotification("Không thể thực hiện");
+  //       return next(false);
+  //     }
+  //   }
+  // }
+  // if (!IS_PUBLIC && !IS_AUTHENTICATED) {
+  //   return next({
+  //     name: PageName.LOGIN_PAGE,
+  //   });
+  // }
   return next();
 };
