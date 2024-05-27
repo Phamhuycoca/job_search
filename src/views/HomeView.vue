@@ -148,7 +148,7 @@ const Logout = async () => {
   if (res) {
     dialog.value = false;
     setTimeout(() => {
-      window.location.reload();
+      window.location.href = '/';
     }, 2000)
   }
 }

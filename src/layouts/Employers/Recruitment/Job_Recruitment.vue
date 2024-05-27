@@ -11,7 +11,9 @@
             <el-table-column fixed label="Tổng CV" width="100" align="center">
                 <template #default="scope">
                     <div style="color: red;">
-                        {{ totals(scope.row.jobId) }}
+                        <el-link :href="'/employers/job_seekerbyid/' + scope.row.jobId">
+                            {{ totals(scope.row.jobId) }}
+                        </el-link>
                     </div>
                 </template>
             </el-table-column>

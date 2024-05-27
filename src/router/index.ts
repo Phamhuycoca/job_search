@@ -171,6 +171,11 @@ const routes: Array<RouteRecordRaw> = [
         name: PageName.JOB_RECRUIMENT_PAGE,
         component: ()=>import('../layouts/Employers/Recruitment/Job_Recruitment.vue'),
       },
+      {
+        path: 'job_seekerbyid/:id',
+        name: PageName.JOB_SEEKERBYID_PAGE,
+        component: ()=>import('../layouts/Employers/Recruitment/Job_seekerById.vue'),
+      },
     ]
   },
 

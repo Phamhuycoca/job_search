@@ -40,6 +40,11 @@ class RecruitmentApiService extends ApiService {
   {
     return this.client.patch(`${this.baseUrl}/ChangeFeedback`, data);
   }
+  Job_SeekerById(DEFAULT_COMMON_LIST_QUERY_BY_HOME:any,id:any):Promise<any> {
+    return this.client.get(`${this.baseUrl}/Job_SeekerById/${id}`,{
+      params: DEFAULT_COMMON_LIST_QUERY_BY_HOME
+      });
+  }
 }
 export const recruitmentApi = new RecruitmentApiService(
   { baseUrl: "/Recruitment" },

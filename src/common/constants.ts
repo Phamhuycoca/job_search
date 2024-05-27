@@ -34,6 +34,7 @@ export enum PageName {
   EMPLOYERS_ACCOUNT_PAGE = 'employers_account_page',
   EMPLOYERS_RECRUIMENT_PAGE = 'employers_recruitment_page',
   EMPLOYERS_RECRUIMENT_SUITABLE_PAGE = 'employers_recruitment_suitable_page',
+  JOB_SEEKERBYID_PAGE = 'job_seekerbyid_page',
 
 }
 

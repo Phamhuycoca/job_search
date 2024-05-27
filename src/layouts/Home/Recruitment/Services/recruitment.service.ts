@@ -125,6 +125,26 @@ export const useRecruitment = () => {
     }
   };
  
+  const fetchjob_SeekerById=async(id:any)=>{
+    try {
+      const res = await recruitmentApi.Job_SeekerById(query,id);
+      if (res.errors !== undefined) {
+        showErrors(res.errors);
+    }
+      if (res.success) {
+        return {
+          items: res.items,
+          totalItems: res.totalItems,
+        };
+      }
+      return {
+        items: [],
+        totalItems: 0,
+      };
+    } catch (error) {
+      console.error("Error Fetching:", error);
+    }
+  };
 
   return {
     query,
@@ -136,6 +156,7 @@ export const useRecruitment = () => {
     changeFeedback,
     changeStatus,
     searchByEmployer,
-    fetchuseRecruitmentsByEmployerSuitable
+    fetchuseRecruitmentsByEmployerSuitable,
+    fetchjob_SeekerById
   };
 };
