@@ -25,10 +25,18 @@ export const useJobSeeker = () => {
       console.error("Error uploadCv Role:", error);
     }
   };
+  const getInfoById=async(id:any)=>{
+    try{
+      return await job_seekerApi.getData(id);
+    }catch (error) {
+      console.error("Error GetDetail:", error);
+    }
+  };
   return {
     query,
     getInfo,
     updateJobSeeker,
-    uploadCVJobSeeker
+    uploadCVJobSeeker,
+    getInfoById
   };
 };

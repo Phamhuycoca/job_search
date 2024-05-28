@@ -17,12 +17,14 @@
             <el-table-column prop="fullName" label="Người gửi" width="250" align="center" />
             <el-table-column prop="jobName" label="Tên công việc" width="600" />
             <el-table-column fixed="right" label="Đánh giá" width="150" align="center">
-                <el-row>
-                    <el-col :span="24" class="mb-2">
-                        <el-button @click="contactDialog = true">Liên hệ<i
-                                class="ri-message-3-line m-2"></i></el-button>
-                    </el-col>
-                </el-row>
+                <template #default="scope">
+                    <el-row>
+                        <el-col :span="24" class="mb-2">
+                            <el-button @click="contactDialog = true, currentData = scope.row">Liên hệ<i
+                                    class="ri-message-3-line m-2"></i></el-button>
+                        </el-col>
+                    </el-row>
+                </template>
             </el-table-column>
         </el-table>
         <div class="flex justify-between items-center my-4">
@@ -34,7 +36,8 @@
             </div>
             <el-pagination background layout="prev, pager, next" :total="lengthPage" v-model="page" prev-text
                 v-model:current-page="page" />
-            <Contact :Contact="contactDialog" @close="contactDialog = false" />
+            <Contact :Contact="contactDialog" :currentData="currentData"
+                @close="contactDialog = false, currentData = ''" />
         </div>
     </div>
 </template>
@@ -49,7 +52,7 @@ const { isAuthenticated, logout } = useAuthService();
 import { useLoadingStore } from '@/store/loading.store';
 import { fromPairs } from 'lodash';
 const loading = useLoadingStore();
-
+const currentData = ref('');
 const tableData = ref<[]>([]);
 const contactDialog = ref(false);
 const seletedValue = ref(DEFAULT_LIMIT_FOR_PAGINATION);
