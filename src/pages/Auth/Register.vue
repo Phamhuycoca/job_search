@@ -68,12 +68,12 @@
 </template>
 
 <script lang="ts" setup>
-const loading = useLoadingStore();
-const { register } = useAuthService();
-import { ElMessage } from 'element-plus'
 import logo from '../../assets/image-png/logo.png'
 import google from '../../assets/image-png/google.png'
 import facebook from '../../assets/image-png/facebook.png'
+const loading = useLoadingStore();
+const { register } = useAuthService();
+import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
 import { useAuthService } from './Services/auth.service';
 import { showErrorNotification, showErrors, showSuccessNotification, showToasrErrors } from '@/common/helpers';

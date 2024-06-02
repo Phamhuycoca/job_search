@@ -12,13 +12,14 @@
                     <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Nhập tên công
                         ty</label>
                     <div class="mt-1">
-                        <el-input style="width: 380px;height: 40px;" placeholder="Nhập tên công ty" />
+                        <el-input style="width: 380px;height: 40px;" placeholder="Nhập tên công ty"
+                            v-model="companyName" />
                     </div>
                 </div>
                 <div>
                     <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Nhập email</label>
                     <div class="mt-1">
-                        <el-input style="width: 380px;height: 40px;" placeholder="Nhập email" />
+                        <el-input style="width: 380px;height: 40px;" placeholder="Nhập email" v-model="email" />
                     </div>
                 </div>
                 <div>
@@ -27,8 +28,8 @@
                             khẩu</label>
                     </div>
                     <div class="mt-1">
-                        <el-input v-model="input" style="width: 380px;height: 40px;" placeholder="Nhập mật khẩu"
-                            type="password" show-password />
+                        <el-input style="width: 380px;height: 40px;" placeholder="Nhập mật khẩu" type="password"
+                            show-password v-model="password" />
                     </div>
                 </div>
                 <div>
@@ -37,12 +38,12 @@
                             khẩu</label>
                     </div>
                     <div class="mt-1">
-                        <el-input v-model="input" style="width: 380px;height: 40px;" placeholder="Nhập lại mật khẩu"
-                            type="password" show-password />
+                        <el-input v-model="password_confirm" style="width: 380px;height: 40px;"
+                            placeholder="Nhập lại mật khẩu" type="password" show-password />
                     </div>
                 </div>
                 <div>
-                    <el-button type="primary"
+                    <el-button type="primary" @click="registerClick"
                         class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Đăng
                         ký</el-button>
                 </div>
@@ -64,8 +65,53 @@
 import logo from '../../assets/image-png/logo.png'
 import google from '../../assets/image-png/google.png'
 import facebook from '../../assets/image-png/facebook.png'
+const loading = useLoadingStore();
+const { employerregister } = useAuthService();
+import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
+import { useAuthService } from './Services/auth.service';
+import { showErrorNotification, showErrors, showSuccessNotification, showToasrErrors } from '@/common/helpers';
+import { useLoadingStore } from '@/store/loading.store';
+import router from '@/router';
 const input = ref('')
+const companyName = ref('')
+const email = ref('')
+const password = ref('')
+const password_confirm = ref('')
+const registerClick = async () => {
+    if (email.value !== '' || companyName.value !== '' || password.value !== '' || password_confirm.value !== '') {
+        if (password.value === password_confirm.value) {
+            loading.showLoading(true);
+            const formData = new FormData();
+            formData.append('email', email.value);
+            formData.append('companyName', companyName.value);
+            formData.append('password', password.value);
+            const res = await employerregister(formData);
+            if (res.success) {
+                showSuccessNotification(res.message);
+                setTimeout(() => {
+                    router.push('/login');
+                }, 3000);
+            } else {
+                if (res.errors !== undefined) {
+                    console.log(res.errors);
+                    showErrors(res.errors);
+                }
+            }
+            loading.showLoading(false);
+        } else {
+            ElMessage({
+                message: 'Mật khẩu không trùng khớp.',
+                type: 'warning',
+            })
+        }
+    } else {
+        ElMessage({
+            message: 'Vui lòng nhập đầy đủ thông tin.',
+            type: 'error',
+        })
+    }
+};
 </script>
 
 <style></style>

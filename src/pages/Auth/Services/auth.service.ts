@@ -74,6 +74,12 @@ export const useAuthService=()=>{
       const register=async(data:any)=>{
         const res=await authApi.register(data);
         return res;
+
+      
+    };
+    const employerregister=async(data:any)=>{
+        const res=await authApi.employersregister(data);
+        return res;
     };
     return{
         register,
@@ -82,6 +88,7 @@ export const useAuthService=()=>{
         isAuthenticated,
         hasToken,
         logout,
-        getProfileJob_Seeker
+        getProfileJob_Seeker,
+        employerregister
     }
 }
