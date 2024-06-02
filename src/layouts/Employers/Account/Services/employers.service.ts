@@ -81,6 +81,13 @@ export const useEmployers = () => {
       console.error("Error Fetching:", error);
     } 
   };
+  const dashBoard=async()=>{
+    try{
+      return await employersApi.dashboard();
+    }catch (error) {
+      console.error("Error GetDetail:", error);
+    }
+  };
   return {
     query,
     getInfo,
@@ -88,6 +95,7 @@ export const useEmployers = () => {
     getById,
     GetListJobById,
     fetchCompannys,
-    searchCompannys
+    searchCompannys,
+    dashBoard
   };
 };

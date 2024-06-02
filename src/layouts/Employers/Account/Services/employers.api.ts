@@ -29,6 +29,10 @@ class EmlployersApiService extends ApiService {
       params: DEFAULT_COMMON_LIST_QUERY_BY_HOME
       });
 }
+
+dashboard():Promise<any> {
+  return this.client.get(`${this.baseUrl}/Dashboard`);
+}
 //   ListJobsByHome(DEFAULT_COMMON_LIST_QUERY_BY_HOME:any):Promise<any> {
 //     return this._getListByHome<any>(DEFAULT_COMMON_LIST_QUERY_BY_HOME);
 // }

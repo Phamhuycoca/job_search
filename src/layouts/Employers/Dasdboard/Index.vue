@@ -9,34 +9,34 @@
                 <el-card style="width: 200px; height:100px;">
                     Số bài đăng
                     <span style="color: red;">
-                        10
+                        {{ dataItem.tongSoBaiDang }}
                     </span>
                     <el-icon>
                         <Postcard />
                     </el-icon>
                 </el-card>
                 <el-card style="width: 200px; height:100px;">
-                    Tổng hồ sơ
+                    Tổng hồ sơ ứng tuyển<nav></nav>
                     <span style="color: red;">
-                        10
+                        {{ dataItem.tongSoNguoiUngTuyen }}
                     </span>
                     <el-icon>
                         <Files />
                     </el-icon>
                 </el-card>
                 <el-card style="width: 200px; height:100px;">
-                    Hồ sơ phù hợp
+                    Số hồ sơ chưa duyệt
                     <span style="color: red;">
-                        10
+                        {{ dataItem.tongSoCVChuaDuyet }}
                     </span>
                     <el-icon>
                         <Files />
                     </el-icon>
                 </el-card>
                 <el-card style="width: 200px; height:100px;">
-                    Hồ sơ chưa duyệt
+                    Số hồ sơ đã xét chọn
                     <span style="color: red;">
-                        10
+                        {{ dataItem.tongSoNguoiDaGuiEmail }}
                     </span>
                     <el-icon>
                         <Files />
@@ -58,16 +58,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, onMounted } from 'vue';
 import VueApexCharts from 'vue3-apexcharts';
 import { ElTable, ElTableColumn, ElButton, ElRow, ElCol, ElCard, ElIcon } from 'element-plus';
 import { Postcard, Files } from '@element-plus/icons-vue';
-
-interface User {
-    date: string;
-    name: string;
-    address: string;
+import { useEmployers } from '../Account/Services/employers.service';
+const { dashBoard } = useEmployers();
+interface DashboardData {
+    tongSoBaiDang: number;
+    tongSoNguoiUngTuyen: number;
+    tongSoCVChuaDuyet: number;
+    tongSoNguoiDaGuiEmail: number;
 }
+
+const dataItem = ref<DashboardData>({
+    tongSoBaiDang: 0,
+    tongSoNguoiUngTuyen: 0,
+    tongSoCVChuaDuyet: 0,
+    tongSoNguoiDaGuiEmail: 0,
+});
 
 export default defineComponent({
     name: 'VueChart',
@@ -114,31 +123,23 @@ export default defineComponent({
             }],
         }));
 
-        const dashboard = () => {
+        const dashboard = async () => {
+            const res = await dashBoard();
+            dataItem.value = res.data;
             // Cập nhật giá trị của bill nếu cần
         };
 
-        const tableData = ref<User[]>([
-            { date: '2024-05-03', name: 'Nguyên Văn Tom', address: 'Số 1, phố xốm phú lãm hà đông-Hà nội' },
-            { date: '2024-05-02', name: 'Nguyên Văn Tom', address: 'Số 1, phố xốm phú lãm hà đông-Hà nội' },
-            { date: '2024-05-04', name: 'Nguyên Văn Tom', address: 'Số 1, phố xốm phú lãm hà đông-Hà nội' },
-            { date: '2024-05-01', name: 'Nguyên Văn Tom', address: 'Số 1, phố xốm phú lãm hà đông-Hà nội' },
-            { date: '2024-05-08', name: 'Nguyên Văn Tom', address: 'Số 1, phố xốm phú lãm hà đông-Hà nội' },
-            { date: '2024-05-06', name: 'Nguyên Văn Tom', address: 'Số 1, phố xốm phú lãm hà đông-Hà nội' },
-            { date: '2024-05-07', name: 'Nguyên Văn Tom', address: 'Số 1, phố xốm phú lãm hà đông-Hà nội' },
-        ]);
-
-        const multipleTableRef = ref<InstanceType<typeof ElTable>>();
-        const multipleSelection = ref<User[]>([]);
 
 
 
+        onMounted(() => {
+            dashboard();
+        })
         return {
             series,
             chartOptions,
             dashboard,
-            tableData,
-            multipleTableRef,
+            dataItem
         };
     },
 });
