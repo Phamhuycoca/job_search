@@ -245,6 +245,16 @@ const routes: Array<RouteRecordRaw> = [
         name: 'news',
         component: ()=>import('../layouts/Admin/News/News_index.vue'),
       },
+      {
+        path: 'admin_employer',
+        name: PageName.ADMIN_EMPLOYER_PAGE,
+        component: ()=>import('../layouts/Admin/Companny/Companny_index.vue'),
+      },
+      {
+        path: 'admin_banner',
+        name: PageName.ADMIN_BANNER_PAGE,
+        component: ()=>import('../layouts/Admin/Banner/banner_index.vue'),
+      },
     ]
   },
 ];

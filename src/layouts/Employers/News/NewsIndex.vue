@@ -2,8 +2,8 @@
     <div>
         <el-row class="mb-4" justify="center">
             <el-col :span="22">
-                <el-input class="max-w-80" v-model="search" @change="searchData()" size="large" placeholder="Nhập thông tin cần tìm kiếm"
-                    :suffix-icon="Search" />
+                <el-input class="max-w-80" v-model="search" @change="searchData()" size="large"
+                    placeholder="Nhập thông tin cần tìm kiếm" :suffix-icon="Search" />
                 <el-select size="large" class="ml-4 max-w-60"></el-select>
             </el-col>
             <el-col :span="2" class="flex justify-end items-center">
@@ -11,7 +11,7 @@
             </el-col>
         </el-row>
         <el-table :data="tableData" style="width: 100%">
-            <el-table-column fixed prop="jobName" label="Tên công việc" width="300"/>
+            <el-table-column fixed prop="jobName" label="Tên công việc" width="300" />
             <el-table-column prop="cityName" label="Khu vực" width="120" />
             <el-table-column prop="workexperienceName" label="Kinh nghiệm làm việc" width="320" />
             <el-table-column prop="formofworkName" label="Hình thức làm việc" width="200" />
@@ -49,7 +49,7 @@
 
 <script lang="ts" setup>
 import ConfirmVue from '../../../components/Element/ConfirmVue.vue'
-import { DEFAULT_COMMON_LIST_QUERY, DEFAULT_LIMIT_FOR_PAGINATION,optionsSelect } from '@/common/constants';
+import { DEFAULT_COMMON_LIST_QUERY, DEFAULT_LIMIT_FOR_PAGINATION, optionsSelect } from '@/common/constants';
 import { ref, watch, onMounted } from 'vue';
 import { Search } from '@element-plus/icons-vue'
 import NewsCreate from '../News/NewsCreate.vue'

@@ -128,8 +128,6 @@ import { useJob } from "./Services/job.service";
 import { useLevelworks } from "@/layouts/Admin/Levelworks/Services/levelworks.service";
 const { getLevelworksList } = useLevelworks();
 const { createJob } = useJob();
-const emit = defineEmits();
-const props = defineProps(['dialog']);
 const jobName = ref('');
 const requestJob = ref('');
 const benefitsJob = ref('');
@@ -143,6 +141,8 @@ const salaryId = ref('');
 const professionId = ref('');
 const levelworkId = ref('');
 const jobDescription = ref('');
+const emit = defineEmits();
+const props = defineProps(['dialog']);
 const disnable = ref(true);
 
 const Workexperiences = ref<any | undefined>([]);
