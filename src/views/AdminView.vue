@@ -24,9 +24,8 @@
               <span>Quản lý website</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="2-1">Bài đăng</el-menu-item>
-              <el-menu-item index="2-2">Quảng cáo</el-menu-item>
-              <el-menu-item index="2-3">Banner</el-menu-item>
+              <el-menu-item index="2-1">Danh sách các công ty</el-menu-item>
+              <el-menu-item index="2-3">Quản lý banner</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
           <el-sub-menu index="3">
