@@ -12,7 +12,7 @@
             <el-link href="/joblist" class="-m-2 block p-2 font-medium text-gray-900">Việc làm</el-link>
             <el-link href="/compannylist" class="-m-2 block p-2 font-medium text-gray-900">Công ty</el-link>
             <el-link href="#" class="-m-2 block p-2 font-medium text-gray-900">Tin tức</el-link>
-            <el-link href="/template_cv" class="-m-2 block p-2 font-medium text-gray-900">CV xin việc</el-link>
+            <el-link href="/createcv" class="-m-2 block p-2 font-medium text-gray-900">CV xin việc</el-link>
           </div>
           <div>
             <div v-if="isShow" class="w-[80px] flex justify-between items-center">

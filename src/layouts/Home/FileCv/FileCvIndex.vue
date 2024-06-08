@@ -193,7 +193,9 @@ import { ElMessage } from 'element-plus'
 import { showToasrErrors } from '@/common/helpers';
 import { useLoadingStore } from '@/store/loading.store';
 import { useFileCV } from './filecv.service';
+import { useAuthService } from '@/pages/Auth/Services/auth.service';
 const loading = useLoadingStore();
+const { isAuthenticated } = useAuthService();
 
 export default {
     name: 'managercv',
@@ -247,50 +249,57 @@ export default {
 
 
         const convertToPdf = async () => {
-            var fileName = prompt("Nhập tên file:");
-            if (!fileName) {
-                return;
-            }
+            if (isAuthenticated.value) {
+                var fileName = prompt("Nhập tên file:");
+                if (!fileName) {
+                    return;
+                }
 
-            const options = {
-                width: 800,
-                height: 800
-            };
-
-            try {
-                const pdf = await html2pdf().from(contentToConvert.value).set(options).outputPdf('blob');
-
-                const reader = new FileReader();
-                reader.readAsArrayBuffer(pdf);
-
-                reader.onload = async () => {
-                    loading.showLoading(true);
-
-                    const formData = new FormData();
-                    formData.append('fileCVName', fileName);
-                    formData.append('pdfFile', new Blob([reader.result], { type: 'application/pdf' }), fileName + '.pdf');
-
-                    const res = await uploadFileCv(formData);
-                    console.log(res);
-
-                    if (res.success) {
-                        ElMessage({
-                            message: res.message,
-                            type: 'success',
-                        });
-                    } else {
-                        if (res.errors !== undefined) {
-                            showToasrErrors(res.errors);
-                        }
-                    }
-
-                    loading.showLoading(false);
+                const options = {
+                    width: 800,
+                    height: 800
                 };
-            } catch (error) {
-                console.error('Error converting to PDF:', error);
-                loading.showLoading(false);
-            }
 
+                try {
+                    const pdf = await html2pdf().from(contentToConvert.value).set(options).outputPdf('blob');
+
+                    const reader = new FileReader();
+                    reader.readAsArrayBuffer(pdf);
+
+                    reader.onload = async () => {
+                        loading.showLoading(true);
+
+                        const formData = new FormData();
+                        formData.append('fileCVName', fileName);
+                        formData.append('pdfFile', new Blob([reader.result], { type: 'application/pdf' }), fileName + '.pdf');
+
+                        const res = await uploadFileCv(formData);
+                        console.log(res);
+
+                        if (res.success) {
+                            ElMessage({
+                                message: res.message,
+                                type: 'success',
+                            });
+                        } else {
+                            if (res.errors !== undefined) {
+                                showToasrErrors(res.errors);
+                            }
+                        }
+
+                        loading.showLoading(false);
+                    };
+                } catch (error) {
+                    console.error('Error converting to PDF:', error);
+                    loading.showLoading(false);
+                }
+
+            } else {
+                ElMessage({
+                    message: 'Vui lòng đăng nhập',
+                    type: 'error',
+                })
+            }
         };
 
 
