@@ -19,8 +19,29 @@ export const useFarourite = () => {
             console.error("Error Create:", error);
           } 
     };
+    const fetchEmployer = async () => {
+      try {
+        const res = await favouriteApi.favourite_Jobs(query);
+        if (res.errors !== undefined) {
+          showErrors(res.errors);
+      }
+        if (res.success) {
+          return {
+            items: res.items,
+            totalItems: res.totalItems,
+          };
+        }
+        return {
+          items: [],
+          totalItems: 0,
+        };
+      } catch (error) {
+        console.error("Error Fetching:", error);
+      }
+    };
     return{
         changeFavourites,
-        fetchfavouriteJobs
+        fetchfavouriteJobs,
+        fetchEmployer
     }
 }

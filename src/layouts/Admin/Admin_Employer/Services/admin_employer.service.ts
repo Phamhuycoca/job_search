@@ -61,11 +61,34 @@ export const useAdmin_Employer = () => {
     }
   };
 
-
+  const fetchEmployer = async () => {
+    try {
+      loading.showLoading(true);
+      const res = await admin_emplyerApi.employers(query);
+      if (res.errors !== undefined) {
+        showErrors(res.errors);
+    }
+      if (res.success) {
+        return {
+          items: res.items,
+          totalItems: res.totalItems,
+        };
+      }
+      return {
+        items: [],
+        totalItems: 0,
+      };
+    } catch (error) {
+      console.error("Error Fetching:", error);
+    } finally {
+      loading.showLoading(false);
+    }
+  };
   return {
     update,
     fetch,
     query,
-    search
+    search,
+    fetchEmployer
   };
 };

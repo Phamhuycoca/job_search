@@ -65,6 +65,9 @@
                     <router-link to="/managercv">
                       <el-dropdown-item>Quản lý hồ sơ/CV</el-dropdown-item>
                     </router-link>
+                    <router-link to="/favourite">
+                      <el-dropdown-item>Danh sách công việc yêu thích</el-dropdown-item>
+                    </router-link>
                     <el-dropdown-item @click="dialog = true">Đăng xuất</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>

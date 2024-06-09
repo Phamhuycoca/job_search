@@ -12,11 +12,12 @@ class FavouriteApiService extends ApiService {
   changeFavourite(data: any): Promise<any> {
     return this.client.post(`${this.baseUrl}/FavouriteJob`, data);
   }
-  // favourite_Jobs(DEFAULT_COMMON_LIST_QUERY_BY_HOME:any):Promise<any> {
-  //   return this.client.get(`${this.baseUrl}/Favourite_Jobs`, {
-  //       params: DEFAULT_COMMON_LIST_QUERY_BY_HOME
-  //       }
-  //   );
+  favourite_Jobs(DEFAULT_COMMON_LIST_QUERY:any):Promise<any> {
+    return this.client.get(`${this.baseUrl}`, {
+        params: DEFAULT_COMMON_LIST_QUERY
+        }
+    );
+  }
   itemsList(): Promise<ItemsList> {
     return this.client.get(`${this.baseUrl}/Favourite_Jobs`);
   }

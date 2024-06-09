@@ -72,6 +72,14 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
+        path: '/favourite',
+        name: PageName.FAVOURITE_PAGE,
+        component: ()=>import('../layouts/Home/Favourite/favourite.vue'),
+        meta:{
+          public:true,
+        }
+      },
+      {
         path: '/jobdetail/:id',
         name: PageName.JOBDETAIL_PAGE,
         component: ()=>import('../layouts/Home/Job/Jobdetail.vue'),

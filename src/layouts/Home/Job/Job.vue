@@ -105,12 +105,13 @@
 
             </el-col>
         </el-row>
+        <RecruimentDialog :dialog="dialog" @close="dialog = false" :currentItem="currentItem" />
+
     </div>
 </template>
 
 <script lang="ts" setup>
 import { Search } from "@element-plus/icons-vue";
-
 import { DEFAULT_COMMON_LIST_QUERY_BY_HOME } from '@/common/constants';
 import { showErrors } from '@/common/helpers';
 import { ElMessage } from 'element-plus';
@@ -126,6 +127,7 @@ import { salaryApi } from '@/layouts/Admin/Salary/Services/salary.api';
 import { formofworkApi } from '@/layouts/Admin/Formofwork/Services/formofwork.api';
 import { professionApi } from '@/layouts/Admin/Profession/Services/profession.api';
 import { workexperiencekApi } from '@/layouts/Admin/Workexperience/Services/workexperience.api';
+import RecruimentDialog from "../Recruitment/RecruimentDialog.vue";
 
 const { fetchfavouriteJobs, changeFavourites } = useFarourite();
 const { fetchCompannys, searchCompannys } = useEmployers();

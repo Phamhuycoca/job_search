@@ -97,6 +97,7 @@
         <RouterView />
       </el-main>
     </el-container>
+    <ConfirmLogout :dialog="dialog" @close="dialog = false" @Logout="Logout" />
   </el-container>
 </template>
 
@@ -104,7 +105,10 @@
 import { RouterView } from "vue-router";
 import { ref } from "vue";
 import logo from "../assets/image-png/logo.png";
+const dialog = ref(false);
+const Logout = async () => {
 
+}
 import {
   Menu as IconMenu,
   Location,
@@ -112,6 +116,7 @@ import {
   TrendCharts,
 } from "@element-plus/icons-vue";
 import router from "@/router";
+import ConfirmLogout from "@/components/Element/ConfirmLogout.vue";
 const isCollapse = ref(false);
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);

@@ -29,7 +29,7 @@
                                         <el-tooltip effect="dark" :content="item.companyName" placement="top">
                                             <span class="text-md truncate"><i class="ri-community-line mr-2"></i>{{
                                                 item.companyName
-                                            }}</span>
+                                                }}</span>
                                         </el-tooltip>
                                         <el-tooltip effect="dark" :content="item.companyAddress" placement="top">
                                             <span class="text-md truncate"><i class="ri-map-pin-fill mr-2"></i>{{
@@ -48,7 +48,7 @@
                                                 class="text-3xl cursor-pointer" @click="toggleLike"></i>Like
                                         </div>
                                     </el-tooltip>
-                                    <el-link :href="`/companny/${item.employersId}`"
+                                    <el-link :href="`/compannydetail/${item.employersId}`"
                                         style="position: absolute;bottom: 0;display: flex;justify-content: center;width: 100%;align-items: center;"
                                         type="info"><i class="ri-eye-line"></i>Xem
                                         chi tiết</el-link>

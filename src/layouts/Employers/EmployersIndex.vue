@@ -41,7 +41,9 @@
                         <el-menu-item index="1-1" route="/employers/account">
                             Thông tin tài khoản
                         </el-menu-item>
-                        <el-menu-item index="1-2" @click="Logout">Đăng xuất</el-menu-item>
+                        <el-menu-item @click="dialog = true">
+                            Đăng xuất
+                        </el-menu-item>
                     </el-sub-menu>
                 </el-menu>
             </el-scrollbar>
@@ -86,6 +88,8 @@
                 <RouterView />
             </el-main>
         </el-container>
+        <ConfirmLogout :dialog="dialog" @close="dialog = false" @Logout="Logout" />
+
     </el-container>
 </template>
 
@@ -102,6 +106,8 @@ import { useAuthService } from "@/pages/Auth/Services/auth.service";
 const { fetchNotificationsByEmployer } = useNotifications();
 const total_notifications = ref<number>(0);
 const notifications = ref<any | undefined>([]);
+const dialog = ref(false);
+
 import {
     Menu as IconMenu,
     Location,
@@ -110,6 +116,7 @@ import {
 } from "@element-plus/icons-vue";
 import router from "@/router";
 import { useNotifications } from "@/store/notification";
+import ConfirmLogout from "@/components/Element/ConfirmLogout.vue";
 const isCollapse = ref(false);
 const count = ref<any>(0);
 const handleOpen = (key: string, keyPath: string[]) => {
@@ -146,9 +153,16 @@ const loadData = async () => {
 const handleClose = (key: string, keyPath: string[]) => {
     console.log(key, keyPath);
 };
-const Logout = () => {
-    alert('Logout');
+const Logout = async () => {
+    const res = await logout();
+    if (res) {
+        dialog.value = false;
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 2000)
+    }
 }
+
 onMounted(() => {
     loadData();
 })
