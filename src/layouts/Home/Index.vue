@@ -197,6 +197,8 @@ const onRemoveCV = () => {
 const loadData = async () => {
     loading.showLoading(true);
     const res = await getInfo();
+    console.log(res.data);
+
     fullName.value = res.data.fullName;
     birthday.value = res.data.birthday;
     email.value = res.data.email;
