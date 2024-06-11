@@ -39,11 +39,14 @@
                         <el-image :src="google" class="mr-2" />
                         <span class="text-xs">Google</span>
                     </el-button> -->
-                    <el-button :disabled="!isReady" @click="() => login()"
-                        class="flex justify-center items-center w-48">
+                    <div class="flex justify-center items-center w-48">
+
+                        <GoogleLogin :callback="callback" prompt cancelOnTapOutside="false" />
+                    </div>
+                    <!-- <el-button class="flex justify - center items - center w - 48">
                         <el-image :src="google" class="mr-2" />
                         <span class="text-xs">Google</span>
-                    </el-button>
+                    </el-button> -->
                     <el-button class="flex justify-center items-center w-48">
                         <el-image :src="facebook" class="mr-2" />
                         <span class="text-xs">Facebook</span>
@@ -78,10 +81,20 @@ import { useLoadingStore } from '../../store/loading.store';
 import axios from 'axios';
 import localStorageAuthService from '@/common/storages/authStorage';
 import { showErrors, showSuccessNotification } from '@/common/helpers';
+
+import type { CallbackTypes } from "vue3-google-login";
 // const email = ref('');
 // const password = ref('');
 const loading = useLoadingStore();
 const { handleSubmit, resetForm } = useForm();
+const callback: CallbackTypes.CredentialCallback = (response) => {
+    // This callback will be triggered when the user selects or login to
+    // his Google account from the popup
+    console.log("Credential JWT string", response.credential);
+    sendTokenToBackend(response.credential);
+};
+
+// Handle Google Login
 
 const { value: email, errorMessage: emailError } = useField(
     'email',
@@ -106,14 +119,14 @@ const submitLogin = handleSubmit(async values => {
     }
 })
 
-const { isReady, login } = useOneTap({
-    disableAutomaticPrompt: true,
-    onSuccess: (response: CredentialResponse) => {
-        console.log("Success:", response);
-        sendTokenToBackend(response.credential);
-    },
-    onError: () => console.error("Error with One Tap Login"),
-});
+// const { isReady, login } = useOneTap({
+//     disableAutomaticPrompt: true,
+//     onSuccess: (response: CredentialResponse) => {
+//         console.log("Success:", response);
+//         sendTokenToBackend(response.credential);
+//     },
+//     onError: () => console.error("Error with One Tap Login"),
+// });
 const sendTokenToBackend = async (credential: any) => {
     try {
         loading.showLoading(true);
