@@ -194,7 +194,11 @@ const routes: Array<RouteRecordRaw> = [
 
 
 
-
+  {
+    path: '/admin/login',
+    name: PageName.ADMIN_LOGIN_PAGE,
+    component: ()=>import('../pages/Auth/LoginByAdmin.vue'),
+  },
 
   {
     path: '/admin',

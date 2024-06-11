@@ -22,5 +22,10 @@ class AuthApiService extends ApiService {
   getProfileJob_Seeker():Promise<any>{
     return this.client.get(`${this.baseUrl}/GetProfileJob_Seeker`,);
   }
+  loginbyAdmin(body: IBodyLogin): Promise<IBodyResponse<ILoginResponse>> {
+    console.log(body);
+    
+    return this.client.post(`${this.baseUrl}/Login`, body);
+  }
 }
 export const authApi = new AuthApiService({ baseUrl: '/Auth' }, axiosInstance);

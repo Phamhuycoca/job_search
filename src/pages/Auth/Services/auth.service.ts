@@ -5,6 +5,7 @@ import localStorageAuthService from "@/common/storages/authStorage";
 import { computed } from "vue";
 import dayjs from "dayjs";
 import { useLoadingStore } from "@/store/loading.store";
+import { Role } from "@/common/constants";
 
 export const useAuthService=()=>{
     let errors;
@@ -81,6 +82,25 @@ export const useAuthService=()=>{
         const res=await authApi.employersregister(data);
         return res;
     };
+    const loginbyAdmin =async(body: IBodyLogin)=>{
+        loading.showLoading(true);
+        const res = await authApi.loginbyAdmin(body);
+        if (res.success) {
+            showSuccessNotification(res.message);
+            localStorageAuthService.setAccessToken(res.data?.accessToken);
+            localStorageAuthService.setAccessTokenExpiredAt(res.data?.accessTokenExpiration);
+            localStorageAuthService.setRefeshToken(res.data?.refreshToken);
+            localStorageAuthService.setRefeshTokenExpiredAt(res.data?.refreshTokenExpiration);
+            localStorageAuthService.setRole(Role.ADMIN);
+            loading.showLoading(false);
+        } else {
+            if (res.errors !== undefined) {
+                showErrors(res.errors);
+                loading.showLoading(false);
+            }
+        }
+        return res;
+    }
     return{
         register,
         loginbyEmail,
@@ -89,6 +109,7 @@ export const useAuthService=()=>{
         hasToken,
         logout,
         getProfileJob_Seeker,
-        employerregister
+        employerregister,
+        loginbyAdmin
     }
 }
